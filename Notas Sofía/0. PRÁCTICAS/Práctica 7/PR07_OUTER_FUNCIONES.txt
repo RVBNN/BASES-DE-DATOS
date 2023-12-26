@@ -1,0 +1,272 @@
+mysql> /* PARTE 1 */
+mysql> use replicas_pr;
+Database changed
+mysql> 
+mysql> /* Ejercicio 1 */
+mysql> DROP function if exists semanas_pedido;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE FUNCTION semanas_pedido(fecha_orden date, fecha_despacho date) RETURNS double(10,2)
+    -> READS SQL DATA DETERMINISTIC 
+    -> BEGIN
+    ->     DECLARE diferencia double(10,2);
+    -> 
+    ->     IF fecha_despacho is null THEN
+    -> SET diferencia = -1;
+    ->     ELSE set diferencia = round(DATEDIFF(fecha_despacho, fecha_orden)/7,1);
+    ->     END IF; 
+    -> 
+    -> RETURN diferencia; 
+    -> END $$
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+
+mysql> DELIMITER ;
+mysql> 
+mysql> -- select semanas_pedido('2022/10/15','2022/10/23');
+mysql> -- select semanas_pedido('2022/10/15',NULL);
+mysql> 
+mysql> /* Ejercicio 2 */
+mysql> drop view if exists valores;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> create or replace view valores as 
+    -> select round(avg(semanas_pedido(orderdate,shippeddate)),2) as 'promedio', 
+    -> round(max(semanas_pedido(orderdate,shippeddate)),2) as 'maximo', 
+    -> round(min(semanas_pedido(orderdate,shippeddate)),2) as 'minimo' from orders 
+    -> where shippeddate is not null;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> select * from valores;
++----------+--------+--------+
+| promedio | maximo | minimo |
++----------+--------+--------+
+|     0.54 |    9.3 |    0.1 |
++----------+--------+--------+
+1 row in set (0.04 sec)
+
+mysql> 
+mysql> /* Ejercicio 3 */
+mysql> 
+mysql> select sub1.Ciudad, 
+    -> sub1.empleados as '# empleados' ,
+    -> lpad(concat('->',format(tiem_prom,2),'<-'),11,' ') as 'TP por ciudad',
+    -> case when tiem_prom > valores.promedio then 'ALERTA' 
+    -> when tiem_prom < valores.promedio then 'OK' end as 'Aviso' 
+    -> from 
+    -> (select ucase(o1.city) as Ciudad, 
+    -> count(e1.employeenumber) as empleados 
+    -> from offices o1 inner join employees e1 using (officecode) group by 1) sub1 
+    -> inner join 
+    -> (select offices.city as Ciudad, avg(semanas_pedido(orderdate,shippeddate)) as tiem_prom from orders 
+    -> left join customers using (customernumber) 
+    -> left join employees on SalesRepEmployeeNumber = employeeNumber 
+    -> left join offices using (officecode) group by 1) sub2 using(ciudad) 
+    -> join valores group by 1 order by 3 desc;
++---------------+-------------+---------------+--------+
+| Ciudad        | # empleados | TP por ciudad | Aviso  |
++---------------+-------------+---------------+--------+
+| TOKYO         |           2 |    ->1.17<-   | ALERTA |
+| BOSTON        |           2 |    ->0.48<-   | OK     |
+| NYC           |           2 |    ->0.44<-   | OK     |
+| PARIS         |           5 |    ->0.44<-   | OK     |
+| SAN FRANCISCO |           6 |    ->0.43<-   | OK     |
+| LONDON        |           2 |    ->0.42<-   | OK     |
+| SYDNEY        |           4 |    ->0.39<-   | OK     |
++---------------+-------------+---------------+--------+
+7 rows in set (0.04 sec)
+
+mysql> 
+mysql> /* PARTE 2 */
+mysql> drop database if exists base_p07;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create database if not exists base_p07;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> 
+mysql> /* Ejercicio 4 */
+mysql> use base_p07;
+Database changed
+mysql> DROP FUNCTION IF EXISTS fibonacci;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER //
+mysql> create function fibonacci(num_natural int unsigned) returns bigint
+    -> READS SQL DATA DETERMINISTIC 
+    -> begin 
+    -> 
+    -> declare contador int; 
+    -> declare atras_1 bigint; 
+    -> declare atras_2 bigint; 
+    -> declare valor bigint; 
+    -> 
+    -> set contador = 2; 
+    -> set atras_1 = 1; 
+    -> set atras_2 = 1; 
+    -> 
+    -> if num_natural > 2 then 
+    -> while contador < num_natural do 
+    -> set valor = atras_1 + atras_2; 
+    -> set atras_1 = atras_2; 
+    -> set atras_2 = valor; 
+    -> set contador = contador + 1; 
+    -> end while; 
+    -> elseif num_natural = 0 then 
+    -> set valor = 0; 
+    -> else set valor = 1; 
+    -> end if;  
+    -> return valor;  
+    -> end;  
+    -> // 
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ; 
+mysql> 
+mysql> /* Ejercicio 5 */
+mysql> select lpad('0',round(length('Número natural')/2,0),' ') as 'Número natural', 
+    -> lpad(format(fibonacci(0),0),length('Término Fibonacci'),' ') as 'Término Fibonacci' 
+    -> UNION 
+    -> select lpad('1',round(length('Número natural')/2,0),' ') as 'Número natural', 
+    -> lpad(format(fibonacci(1),0),length('Término Fibonacci'),' ') as 'Término Fibonacci' 
+    -> UNION 
+    -> select lpad('2',round(length('Número natural')/2,0),' ') as 'Número natural', 
+    -> lpad(format(fibonacci(2),0),length('Término Fibonacci'),' ') as 'Término Fibonacci' 
+    -> UNION 
+    -> select lpad('15',round(length('Número natural')/2,0),' ') as 'Número natural', 
+    -> lpad(format(fibonacci(15),0),length('Término Fibonacci'),' ') as 'Término Fibonacci' 
+    -> UNION
+    -> select lpad('46',round(length('Número natural')/2,0),' ') as 'Número natural', 
+    -> lpad(format(fibonacci(46),0),length('Término Fibonacci'),' ') as 'Término Fibonacci';
++-----------------+--------------------+
+| Número natural  | Término Fibonacci  |
++-----------------+--------------------+
+|        0        |                  0 |
+|        1        |                  1 |
+|        2        |                  1 |
+|       15        |                610 |
+|       46        |      1,836,311,903 |
++-----------------+--------------------+
+5 rows in set (0.01 sec)
+
+mysql> 
+mysql> /* Ejercicio 6 */
+mysql> show function status where db = 'base_p07';
++----------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| Db       | Name      | Type     | Definer        | Modified            | Created             | Security_type | Comment | character_set_client | collation_connection | Database Collation |
++----------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| base_p07 | fibonacci | FUNCTION | root@localhost | 2022-11-22 09:29:28 | 2022-11-22 09:29:28 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
++----------+-----------+----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+1 row in set (0.01 sec)
+
+mysql> 
+mysql> select routine_schema as 'Base de datos',
+    ->  SPECIFIC_NAME as 'Nombre', data_type as 'Tipo de dato salida' from information_schema.ROUTINES where routine_type = 'FUNCTION'
+    ->         AND routine_schema = 'base_p07';
++---------------+-----------+---------------------+
+| Base de datos | Nombre    | Tipo de dato salida |
++---------------+-----------+---------------------+
+| base_p07      | fibonacci | bigint              |
++---------------+-----------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> /* EJERCICIO EXTRA */
+mysql> use base_p07;
+Database changed
+mysql> 
+mysql> /*DROP FUNCTION IF EXISTS fibonacci_lim;
+   /*> DELIMITER //
+   /*> create function fibonacci_lim(objetivo int unsigned) returns text
+   /*> READS SQL DATA DETERMINISTIC 
+   /*> begin 
+   /*> declare aureo decimal(11,10);
+   /*> declare cociente decimal(11,10);
+   /*> declare num_natural int unsigned;
+   /*> 
+   /*> set aureo = (1+sqrt(5))/2;
+   /*> set cociente = cast(1 as decimal(11,10));
+   /*> set num_natural = 1;
+   /*> 
+   /*> if objetivo > 0 then 
+   /*> while abs(aureo-cociente) >= power(10,-objetivo)/objetivo do
+   /*> set cociente = cast(fibonacci(num_natural+1)/fibonacci(num_natural) as decimal(11,10));
+   /*> set num_natural = num_natural + 1; 
+   /*> end while; 
+   /*> end if;
+   /*> 
+   /*> return concat_ws(' ','Para n =',num_natural-1,'la sucesión an+1 ÷ an =',
+   /*> cast(cociente as decimal(11,10)),'aproxima al \n límite φ =',aureo,'con una precisión de',
+   /*> objetivo,case when objetivo = 1 then 'dígito decimal.' when objetivo != 1 then 
+   /*> 'dígitos decimales.' end,'\n');
+   /*> 
+   /*> end; 
+   /*> // 
+   /*> DELIMITER ;*/ 
+mysql> 
+mysql> 
+mysql> 
+mysql> DROP FUNCTION IF EXISTS fibonacci_lim;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER //
+mysql> create function fibonacci_lim(objetivo int unsigned) returns text
+    -> READS SQL DATA DETERMINISTIC 
+    -> begin 
+    -> declare aureo decimal(11,10);
+    -> declare cociente decimal(11,10);
+    -> declare num_natural int unsigned;
+    -> 
+    -> set aureo = (1+sqrt(5))/2;
+    -> set cociente = cast(1 as decimal(11,10));
+    -> set num_natural = 1;
+    -> 
+    -> if objetivo > 0 then 
+    -> while truncate(power(10,objetivo)*abs(aureo),0) - truncate(power(10,objetivo)*cociente,0) != 0 do
+    -> set cociente = fibonacci(num_natural+1)/fibonacci(num_natural);
+    -> set num_natural = num_natural + 1; 
+    -> end while; 
+    -> else set num_natural=2;
+    -> end if;
+    -> 
+    -> 
+    -> return concat_ws(' ','Para n =',num_natural-1,'la sucesión an+1 ÷ an =',
+    -> cast(cociente as decimal(11,10)),'aproxima al \n límite φ =',aureo,'con una precisión de',
+    -> objetivo,case when objetivo = 1 then 'dígito decimal.' when objetivo != 1 then 
+    -> 'dígitos decimales.' end,'\n');
+    -> 
+    -> end; 
+    -> // 
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ; 
+mysql> 
+mysql> /* Probando la función */
+mysql> select 
+    -> fibonacci_lim(0),
+    -> fibonacci_lim(1),
+    -> fibonacci_lim(2),
+    -> fibonacci_lim(3),
+    -> fibonacci_lim(8)\G
+*************************** 1. row ***************************
+fibonacci_lim(0): Para n = 1 la sucesión an+1 ÷ an = 1.0000000000 aproxima al 
+ límite φ = 1.6180339887 con una precisión de 0 dígitos decimales. 
+
+fibonacci_lim(1): Para n = 4 la sucesión an+1 ÷ an = 1.6666666660 aproxima al 
+ límite φ = 1.6180339887 con una precisión de 1 dígito decimal. 
+
+fibonacci_lim(2): Para n = 7 la sucesión an+1 ÷ an = 1.6153846150 aproxima al 
+ límite φ = 1.6180339887 con una precisión de 2 dígitos decimales. 
+
+fibonacci_lim(3): Para n = 10 la sucesión an+1 ÷ an = 1.6181818180 aproxima al 
+ límite φ = 1.6180339887 con una precisión de 3 dígitos decimales. 
+
+fibonacci_lim(8): Para n = 21 la sucesión an+1 ÷ an = 1.6180339850 aproxima al 
+ límite φ = 1.6180339887 con una precisión de 8 dígitos decimales. 
+
+1 row in set (0.02 sec)
+
+mysql> notee

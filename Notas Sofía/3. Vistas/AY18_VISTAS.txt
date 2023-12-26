@@ -1,0 +1,886 @@
+mysql> source F:\Pejcovich\BBDD\BASES\base_bank.sql
+Query OK, 17 rows affected (0.60 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Database changed
+Query OK, 0 rows affected (0.07 sec)
+
+Query OK, 0 rows affected (0.06 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+Query OK, 0 rows affected (0.05 sec)
+
+Query OK, 0 rows affected (0.06 sec)
+
+Query OK, 0 rows affected (0.05 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+Query OK, 0 rows affected (0.05 sec)
+
+Query OK, 0 rows affected (0.05 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+Query OK, 0 rows affected (0.07 sec)
+
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.19 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.19 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 18 rows affected (0.00 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+Query OK, 21 rows affected (0.01 sec)
+Records: 21  Duplicates: 0  Warnings: 0
+
++-----------------+---------------+
+| tabla           | num_registros |
++-----------------+---------------+
+| acc_transaction |            21 |
+| account         |            24 |
+| branch          |             4 |
+| business        |             4 |
+| customer        |            13 |
+| department      |             4 |
+| employee        |            18 |
+| individual      |             9 |
+| officer         |             4 |
+| product         |             8 |
+| product_type    |             3 |
++-----------------+---------------+
+11 rows in set (0.04 sec)
+
+mysql> use bank
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_bank  |
++-----------------+
+| acc_transaction |
+| account         |
+| branch          |
+| business        |
+| customer        |
+| department      |
+| employee        |
+| individual      |
+| officer         |
+| product         |
+| product_type    |
++-----------------+
+11 rows in set (0.00 sec)
+
+mysql> 
+mysql> -- Ejercicio 1
+mysql> select * from branch;
++-----------+----------------------+---------+---------------+-------+----------+
+| BRANCH_ID | ADDRESS              | CITY    | NAME          | STATE | ZIP_CODE |
++-----------+----------------------+---------+---------------+-------+----------+
+|         1 | 3882 Main St.        | Waltham | Headquarters  | MA    | 02451    |
+|         2 | 422 Maple St.        | Woburn  | Woburn Branch | MA    | 01801    |
+|         3 | 125 Presidential Way | Quincy  | Quincy Branch | MA    | 02169    |
+|         4 | 378 Maynard Ln.      | Salem   | So. NH Branch | NH    | 03079    |
++-----------+----------------------+---------+---------------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from branch where state = 'MA';
++-----------+----------------------+---------+---------------+-------+----------+
+| BRANCH_ID | ADDRESS              | CITY    | NAME          | STATE | ZIP_CODE |
++-----------+----------------------+---------+---------------+-------+----------+
+|         1 | 3882 Main St.        | Waltham | Headquarters  | MA    | 02451    |
+|         2 | 422 Maple St.        | Woburn  | Woburn Branch | MA    | 01801    |
+|         3 | 125 Presidential Way | Quincy  | Quincy Branch | MA    | 02169    |
++-----------+----------------------+---------+---------------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> create or replace view bancos_MA as select * from branch where state = 'MA';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> -- Ejercicio 2
+mysql> select * from bancos_MA;
++-----------+----------------------+---------+---------------+-------+----------+
+| BRANCH_ID | ADDRESS              | CITY    | NAME          | STATE | ZIP_CODE |
++-----------+----------------------+---------+---------------+-------+----------+
+|         1 | 3882 Main St.        | Waltham | Headquarters  | MA    | 02451    |
+|         2 | 422 Maple St.        | Woburn  | Woburn Branch | MA    | 01801    |
+|         3 | 125 Presidential Way | Quincy  | Quincy Branch | MA    | 02169    |
++-----------+----------------------+---------+---------------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> -- Ejercicio 3
+mysql> select * from product_type;
++-----------------+-------------------------------+
+| PRODUCT_TYPE_CD | NAME                          |
++-----------------+-------------------------------+
+| ACCOUNT         | Customer Accounts             |
+| INSURANCE       | Insurance Offerings           |
+| LOAN            | Individual and Business Loans |
++-----------------+-------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> -- create table like, select *, AS select *
+mysql> drop table if exists mi_tabla;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> 
+mysql> create table mi_tabla as select * from product_type;
+Query OK, 3 rows affected (0.06 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from mi_tabla;
++-----------------+-------------------------------+
+| PRODUCT_TYPE_CD | NAME                          |
++-----------------+-------------------------------+
+| ACCOUNT         | Customer Accounts             |
+| INSURANCE       | Insurance Offerings           |
+| LOAN            | Individual and Business Loans |
++-----------------+-------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> create or replace view mi_vista as select * from product_type;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from mi_vista;
++-----------------+-------------------------------+
+| PRODUCT_TYPE_CD | NAME                          |
++-----------------+-------------------------------+
+| ACCOUNT         | Customer Accounts             |
+| INSURANCE       | Insurance Offerings           |
+| LOAN            | Individual and Business Loans |
++-----------------+-------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> insert into product_type values ('PAGO DE SERVICIOS', 'Agua, luz, gas y teléfono');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> update product_type set name = 'Customer AND BUSINESS accounts' where product_type_cd = 'ACCOUNT';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> 
+mysql> select * from product_type;
++-------------------+--------------------------------+
+| PRODUCT_TYPE_CD   | NAME                           |
++-------------------+--------------------------------+
+| ACCOUNT           | Customer AND BUSINESS accounts |
+| INSURANCE         | Insurance Offerings            |
+| LOAN              | Individual and Business Loans  |
+| PAGO DE SERVICIOS | Agua, luz, gas y teléfono      |
++-------------------+--------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from mi_tabla;
++-----------------+-------------------------------+
+| PRODUCT_TYPE_CD | NAME                          |
++-----------------+-------------------------------+
+| ACCOUNT         | Customer Accounts             |
+| INSURANCE       | Insurance Offerings           |
+| LOAN            | Individual and Business Loans |
++-----------------+-------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from mi_vista;
++-------------------+--------------------------------+
+| PRODUCT_TYPE_CD   | NAME                           |
++-------------------+--------------------------------+
+| ACCOUNT           | Customer AND BUSINESS accounts |
+| INSURANCE         | Insurance Offerings            |
+| LOAN              | Individual and Business Loans  |
+| PAGO DE SERVICIOS | Agua, luz, gas y teléfono      |
++-------------------+--------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> alter table product_type add column nuevo_campo int default 123;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from product_type;
++-------------------+--------------------------------+-------------+
+| PRODUCT_TYPE_CD   | NAME                           | nuevo_campo |
++-------------------+--------------------------------+-------------+
+| ACCOUNT           | Customer AND BUSINESS accounts |         123 |
+| INSURANCE         | Insurance Offerings            |         123 |
+| LOAN              | Individual and Business Loans  |         123 |
+| PAGO DE SERVICIOS | Agua, luz, gas y teléfono      |         123 |
++-------------------+--------------------------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from mi_tabla;
++-----------------+-------------------------------+
+| PRODUCT_TYPE_CD | NAME                          |
++-----------------+-------------------------------+
+| ACCOUNT         | Customer Accounts             |
+| INSURANCE       | Insurance Offerings           |
+| LOAN            | Individual and Business Loans |
++-----------------+-------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from mi_vista;
++-------------------+--------------------------------+
+| PRODUCT_TYPE_CD   | NAME                           |
++-------------------+--------------------------------+
+| ACCOUNT           | Customer AND BUSINESS accounts |
+| INSURANCE         | Insurance Offerings            |
+| LOAN              | Individual and Business Loans  |
+| PAGO DE SERVICIOS | Agua, luz, gas y teléfono      |
++-------------------+--------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> /* Las vistas no necesitan actualizarse por nosotros cuando los datos cambian pero 
+   /*> podrán necesitar ser recreadas si la estructura de la tabla cambia */
+mysql> 
+mysql> -- Ejercicio 4
+mysql> drop table if exists ejercicio4;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> create table if not exists ejercicio4 (id int unsigned primary key auto_increment, nombre varchar(50) not null);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc ejercicio4;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| id     | int unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50)  | NO   |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+2 rows in set (0.01 sec)
+
+mysql> 
+mysql> insert into ejercicio4 (nombre) values 
+    -> ('Joshua'),
+    -> ('Sofía'),
+    -> ('Nina'),
+    -> ('Venus');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> select * from ejercicio4;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | Joshua |
+|  2 | Sofía  |
+|  3 | Nina   |
+|  4 | Venus  |
++----+--------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> select * from ejercicio4 where nombre like '%a%';
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | Joshua |
+|  2 | Sofía  |
+|  3 | Nina   |
++----+--------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> create or replace view v_ej4 as select * from ejercicio4 where nombre like '%a%';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> select * from v_ej4;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | Joshua |
+|  2 | Sofía  |
+|  3 | Nina   |
++----+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from ejercicio4;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | Joshua |
+|  2 | Sofía  |
+|  3 | Nina   |
+|  4 | Venus  |
++----+--------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> DELETE FROM v_ej4 WHERE  id = 2;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> 
+mysql> select * from v_ej4;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | Joshua |
+|  3 | Nina   |
++----+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from ejercicio4;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | Joshua |
+|  3 | Nina   |
+|  4 | Venus  |
++----+--------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> insert into v_ej4 (nombre) values ('prueba?');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> 
+mysql> select * from v_ej4;
++----+---------+
+| id | nombre  |
++----+---------+
+|  1 | Joshua  |
+|  3 | Nina    |
+|  5 | prueba? |
++----+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from ejercicio4;
++----+---------+
+| id | nombre  |
++----+---------+
+|  1 | Joshua  |
+|  3 | Nina    |
+|  4 | Venus   |
+|  5 | prueba? |
++----+---------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> -- Ejercicio 5
+mysql> 
+mysql> select * from business;
++-------------+------------------------+------------+---------+
+| INCORP_DATE | NAME                   | STATE_ID   | CUST_ID |
++-------------+------------------------+------------+---------+
+| 1995-05-01  | Chilton Engineering    | 12-345-678 |      10 |
+| 2001-01-01  | Northeast Cooling Inc. | 23-456-789 |      11 |
+| 2002-06-30  | Superior Auto Body     | 34-567-890 |      12 |
+| 1999-05-01  | AAA Insurance Inc.     | 45-678-901 |      13 |
++-------------+------------------------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> select * from account where cust_id in (10,11,12,13);
++------------+---------------+------------+--------------------+------------+-----------------+--------+---------+----------------+-------------+------------+
+| ACCOUNT_ID | AVAIL_BALANCE | CLOSE_DATE | LAST_ACTIVITY_DATE | OPEN_DATE  | PENDING_BALANCE | STATUS | CUST_ID | OPEN_BRANCH_ID | OPEN_EMP_ID | PRODUCT_CD |
++------------+---------------+------------+--------------------+------------+-----------------+--------+---------+----------------+-------------+------------+
+|         24 |       23575.1 | NULL       | 2004-12-15         | 2002-09-30 |         23575.1 | ACTIVE |      10 |              4 |          16 | CHK        |
+|         25 |             0 | NULL       | 2004-08-28         | 2002-10-01 |               0 | ACTIVE |      10 |              4 |          16 | BUS        |
+|         27 |       9345.55 | NULL       | 2004-11-14         | 2004-03-22 |         9345.55 | ACTIVE |      11 |              2 |          10 | BUS        |
+|         28 |       38552.1 | NULL       | 2004-12-15         | 2003-07-30 |         38552.1 | ACTIVE |      12 |              4 |          16 | CHK        |
+|         29 |         50000 | NULL       | 2004-12-17         | 2004-02-22 |           50000 | ACTIVE |      13 |              3 |          13 | SBL        |
++------------+---------------+------------+--------------------+------------+-----------------+--------+---------+----------------+-------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> select name, count(account_id) cuentas
+    -> from business 
+    -> inner join account using (cust_id)
+    -> group by 1;
++------------------------+---------+
+| name                   | cuentas |
++------------------------+---------+
+| Chilton Engineering    |       2 |
+| Northeast Cooling Inc. |       1 |
+| Superior Auto Body     |       1 |
+| AAA Insurance Inc.     |       1 |
++------------------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> create or replace view numCuentas_x_empresa as 
+    -> select cust_id as Cliente, name as Empresa, count(account_id) 'Num_cuentas'
+    -> from business 
+    -> inner join account using (cust_id)
+    -> group by 1;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> select * from numCuentas_x_empresa;
++---------+------------------------+-------------+
+| Cliente | Empresa                | Num_cuentas |
++---------+------------------------+-------------+
+|      10 | Chilton Engineering    |           2 |
+|      11 | Northeast Cooling Inc. |           1 |
+|      12 | Superior Auto Body     |           1 |
+|      13 | AAA Insurance Inc.     |           1 |
++---------+------------------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> desc numCuentas_x_empresa;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| Cliente     | int          | NO   |     | NULL    |       |
+| Empresa     | varchar(255) | NO   |     | NULL    |       |
+| Num_cuentas | bigint       | NO   |     | 0       |       |
++-------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> select 'Cliente','Empresa', 'Num_cuentas' 
+    -> from numCuentas_x_empresa;
++---------+---------+-------------+
+| Cliente | Empresa | Num_cuentas |
++---------+---------+-------------+
+| Cliente | Empresa | Num_cuentas |
+| Cliente | Empresa | Num_cuentas |
+| Cliente | Empresa | Num_cuentas |
+| Cliente | Empresa | Num_cuentas |
++---------+---------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> select Cliente, Empresa, Num_cuentas 
+    -> from numCuentas_x_empresa;
++---------+------------------------+-------------+
+| Cliente | Empresa                | Num_cuentas |
++---------+------------------------+-------------+
+|      10 | Chilton Engineering    |           2 |
+|      11 | Northeast Cooling Inc. |           1 |
+|      12 | Superior Auto Body     |           1 |
+|      13 | AAA Insurance Inc.     |           1 |
++---------+------------------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> select * from account 
+    -> inner join branch on account.open_branch_id = branch.branch_id;
++------------+---------------+------------+--------------------+------------+-----------------+--------+---------+----------------+-------------+------------+-----------+----------------------+---------+---------------+-------+----------+
+| ACCOUNT_ID | AVAIL_BALANCE | CLOSE_DATE | LAST_ACTIVITY_DATE | OPEN_DATE  | PENDING_BALANCE | STATUS | CUST_ID | OPEN_BRANCH_ID | OPEN_EMP_ID | PRODUCT_CD | BRANCH_ID | ADDRESS              | CITY    | NAME          | STATE | ZIP_CODE |
++------------+---------------+------------+--------------------+------------+-----------------+--------+---------+----------------+-------------+------------+-----------+----------------------+---------+---------------+-------+----------+
+|         10 |        534.12 | NULL       | 2005-01-03         | 2003-09-12 |          534.12 | ACTIVE |       4 |              1 |           1 | CHK        |         1 | 3882 Main St.        | Waltham | Headquarters  | MA    | 02451    |
+|         11 |        767.77 | NULL       | 2004-10-24         | 2000-01-15 |          767.77 | ACTIVE |       4 |              1 |           1 | SAV        |         1 | 3882 Main St.        | Waltham | Headquarters  | MA    | 02451    |
+|         12 |       5487.09 | NULL       | 2004-11-11         | 2004-09-30 |         5487.09 | ACTIVE |       4 |              1 |           1 | MM         |         1 | 3882 Main St.        | Waltham | Headquarters  | MA    | 02451    |
+|         14 |        122.37 | NULL       | 2004-11-29         | 2002-08-24 |          122.37 | ACTIVE |       6 |              1 |           1 | CHK        |         1 | 3882 Main St.        | Waltham | Headquarters  | MA    | 02451    |
+|         15 |         10000 | NULL       | 2004-12-28         | 2004-12-28 |           10000 | ACTIVE |       6 |              1 |           1 | CD         |         1 | 3882 Main St.        | Waltham | Headquarters  | MA    | 02451    |
+|         21 |        125.67 | NULL       | 2004-12-15         | 2003-07-30 |          125.67 | ACTIVE |       9 |              1 |           1 | CHK        |         1 | 3882 Main St.        | Waltham | Headquarters  | MA    | 02451    |
+|         22 |       9345.55 | NULL       | 2004-10-28         | 2004-10-28 |         9845.55 | ACTIVE |       9 |              1 |           1 | MM         |         1 | 3882 Main St.        | Waltham | Headquarters  | MA    | 02451    |
+|         23 |          1500 | NULL       | 2004-06-30         | 2004-06-30 |            1500 | ACTIVE |       9 |              1 |           1 | CD         |         1 | 3882 Main St.        | Waltham | Headquarters  | MA    | 02451    |
+|          1 |       1057.75 | NULL       | 2005-01-04         | 2000-01-15 |         1057.75 | ACTIVE |       1 |              2 |          10 | CHK        |         2 | 422 Maple St.        | Woburn  | Woburn Branch | MA    | 01801    |
+|          2 |           500 | NULL       | 2004-12-19         | 2000-01-15 |             500 | ACTIVE |       1 |              2 |          10 | SAV        |         2 | 422 Maple St.        | Woburn  | Woburn Branch | MA    | 01801    |
+|          3 |          3000 | NULL       | 2004-06-30         | 2004-06-30 |            3000 | ACTIVE |       1 |              2 |          10 | CD         |         2 | 422 Maple St.        | Woburn  | Woburn Branch | MA    | 01801    |
+|          4 |       2258.02 | NULL       | 2004-12-27         | 2001-03-12 |         2258.02 | ACTIVE |       2 |              2 |          10 | CHK        |         2 | 422 Maple St.        | Woburn  | Woburn Branch | MA    | 01801    |
+|          5 |           200 | NULL       | 2004-12-11         | 2001-03-12 |             200 | ACTIVE |       2 |              2 |          10 | SAV        |         2 | 422 Maple St.        | Woburn  | Woburn Branch | MA    | 01801    |
+|         17 |          5000 | NULL       | 2004-01-12         | 2004-01-12 |            5000 | ACTIVE |       7 |              2 |          10 | CD         |         2 | 422 Maple St.        | Woburn  | Woburn Branch | MA    | 01801    |
+|         27 |       9345.55 | NULL       | 2004-11-14         | 2004-03-22 |         9345.55 | ACTIVE |      11 |              2 |          10 | BUS        |         2 | 422 Maple St.        | Woburn  | Woburn Branch | MA    | 01801    |
+|          7 |       1057.75 | NULL       | 2004-11-30         | 2002-11-23 |         1057.75 | ACTIVE |       3 |              3 |          13 | CHK        |         3 | 125 Presidential Way | Quincy  | Quincy Branch | MA    | 02169    |
+|          8 |        2212.5 | NULL       | 2004-12-05         | 2002-12-15 |          2212.5 | ACTIVE |       3 |              3 |          13 | MM         |         3 | 125 Presidential Way | Quincy  | Quincy Branch | MA    | 02169    |
+|         29 |         50000 | NULL       | 2004-12-17         | 2004-02-22 |           50000 | ACTIVE |      13 |              3 |          13 | SBL        |         3 | 125 Presidential Way | Quincy  | Quincy Branch | MA    | 02169    |
+|         13 |       2237.97 | NULL       | 2005-01-05         | 2004-01-27 |         2897.97 | ACTIVE |       5 |              4 |          16 | CHK        |         4 | 378 Maynard Ln.      | Salem   | So. NH Branch | NH    | 03079    |
+|         18 |       3487.19 | NULL       | 2005-01-03         | 2001-05-23 |         3487.19 | ACTIVE |       8 |              4 |          16 | CHK        |         4 | 378 Maynard Ln.      | Salem   | So. NH Branch | NH    | 03079    |
+|         19 |        387.99 | NULL       | 2004-10-12         | 2001-05-23 |          387.99 | ACTIVE |       8 |              4 |          16 | SAV        |         4 | 378 Maynard Ln.      | Salem   | So. NH Branch | NH    | 03079    |
+|         24 |       23575.1 | NULL       | 2004-12-15         | 2002-09-30 |         23575.1 | ACTIVE |      10 |              4 |          16 | CHK        |         4 | 378 Maynard Ln.      | Salem   | So. NH Branch | NH    | 03079    |
+|         25 |             0 | NULL       | 2004-08-28         | 2002-10-01 |               0 | ACTIVE |      10 |              4 |          16 | BUS        |         4 | 378 Maynard Ln.      | Salem   | So. NH Branch | NH    | 03079    |
+|         28 |       38552.1 | NULL       | 2004-12-15         | 2003-07-30 |         38552.1 | ACTIVE |      12 |              4 |          16 | CHK        |         4 | 378 Maynard Ln.      | Salem   | So. NH Branch | NH    | 03079    |
++------------+---------------+------------+--------------------+------------+-----------------+--------+---------+----------------+-------------+------------+-----------+----------------------+---------+---------------+-------+----------+
+24 rows in set (0.00 sec)
+
+mysql> 
+mysql> select account_id, city from account 
+    -> inner join branch on account.open_branch_id = branch.branch_id;
++------------+---------+
+| account_id | city    |
++------------+---------+
+|         10 | Waltham |
+|         11 | Waltham |
+|         12 | Waltham |
+|         14 | Waltham |
+|         15 | Waltham |
+|         21 | Waltham |
+|         22 | Waltham |
+|         23 | Waltham |
+|          1 | Woburn  |
+|          2 | Woburn  |
+|          3 | Woburn  |
+|          4 | Woburn  |
+|          5 | Woburn  |
+|         17 | Woburn  |
+|         27 | Woburn  |
+|          7 | Quincy  |
+|          8 | Quincy  |
+|         29 | Quincy  |
+|         13 | Salem   |
+|         18 | Salem   |
+|         19 | Salem   |
+|         24 | Salem   |
+|         25 | Salem   |
+|         28 | Salem   |
++------------+---------+
+24 rows in set (0.00 sec)
+
+mysql> 
+mysql> create or replace view cuenta_ciudad as 
+    -> select account_id, cust_id, city from account 
+    -> inner join branch on account.open_branch_id = branch.branch_id;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> create or replace view cuenta_empleado as 
+    -> select account_id, concat_ws(' ',first_name,last_name) as nombre_emp from account 
+    -> inner join employee on account.open_emp_id = employee.emp_id;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> desc cuenta_empleado;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| account_id | int         | NO   |     | 0       |       |
+| nombre_emp | varchar(41) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc numCuentas_x_empresa;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| Cliente     | int          | NO   |     | NULL    |       |
+| Empresa     | varchar(255) | NO   |     | NULL    |       |
+| Num_cuentas | bigint       | NO   |     | 0       |       |
++-------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc cuenta_ciudad;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| account_id | int         | NO   |     | 0       |       |
+| cust_id    | int         | YES  |     | NULL    |       |
+| city       | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> select Cliente,Empresa, Num_cuentas, city, nombre_emp  
+    -> from numCuentas_x_empresa 
+    -> inner join cuenta_ciudad on Cliente=cust_id 
+    -> inner join cuenta_empleado using (account_id);
++---------+------------------------+-------------+--------+-----------------+
+| Cliente | Empresa                | Num_cuentas | city   | nombre_emp      |
++---------+------------------------+-------------+--------+-----------------+
+|      10 | Chilton Engineering    |           2 | Salem  | Theresa Markham |
+|      10 | Chilton Engineering    |           2 | Salem  | Theresa Markham |
+|      11 | Northeast Cooling Inc. |           1 | Woburn | Paula Roberts   |
+|      12 | Superior Auto Body     |           1 | Salem  | Theresa Markham |
+|      13 | AAA Insurance Inc.     |           1 | Quincy | John Blake      |
++---------+------------------------+-------------+--------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> select Cliente,Empresa, Num_cuentas, city, nombre_emp  
+    -> from numCuentas_x_empresa 
+    -> inner join cuenta_ciudad on Cliente=cust_id 
+    -> inner join cuenta_empleado using (account_id) 
+    -> where Num_cuentas = (select min(Num_cuentas) from numCuentas_x_empresa);
++---------+------------------------+-------------+--------+-----------------+
+| Cliente | Empresa                | Num_cuentas | city   | nombre_emp      |
++---------+------------------------+-------------+--------+-----------------+
+|      11 | Northeast Cooling Inc. |           1 | Woburn | Paula Roberts   |
+|      12 | Superior Auto Body     |           1 | Salem  | Theresa Markham |
+|      13 | AAA Insurance Inc.     |           1 | Quincy | John Blake      |
++---------+------------------------+-------------+--------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> select b.name as 'Empresa', count(account_id) 'Num cuentas', city 'Ciudad apertura', 
+    -> concat_ws(' ',e.first_name,e.last_name) 'Empleado encargado' 
+    -> from business b 
+    -> inner join account a using (cust_id) 
+    -> inner join employee e on a.open_emp_id = e.emp_id 
+    -> inner join branch br on a.open_branch_id = br.branch_id 
+    -> group by 1,3,4
+    -> having count(account_id) = (select min(cuentas)
+    -> FROM 
+    -> (
+    -> select name, count(account_id) cuentas
+    -> from business 
+    -> inner join account using (cust_id)
+    -> group by 1
+    -> ) sub);
++------------------------+-------------+-----------------+--------------------+
+| Empresa                | Num cuentas | Ciudad apertura | Empleado encargado |
++------------------------+-------------+-----------------+--------------------+
+| Northeast Cooling Inc. |           1 | Woburn          | Paula Roberts      |
+| Superior Auto Body     |           1 | Salem           | Theresa Markham    |
+| AAA Insurance Inc.     |           1 | Quincy          | John Blake         |
++------------------------+-------------+-----------------+--------------------+
+3 rows in set (0.00 sec)
+
+mysql> notee

@@ -1,0 +1,697 @@
+﻿mysql> source F:\Pejcovich\BBDD\BASES\base_super.sql
+Query OK, 4 rows affected (0.11 sec)
+
+Query OK, 1 row affected, 2 warnings (0.01 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 998 rows affected (0.08 sec)
+Records: 998  Duplicates: 0  Warnings: 0
+
+Query OK, 1000 rows affected (0.05 sec)
+Records: 1000  Duplicates: 0  Warnings: 0
+
+Query OK, 1000 rows affected (0.04 sec)
+Records: 1000  Duplicates: 0  Warnings: 0
+
+Query OK, 1000 rows affected (0.04 sec)
+Records: 1000  Duplicates: 0  Warnings: 0
+
+Query OK, 1000 rows affected (0.04 sec)
+Records: 1000  Duplicates: 0  Warnings: 0
+
+Query OK, 1000 rows affected (0.10 sec)
+Records: 1000  Duplicates: 0  Warnings: 0
+
+Query OK, 1000 rows affected (0.13 sec)
+Records: 1000  Duplicates: 0  Warnings: 0
+
+Query OK, 1000 rows affected (0.28 sec)
+Records: 1000  Duplicates: 0  Warnings: 0
+
+Query OK, 1000 rows affected (0.07 sec)
+Records: 1000  Duplicates: 0  Warnings: 0
+
+Query OK, 1000 rows affected (0.05 sec)
+Records: 1000  Duplicates: 0  Warnings: 0
+
+Query OK, 1000 rows affected (0.05 sec)
+Records: 1000  Duplicates: 0  Warnings: 0
+
+Query OK, 1000 rows affected (0.03 sec)
+Records: 1000  Duplicates: 0  Warnings: 0
+
+Query OK, 194 rows affected (0.01 sec)
+Records: 194  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.00 sec)
+
++---------+---------------+
+| tabla   | num_registros |
++---------+---------------+
+| compras |         12190 |
++---------+---------------+
+1 row in set (0.01 sec)
+
+mysql> /* 
+   /*> Un TRIGGER es un conjunto de acciones que se ejecutan automáticamente cuando 
+   /*> se realiza una operación de cambio específica (sentencia SQL INSERT, UPDATE o DELETE) 
+   /*> en una tabla específica. 
+   /*> 
+   /*> Los disparadores son útiles para tareas como la aplicación de reglas comerciales, 
+   /*> la validación de datos de entrada y el mantenimiento de un registro de auditoría.
+   /*> */
+mysql> 
+mysql> 
+mysql> /*
+   /*> Buscamos crear una tabla para auditorias
+   /*> En esta tabla se deben registrar todos los cambios
+   /*> Estaria bien contar con quien hizo la modificación y la fecha.
+   /*> 
+   /*> Nuevos registros
+   /*> Registros borrados
+   /*> Actualización de datos
+   /*> Todo sobre la tabla compras de la base super
+   /*> */
+mysql> 
+mysql> -- Paso 1. Crear tabla para registrar cambios
+mysql> -- Paso 2. Crear tres TRIGGERS (
+mysql> -- Paso 2.1 Para insertar
+mysql> -- Paso 2.2 Para eliminaciones
+mysql> -- Paso 2.3 Para actualizaciones
+mysql> -- TRIGGER PARA INSERTAR NUEVOS VALORES
+mysql> use super;
+Database changed
+mysql> 
+mysql> drop table if exists compras_auditoria;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> create table if not exists compras_auditoria like compras;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> 
+mysql> desc compras;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| id_ticket | int unsigned | NO   |     | NULL    |       |
+| fecha     | date         | NO   |     | NULL    |       |
+| articulo  | varchar(50)  | NO   |     | NULL    |       |
+| precio    | double       | NO   |     | NULL    |       |
+| unidad    | varchar(10)  | NO   |     | NULL    |       |
+| cantidad  | double       | NO   |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select count(*) from compras;
++----------+
+| count(*) |
++----------+
+|    12192 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> desc compras_auditoria;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| id_ticket | int unsigned | NO   |     | NULL    |       |
+| fecha     | date         | NO   |     | NULL    |       |
+| articulo  | varchar(50)  | NO   |     | NULL    |       |
+| precio    | double       | NO   |     | NULL    |       |
+| unidad    | varchar(10)  | NO   |     | NULL    |       |
+| cantidad  | double       | NO   |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> select count(*) from compras_auditoria;
++----------+
+| count(*) |
++----------+
+|        0 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> alter table compras_auditoria add cambio varchar(50);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table compras_auditoria add usuario varchar(50);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table compras_auditoria add fecha_cambio date;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> desc compras_auditoria;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| id_ticket    | int unsigned | NO   |     | NULL    |       |
+| fecha        | date         | NO   |     | NULL    |       |
+| articulo     | varchar(50)  | NO   |     | NULL    |       |
+| precio       | double       | NO   |     | NULL    |       |
+| unidad       | varchar(10)  | NO   |     | NULL    |       |
+| cantidad     | double       | NO   |     | NULL    |       |
+| cambio       | varchar(50)  | YES  |     | NULL    |       |
+| usuario      | varchar(50)  | YES  |     | NULL    |       |
+| fecha_cambio | date         | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> -- TRIGGERS PARA INSERTAR
+mysql> CREATE TRIGGER compras_AI_trigger AFTER INSERT ON compras 
+    -> FOR EACH ROW 
+    -> INSERT INTO compras_auditoria VALUES 
+    -> (new.id_ticket, new.fecha, new.articulo, new.precio 
+    -> , new.unidad, new.cantidad, 'nueva data', user(), curdate()); 
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> -- TRIGGER PARA ELIMINAR
+mysql> CREATE TRIGGER compras_BD_trigger BEFORE DELETE ON compras 
+    -> FOR EACH ROW
+    -> INSERT INTO compras_auditoria VALUES 
+    -> (old.id_ticket, old.fecha, old.articulo, old.precio 
+    -> , old.unidad, old.cantidad, 'data eli', user(), curdate());
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> 
+mysql> -- TRIGGER PARA ACTUALIZAR
+mysql> CREATE TRIGGER compras_AU_trigger AFTER UPDATE ON compras
+    -> FOR EACH ROW
+    -> INSERT INTO compras_auditoria VALUES
+    -> (old.id_ticket, old.fecha, old.articulo, old.precio
+    -> , old.unidad, old.cantidad, 'data actu', user(), curdate());
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> -- MODIFICACIONES
+mysql> Insert into compras
+    -> values (50000,'2022-11-24','comidita yummy',10,'pza',5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> 
+mysql> select * from compras where articulo like '%yummy%';
++-----------+------------+----------------+--------+--------+----------+
+| id_ticket | fecha      | articulo       | precio | unidad | cantidad |
++-----------+------------+----------------+--------+--------+----------+
+|     50000 | 2022-11-24 | comidita yummy |     10 | pza    |        5 |
++-----------+------------+----------------+--------+--------+----------+
+1 row in set (0.03 sec)
+
+mysql> select * from compras_auditoria;
++-----------+------------+----------------+--------+--------+----------+------------+----------------+--------------+
+| id_ticket | fecha      | articulo       | precio | unidad | cantidad | cambio     | usuario        | fecha_cambio |
++-----------+------------+----------------+--------+--------+----------+------------+----------------+--------------+
+|     50000 | 2022-11-24 | comidita yummy |     10 | pza    |        5 | nueva data | root@localhost | 2022-11-24   |
++-----------+------------+----------------+--------+--------+----------+------------+----------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> select * from compras where fecha = '2021-12-18';
++-----------+------------+-----------------+--------+--------+----------+
+| id_ticket | fecha      | articulo        | precio | unidad | cantidad |
++-----------+------------+-----------------+--------+--------+----------+
+|      4804 | 2021-12-18 | roles de canela |   39.9 | pza    |        2 |
+|      4804 | 2021-12-18 | carne           |    184 | kg     |     0.11 |
+|      3796 | 2021-12-18 | malvaviscos     |   13.5 | pza    |        2 |
+|      3796 | 2021-12-18 | queso manchego  |     84 | pza    |        5 |
+|      2844 | 2021-12-18 | te negro        |   41.8 | pza    |        4 |
+|      2217 | 2021-12-18 | sopa en lata    |   31.6 | pza    |        2 |
+|      1770 | 2021-12-18 | uvas            |    119 | kg     |     0.85 |
+|      1569 | 2021-12-18 | chocolate       |     19 | pza    |        1 |
+|      3902 | 2021-12-18 | dulces          |     49 | pza    |        1 |
++-----------+------------+-----------------+--------+--------+----------+
+9 rows in set (0.01 sec)
+
+mysql> update compras set articulo = concat(articulo,' OK') where fecha = '2021-12-18';
+Query OK, 9 rows affected (0.04 sec)
+Rows matched: 9  Changed: 9  Warnings: 0
+
+mysql> select * from compras where fecha = '2021-12-18';
++-----------+------------+--------------------+--------+--------+----------+
+| id_ticket | fecha      | articulo           | precio | unidad | cantidad |
++-----------+------------+--------------------+--------+--------+----------+
+|      4804 | 2021-12-18 | roles de canela OK |   39.9 | pza    |        2 |
+|      4804 | 2021-12-18 | carne OK           |    184 | kg     |     0.11 |
+|      3796 | 2021-12-18 | malvaviscos OK     |   13.5 | pza    |        2 |
+|      3796 | 2021-12-18 | queso manchego OK  |     84 | pza    |        5 |
+|      2844 | 2021-12-18 | te negro OK        |   41.8 | pza    |        4 |
+|      2217 | 2021-12-18 | sopa en lata OK    |   31.6 | pza    |        2 |
+|      1770 | 2021-12-18 | uvas OK            |    119 | kg     |     0.85 |
+|      1569 | 2021-12-18 | chocolate OK       |     19 | pza    |        1 |
+|      3902 | 2021-12-18 | dulces OK          |     49 | pza    |        1 |
++-----------+------------+--------------------+--------+--------+----------+
+9 rows in set (0.01 sec)
+
+mysql> select * from compras_auditoria;
++-----------+------------+-----------------+--------+--------+----------+------------+----------------+--------------+
+| id_ticket | fecha      | articulo        | precio | unidad | cantidad | cambio     | usuario        | fecha_cambio |
++-----------+------------+-----------------+--------+--------+----------+------------+----------------+--------------+
+|     50000 | 2022-11-24 | comidita yummy  |     10 | pza    |        5 | nueva data | root@localhost | 2022-11-24   |
+|      4804 | 2021-12-18 | roles de canela |   39.9 | pza    |        2 | data actu  | root@localhost | 2022-11-24   |
+|      4804 | 2021-12-18 | carne           |    184 | kg     |     0.11 | data actu  | root@localhost | 2022-11-24   |
+|      3796 | 2021-12-18 | malvaviscos     |   13.5 | pza    |        2 | data actu  | root@localhost | 2022-11-24   |
+|      3796 | 2021-12-18 | queso manchego  |     84 | pza    |        5 | data actu  | root@localhost | 2022-11-24   |
+|      2844 | 2021-12-18 | te negro        |   41.8 | pza    |        4 | data actu  | root@localhost | 2022-11-24   |
+|      2217 | 2021-12-18 | sopa en lata    |   31.6 | pza    |        2 | data actu  | root@localhost | 2022-11-24   |
+|      1770 | 2021-12-18 | uvas            |    119 | kg     |     0.85 | data actu  | root@localhost | 2022-11-24   |
+|      1569 | 2021-12-18 | chocolate       |     19 | pza    |        1 | data actu  | root@localhost | 2022-11-24   |
+|      3902 | 2021-12-18 | dulces          |     49 | pza    |        1 | data actu  | root@localhost | 2022-11-24   |
++-----------+------------+-----------------+--------+--------+----------+------------+----------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> 
+mysql> select * from compras where precio < 2;
++-----------+------------+----------+--------+--------+----------+
+| id_ticket | fecha      | articulo | precio | unidad | cantidad |
++-----------+------------+----------+--------+--------+----------+
+|      4762 | 2021-01-18 | bolillo  |    1.7 | pza    |        1 |
+|      2174 | 2021-09-01 | bolillo  |    1.7 | pza    |        6 |
+|      4701 | 2021-04-01 | bolillo  |    1.7 | pza    |        4 |
+|      4662 | 2021-11-28 | bolillo  |    1.7 | pza    |        4 |
+|      4351 | 2021-10-23 | bolillo  |    1.7 | pza    |        4 |
+|      3741 | 2021-02-23 | bolillo  |    1.7 | pza    |        5 |
+|      4460 | 2021-09-10 | bolillo  |    1.7 | pza    |        1 |
+|      2286 | 2021-03-27 | bolillo  |    1.7 | pza    |        1 |
+|      2608 | 2021-11-13 | bolillo  |    1.7 | pza    |        6 |
+|      3900 | 2021-12-04 | bolillo  |    1.7 | pza    |        3 |
+|      4376 | 2021-12-06 | bolillo  |    1.7 | pza    |        4 |
+|      3618 | 2021-05-14 | bolillo  |    1.7 | pza    |        2 |
+|      4203 | 2021-09-14 | bolillo  |    1.7 | pza    |        4 |
+|      2702 | 2021-07-23 | bolillo  |    1.7 | pza    |        4 |
+|      3879 | 2021-08-08 | bolillo  |    1.7 | pza    |        2 |
+|      1267 | 2021-11-13 | bolillo  |    1.7 | pza    |        4 |
+|      3810 | 2021-04-08 | bolillo  |    1.7 | pza    |        4 |
+|      3558 | 2021-01-17 | bolillo  |    1.7 | pza    |        4 |
+|      2703 | 2021-08-23 | bolillo  |    1.7 | pza    |        4 |
+|      3519 | 2021-07-26 | bolillo  |    1.7 | pza    |        6 |
+|      4864 | 2021-01-05 | bolillo  |    1.7 | pza    |        2 |
+|      2562 | 2021-07-21 | bolillo  |    1.7 | pza    |        4 |
+|      4003 | 2021-04-22 | bolillo  |    1.7 | pza    |        5 |
+|      2048 | 2021-03-31 | bolillo  |    1.7 | pza    |        6 |
+|      4299 | 2021-02-10 | bolillo  |    1.7 | pza    |        6 |
+|      1225 | 2021-06-25 | bolillo  |    1.7 | pza    |        4 |
+|      2434 | 2021-07-02 | bolillo  |    1.7 | pza    |        2 |
+|      1845 | 2021-10-04 | bolillo  |    1.7 | pza    |        2 |
+|      4512 | 2021-10-26 | bolillo  |    1.7 | pza    |        4 |
+|      3190 | 2021-03-12 | bolillo  |    1.7 | pza    |        4 |
+|      1673 | 2021-10-01 | bolillo  |    1.7 | pza    |        5 |
+|      4215 | 2021-03-04 | bolillo  |    1.7 | pza    |        4 |
+|      1818 | 2021-05-03 | bolillo  |    1.7 | pza    |        5 |
+|      2521 | 2021-08-08 | bolillo  |    1.7 | pza    |        5 |
+|      1588 | 2021-06-18 | bolillo  |    1.7 | pza    |        1 |
+|      4267 | 2021-06-02 | bolillo  |    1.7 | pza    |        1 |
+|      4887 | 2021-04-30 | bolillo  |    1.7 | pza    |        6 |
+|      4469 | 2021-02-23 | bolillo  |    1.7 | pza    |        3 |
+|      2640 | 2021-10-20 | bolillo  |    1.7 | pza    |        1 |
+|      1821 | 2021-10-19 | bolillo  |    1.7 | pza    |        4 |
+|      3695 | 2021-02-27 | bolillo  |    1.7 | pza    |        2 |
+|      4421 | 2021-12-23 | bolillo  |    1.7 | pza    |        4 |
+|      3839 | 2021-04-09 | bolillo  |    1.7 | pza    |        3 |
+|      3155 | 2021-06-15 | bolillo  |    1.7 | pza    |        5 |
+|      3376 | 2021-10-15 | bolillo  |    1.7 | pza    |        3 |
+|      4226 | 2021-11-28 | bolillo  |    1.7 | pza    |        2 |
+|      4588 | 2021-04-12 | bolillo  |    1.7 | pza    |        4 |
+|      1017 | 2021-02-02 | bolillo  |    1.7 | pza    |        1 |
+|      4566 | 2021-05-19 | bolillo  |    1.7 | pza    |        3 |
+|      1404 | 2021-12-24 | bolillo  |    1.7 | pza    |        6 |
+|      1149 | 2021-03-31 | bolillo  |    1.7 | pza    |        1 |
+|      3668 | 2021-10-15 | bolillo  |    1.7 | pza    |        6 |
+|      2165 | 2021-06-21 | bolillo  |    1.7 | pza    |        4 |
+|      1374 | 2021-07-28 | bolillo  |    1.7 | pza    |        4 |
+|      2810 | 2021-06-02 | bolillo  |    1.7 | pza    |        3 |
+|      2924 | 2021-02-04 | bolillo  |    1.7 | pza    |        2 |
+|      2660 | 2021-09-13 | bolillo  |    1.7 | pza    |        3 |
+|      4370 | 2021-10-01 | bolillo  |    1.7 | pza    |        5 |
+|      1805 | 2021-10-22 | bolillo  |    1.7 | pza    |        2 |
+|      4791 | 2021-03-05 | bolillo  |    1.7 | pza    |        3 |
+|      3489 | 2021-11-15 | bolillo  |    1.7 | pza    |        3 |
+|      4416 | 2021-06-08 | bolillo  |    1.7 | pza    |        3 |
+|      2461 | 2021-03-14 | bolillo  |    1.7 | pza    |        1 |
+|      2311 | 2021-06-30 | bolillo  |    1.7 | pza    |        4 |
+|      1014 | 2021-11-09 | bolillo  |    1.7 | pza    |        4 |
+|      1152 | 2021-07-27 | bolillo  |    1.7 | pza    |        2 |
+|      2867 | 2021-02-21 | bolillo  |    1.7 | pza    |        2 |
+|      4675 | 2021-05-22 | bolillo  |    1.7 | pza    |        5 |
+|      2721 | 2021-09-02 | bolillo  |    1.7 | pza    |        1 |
+|      3360 | 2021-09-01 | bolillo  |    1.7 | pza    |        3 |
+|      4574 | 2021-09-27 | bolillo  |    1.7 | pza    |        6 |
+|      2671 | 2021-06-09 | bolillo  |    1.7 | pza    |        3 |
+|      3507 | 2021-01-07 | bolillo  |    1.7 | pza    |        1 |
+|      3121 | 2021-03-04 | bolillo  |    1.7 | pza    |        1 |
+|      4366 | 2021-01-13 | bolillo  |    1.7 | pza    |        4 |
+|      3092 | 2021-01-30 | bolillo  |    1.7 | pza    |        1 |
+|      4691 | 2021-08-02 | bolillo  |    1.7 | pza    |        6 |
+|      4210 | 2021-12-28 | bolillo  |    1.7 | pza    |        3 |
+|      1170 | 2021-02-11 | bolillo  |    1.7 | pza    |        3 |
+|      4070 | 2021-12-21 | bolillo  |    1.7 | pza    |        6 |
+|      3563 | 2021-01-25 | bolillo  |    1.7 | pza    |        5 |
+|      3174 | 2021-09-27 | bolillo  |    1.7 | pza    |        1 |
+|      1932 | 2021-01-19 | bolillo  |    1.7 | pza    |        3 |
+|      3815 | 2021-02-22 | bolillo  |    1.7 | pza    |        3 |
+|      1965 | 2021-06-09 | bolillo  |    1.7 | pza    |        6 |
+|      2073 | 2021-01-22 | bolillo  |    1.7 | pza    |        5 |
+|      1557 | 2021-06-26 | bolillo  |    1.7 | pza    |        5 |
+|      2687 | 2021-10-07 | bolillo  |    1.7 | pza    |        6 |
+|      4406 | 2021-08-29 | bolillo  |    1.7 | pza    |        1 |
+|      1731 | 2021-05-04 | bolillo  |    1.7 | pza    |        5 |
+|      1368 | 2021-07-13 | bolillo  |    1.7 | pza    |        1 |
+|      1231 | 2021-04-04 | bolillo  |    1.7 | pza    |        3 |
+|      2219 | 2021-05-20 | bolillo  |    1.7 | pza    |        3 |
+|      4581 | 2021-06-14 | bolillo  |    1.7 | pza    |        1 |
+|      1636 | 2021-05-06 | bolillo  |    1.7 | pza    |        2 |
++-----------+------------+----------+--------+--------+----------+
+95 rows in set (0.01 sec)
+
+mysql> delete from compras where precio < 2;
+Query OK, 95 rows affected (0.03 sec)
+
+mysql> 
+mysql> select * from compras_auditoria;
++-----------+------------+-----------------+--------+--------+----------+------------+----------------+--------------+
+| id_ticket | fecha      | articulo        | precio | unidad | cantidad | cambio     | usuario        | fecha_cambio |
++-----------+------------+-----------------+--------+--------+----------+------------+----------------+--------------+
+|     50000 | 2022-11-24 | comidita yummy  |     10 | pza    |        5 | nueva data | root@localhost | 2022-11-24   |
+|      4804 | 2021-12-18 | roles de canela |   39.9 | pza    |        2 | data actu  | root@localhost | 2022-11-24   |
+|      4804 | 2021-12-18 | carne           |    184 | kg     |     0.11 | data actu  | root@localhost | 2022-11-24   |
+|      3796 | 2021-12-18 | malvaviscos     |   13.5 | pza    |        2 | data actu  | root@localhost | 2022-11-24   |
+|      3796 | 2021-12-18 | queso manchego  |     84 | pza    |        5 | data actu  | root@localhost | 2022-11-24   |
+|      2844 | 2021-12-18 | te negro        |   41.8 | pza    |        4 | data actu  | root@localhost | 2022-11-24   |
+|      2217 | 2021-12-18 | sopa en lata    |   31.6 | pza    |        2 | data actu  | root@localhost | 2022-11-24   |
+|      1770 | 2021-12-18 | uvas            |    119 | kg     |     0.85 | data actu  | root@localhost | 2022-11-24   |
+|      1569 | 2021-12-18 | chocolate       |     19 | pza    |        1 | data actu  | root@localhost | 2022-11-24   |
+|      3902 | 2021-12-18 | dulces          |     49 | pza    |        1 | data actu  | root@localhost | 2022-11-24   |
+|      4762 | 2021-01-18 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      2174 | 2021-09-01 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      4701 | 2021-04-01 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      4662 | 2021-11-28 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      4351 | 2021-10-23 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      3741 | 2021-02-23 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      4460 | 2021-09-10 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      2286 | 2021-03-27 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      2608 | 2021-11-13 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      3900 | 2021-12-04 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      4376 | 2021-12-06 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      3618 | 2021-05-14 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
+|      4203 | 2021-09-14 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      2702 | 2021-07-23 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      3879 | 2021-08-08 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
+|      1267 | 2021-11-13 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      3810 | 2021-04-08 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      3558 | 2021-01-17 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      2703 | 2021-08-23 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      3519 | 2021-07-26 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      4864 | 2021-01-05 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
+|      2562 | 2021-07-21 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      4003 | 2021-04-22 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      2048 | 2021-03-31 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      4299 | 2021-02-10 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      1225 | 2021-06-25 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      2434 | 2021-07-02 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
+|      1845 | 2021-10-04 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
+|      4512 | 2021-10-26 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      3190 | 2021-03-12 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      1673 | 2021-10-01 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      4215 | 2021-03-04 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      1818 | 2021-05-03 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      2521 | 2021-08-08 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      1588 | 2021-06-18 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      4267 | 2021-06-02 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      4887 | 2021-04-30 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      4469 | 2021-02-23 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      2640 | 2021-10-20 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      1821 | 2021-10-19 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      3695 | 2021-02-27 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
+|      4421 | 2021-12-23 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      3839 | 2021-04-09 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      3155 | 2021-06-15 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      3376 | 2021-10-15 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      4226 | 2021-11-28 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
+|      4588 | 2021-04-12 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      1017 | 2021-02-02 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      4566 | 2021-05-19 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      1404 | 2021-12-24 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      1149 | 2021-03-31 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      3668 | 2021-10-15 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      2165 | 2021-06-21 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      1374 | 2021-07-28 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      2810 | 2021-06-02 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      2924 | 2021-02-04 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
+|      2660 | 2021-09-13 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      4370 | 2021-10-01 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      1805 | 2021-10-22 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
+|      4791 | 2021-03-05 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      3489 | 2021-11-15 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      4416 | 2021-06-08 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      2461 | 2021-03-14 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      2311 | 2021-06-30 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      1014 | 2021-11-09 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      1152 | 2021-07-27 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
+|      2867 | 2021-02-21 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
+|      4675 | 2021-05-22 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      2721 | 2021-09-02 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      3360 | 2021-09-01 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      4574 | 2021-09-27 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      2671 | 2021-06-09 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      3507 | 2021-01-07 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      3121 | 2021-03-04 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      4366 | 2021-01-13 | bolillo         |    1.7 | pza    |        4 | data eli   | root@localhost | 2022-11-24   |
+|      3092 | 2021-01-30 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      4691 | 2021-08-02 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      4210 | 2021-12-28 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      1170 | 2021-02-11 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      4070 | 2021-12-21 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      3563 | 2021-01-25 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      3174 | 2021-09-27 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      1932 | 2021-01-19 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      3815 | 2021-02-22 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      1965 | 2021-06-09 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      2073 | 2021-01-22 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      1557 | 2021-06-26 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      2687 | 2021-10-07 | bolillo         |    1.7 | pza    |        6 | data eli   | root@localhost | 2022-11-24   |
+|      4406 | 2021-08-29 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      1731 | 2021-05-04 | bolillo         |    1.7 | pza    |        5 | data eli   | root@localhost | 2022-11-24   |
+|      1368 | 2021-07-13 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      1231 | 2021-04-04 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      2219 | 2021-05-20 | bolillo         |    1.7 | pza    |        3 | data eli   | root@localhost | 2022-11-24   |
+|      4581 | 2021-06-14 | bolillo         |    1.7 | pza    |        1 | data eli   | root@localhost | 2022-11-24   |
+|      1636 | 2021-05-06 | bolillo         |    1.7 | pza    |        2 | data eli   | root@localhost | 2022-11-24   |
++-----------+------------+-----------------+--------+--------+----------+------------+----------------+--------------+
+105 rows in set (0.00 sec)
+
+mysql> 
+mysql> -- OTRO TRIGGER PARA INSERTAR
+mysql> alter table compras add 
+    -> (created_date DATETIME default '2000-01-01',
+    -> created_by VARCHAR(30) default 'creador');
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> desc compras;
++--------------+--------------+------+-----+---------------------+-------+
+| Field        | Type         | Null | Key | Default             | Extra |
++--------------+--------------+------+-----+---------------------+-------+
+| id_ticket    | int unsigned | NO   |     | NULL                |       |
+| fecha        | date         | NO   |     | NULL                |       |
+| articulo     | varchar(50)  | NO   |     | NULL                |       |
+| precio       | double       | NO   |     | NULL                |       |
+| unidad       | varchar(10)  | NO   |     | NULL                |       |
+| cantidad     | double       | NO   |     | NULL                |       |
+| created_date | datetime     | YES  |     | 2000-01-01 00:00:00 |       |
+| created_by   | varchar(30)  | YES  |     | creador             |       |
++--------------+--------------+------+-----+---------------------+-------+
+8 rows in set (0.00 sec)
+
+mysql> delimiter //
+mysql> create trigger compras_BI_trigger before insert on compras 
+    -> for each row
+    -> begin 
+    -> DECLARE vUser varchar(50);
+    -> 
+    -> -- Find username of person performing INSERT into table
+    -> select USER() into vUser;
+    -> 
+    -> -- Update create_date field to current system date
+    -> SET NEW.created_date = SYSDATE();
+    -> 
+    -> -- Update created_by field to the username of the person performing the INSERT
+    -> SET NEW.created_by = vUser;
+    -> end; // 
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> 
+mysql> insert into compras values 
+    -> (50001,'2022-11-24','insert 1',3,'pza',7,'2020-08-05','xyz'),
+    -> (50002,'2022-11-24','insert 2',2,'pza',5,'2020-08-05','xyz'),
+    -> (50003,'2022-11-24','insert 3',1,'kg',1,'2020-08-05','xyz');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> select * from compras where id_ticket >= 50000;
++-----------+------------+----------------+--------+--------+----------+---------------------+----------------+
+| id_ticket | fecha      | articulo       | precio | unidad | cantidad | created_date        | created_by     |
++-----------+------------+----------------+--------+--------+----------+---------------------+----------------+
+|     50000 | 2022-11-24 | comidita yummy |     10 | pza    |        5 | 2000-01-01 00:00:00 | creador        |
+|     50001 | 2022-11-24 | insert 1       |      3 | pza    |        7 | 2022-11-24 11:54:25 | root@localhost |
+|     50002 | 2022-11-24 | insert 2       |      2 | pza    |        5 | 2022-11-24 11:54:25 | root@localhost |
+|     50003 | 2022-11-24 | insert 3       |      1 | kg     |        1 | 2022-11-24 11:54:25 | root@localhost |
++-----------+------------+----------------+--------+--------+----------+---------------------+----------------+
+4 rows in set (0.02 sec)
+
+mysql> -- REVISAR ESTADO DE TRIGGERS
+mysql> 
+mysql> show triggers\G
+*************************** 1. row ***************************
+             Trigger: compras_BI_trigger
+               Event: INSERT
+               Table: compras
+           Statement: begin 
+DECLARE vUser varchar(50);
+
+
+select USER() into vUser;
+
+
+SET NEW.created_date = SYSDATE();
+
+
+SET NEW.created_by = vUser;
+end
+              Timing: BEFORE
+             Created: 2022-11-24 11:54:16.46
+            sql_mode: STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION
+             Definer: root@localhost
+character_set_client: utf8mb4
+collation_connection: utf8mb4_0900_ai_ci
+  Database Collation: utf8_general_ci
+*************************** 2. row ***************************
+             Trigger: compras_AI_trigger
+               Event: INSERT
+               Table: compras
+           Statement: INSERT INTO compras_auditoria VALUES 
+(new.id_ticket, new.fecha, new.articulo, new.precio 
+, new.unidad, new.cantidad, 'nueva data', user(), curdate())
+              Timing: AFTER
+             Created: 2022-11-24 11:53:46.11
+            sql_mode: STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION
+             Definer: root@localhost
+character_set_client: utf8mb4
+collation_connection: utf8mb4_0900_ai_ci
+  Database Collation: utf8_general_ci
+*************************** 3. row ***************************
+             Trigger: compras_AU_trigger
+               Event: UPDATE
+               Table: compras
+           Statement: INSERT INTO compras_auditoria VALUES
+(old.id_ticket, old.fecha, old.articulo, old.precio
+, old.unidad, old.cantidad, 'data actu', user(), curdate())
+              Timing: AFTER
+             Created: 2022-11-24 11:53:46.18
+            sql_mode: STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION
+             Definer: root@localhost
+character_set_client: utf8mb4
+collation_connection: utf8mb4_0900_ai_ci
+  Database Collation: utf8_general_ci
+*************************** 4. row ***************************
+             Trigger: compras_BD_trigger
+               Event: DELETE
+               Table: compras
+           Statement: INSERT INTO compras_auditoria VALUES 
+(old.id_ticket, old.fecha, old.articulo, old.precio 
+, old.unidad, old.cantidad, 'data eli', user(), curdate())
+              Timing: BEFORE
+             Created: 2022-11-24 11:53:46.14
+            sql_mode: STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION
+             Definer: root@localhost
+character_set_client: utf8mb4
+collation_connection: utf8mb4_0900_ai_ci
+  Database Collation: utf8_general_ci
+4 rows in set (0.00 sec)
+
+mysql> show create trigger compras_BI_trigger\G
+*************************** 1. row ***************************
+               Trigger: compras_BI_trigger
+              sql_mode: STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION
+SQL Original Statement: CREATE DEFINER=`root`@`localhost` TRIGGER `compras_BI_trigger` BEFORE INSERT ON `compras` FOR EACH ROW begin 
+DECLARE vUser varchar(50);
+
+
+select USER() into vUser;
+
+
+SET NEW.created_date = SYSDATE();
+
+
+SET NEW.created_by = vUser;
+end
+  character_set_client: utf8mb4
+  collation_connection: utf8mb4_0900_ai_ci
+    Database Collation: utf8_general_ci
+               Created: 2022-11-24 11:54:16.46
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> drop trigger if exists compras_BI_trigger;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show triggers\G
+*************************** 1. row ***************************
+             Trigger: compras_AI_trigger
+               Event: INSERT
+               Table: compras
+           Statement: INSERT INTO compras_auditoria VALUES 
+(new.id_ticket, new.fecha, new.articulo, new.precio 
+, new.unidad, new.cantidad, 'nueva data', user(), curdate())
+              Timing: AFTER
+             Created: 2022-11-24 11:53:46.11
+            sql_mode: STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION
+             Definer: root@localhost
+character_set_client: utf8mb4
+collation_connection: utf8mb4_0900_ai_ci
+  Database Collation: utf8_general_ci
+*************************** 2. row ***************************
+             Trigger: compras_AU_trigger
+               Event: UPDATE
+               Table: compras
+           Statement: INSERT INTO compras_auditoria VALUES
+(old.id_ticket, old.fecha, old.articulo, old.precio
+, old.unidad, old.cantidad, 'data actu', user(), curdate())
+              Timing: AFTER
+             Created: 2022-11-24 11:53:46.18
+            sql_mode: STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION
+             Definer: root@localhost
+character_set_client: utf8mb4
+collation_connection: utf8mb4_0900_ai_ci
+  Database Collation: utf8_general_ci
+*************************** 3. row ***************************
+             Trigger: compras_BD_trigger
+               Event: DELETE
+               Table: compras
+           Statement: INSERT INTO compras_auditoria VALUES 
+(old.id_ticket, old.fecha, old.articulo, old.precio 
+, old.unidad, old.cantidad, 'data eli', user(), curdate())
+              Timing: BEFORE
+             Created: 2022-11-24 11:53:46.14
+            sql_mode: STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION
+             Definer: root@localhost
+character_set_client: utf8mb4
+collation_connection: utf8mb4_0900_ai_ci
+  Database Collation: utf8_general_ci
+3 rows in set (0.00 sec)
+
+mysql> notee

@@ -1,0 +1,216 @@
+mysql> source F:\Pejcovich\BBDD\Parte 2\Semana 6\AY08_DDL\AY08_DDL.sql
+PROMPT set to '\\\D mysql>'
+PROMPT set to '\d mysql>'
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
++--------------------+
+| Database           |
++--------------------+
+| almacen            |
+| base_datos_01      |
+| base_datos_02      |
+| ej_04              |
+| ejemplo1           |
+| ejemplo1tmp        |
+| ejemplo2           |
+| ejemplo2tmp        |
+| ejemplo3           |
+| ejemplo3tmp        |
+| equipo10           |
+| flower_db          |
+| information_schema |
+| mysql              |
+| nombre_db          |
+| onefa              |
+| p02                |
+| p02_01             |
+| performance_schema |
+| sakila             |
+| sys                |
+| tienda             |
+| world              |
++--------------------+
+23 rows in set (0.00 sec)
+
+Query OK, 1 row affected (0.04 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
++--------------------+
+| Database           |
++--------------------+
+| almacen            |
+| base_datos_01      |
+| base_datos_02      |
+| ej_04              |
+| ejemplo1           |
+| ejemplo1tmp        |
+| ejemplo2           |
+| ejemplo2tmp        |
+| ejemplo3           |
+| ejemplo3tmp        |
+| equipo10           |
+| flower_db          |
+| information_schema |
+| mysql              |
+| nombre_db          |
+| onefa              |
+| p02                |
+| p02_01             |
+| performance_schema |
+| sakila             |
+| sys                |
+| tienda             |
+| world              |
++--------------------+
+23 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
++--------------------+
+| Database           |
++--------------------+
+| almacen            |
+| base_datos_02      |
+| ej_04              |
+| ejemplo1           |
+| ejemplo1tmp        |
+| ejemplo2           |
+| ejemplo2tmp        |
+| ejemplo3           |
+| ejemplo3tmp        |
+| equipo10           |
+| flower_db          |
+| information_schema |
+| mysql              |
+| nombre_db          |
+| onefa              |
+| p02                |
+| p02_01             |
+| performance_schema |
+| sakila             |
+| sys                |
+| tienda             |
+| world              |
++--------------------+
+22 rows in set (0.00 sec)
+
++--------------------+
+| Database           |
++--------------------+
+| almacen            |
+| base_datos_02      |
+| ej_04              |
+| ejemplo1           |
+| ejemplo1tmp        |
+| ejemplo2           |
+| ejemplo2tmp        |
+| ejemplo3           |
+| ejemplo3tmp        |
+| equipo10           |
+| flower_db          |
+| information_schema |
+| mysql              |
+| nombre_db          |
+| onefa              |
+| p02                |
+| p02_01             |
+| performance_schema |
+| sakila             |
+| sys                |
+| tienda             |
+| world              |
++--------------------+
+22 rows in set (0.00 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Database changed
+Query OK, 0 rows affected (0.15 sec)
+
++-----------+-------------+------+-----+----------------------+-------+
+| Field     | Type        | Null | Key | Default              | Extra |
++-----------+-------------+------+-----+----------------------+-------+
+| ID        | tinyint     | YES  |     | NULL                 |       |
+| ApellidoP | varchar(15) | NO   |     | NULL                 |       |
+| ApellidoM | varchar(15) | YES  |     | NULL                 |       |
+| FechaNac  | date        | YES  |     | NULL                 |       |
+| Facultad  | varchar(30) | YES  |     | Facultad de Ciencias |       |
++-----------+-------------+------+-----+----------------------+-------+
+5 rows in set (0.00 sec)
+
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                                                                                                                 |
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Alumnos | CREATE TABLE `alumnos` (
+  `ID` tinyint DEFAULT NULL,
+  `ApellidoP` varchar(15) NOT NULL,
+  `ApellidoM` varchar(15) DEFAULT NULL,
+  `FechaNac` date DEFAULT NULL,
+  `Facultad` varchar(30) DEFAULT 'Facultad de Ciencias'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
++-------------------------+
+| Tables_in_base_datos_01 |
++-------------------------+
+| alumnos                 |
++-------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 2 rows affected (0.05 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Database changed
+Query OK, 0 rows affected (0.05 sec)
+
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| ID        | int         | NO   |     | NULL    |       |
+| nombre    | varchar(20) | YES  |     | NULL    |       |
+| ApellidoP | varchar(20) | YES  |     | NULL    |       |
+| ApellidoM | varchar(15) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
++--------------------+
+| Database           |
++--------------------+
+| almacen            |
+| base_datos_01      |
+| base_datos_02      |
+| ej_04              |
+| ejemplo1           |
+| ejemplo1tmp        |
+| ejemplo2           |
+| ejemplo2tmp        |
+| ejemplo3           |
+| ejemplo3tmp        |
+| equipo10           |
+| flower_db          |
+| information_schema |
+| mysql              |
+| nombre_db          |
+| onefa              |
+| p02                |
+| p02_01             |
+| performance_schema |
+| sakila             |
+| sys                |
+| tienda             |
+| world              |
++--------------------+
+23 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 0 rows affected (0.10 sec)
+
+base_datos_02 mysql>notee

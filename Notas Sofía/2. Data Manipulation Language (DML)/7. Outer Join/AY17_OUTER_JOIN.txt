@@ -1,0 +1,541 @@
+mysql> use replicas
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_replicas |
++--------------------+
+| clientes_obj       |
+| customers          |
+| employees          |
+| offices            |
+| orderdetails       |
+| orders             |
+| payments           |
+| productlines       |
+| products           |
++--------------------+
+9 rows in set (0.01 sec)
+
+mysql> 
+mysql> -- Ejercicio 1
+mysql> desc customers;
++------------------------+---------------+------+-----+---------+-------+
+| Field                  | Type          | Null | Key | Default | Extra |
++------------------------+---------------+------+-----+---------+-------+
+| customernumber         | int           | NO   | PRI | NULL    |       |
+| customername           | varchar(50)   | NO   |     | NULL    |       |
+| contactlastname        | varchar(50)   | NO   |     | NULL    |       |
+| contactfirstname       | varchar(50)   | NO   |     | NULL    |       |
+| phone                  | varchar(50)   | NO   |     | NULL    |       |
+| addressline1           | varchar(50)   | NO   |     | NULL    |       |
+| addressline2           | varchar(50)   | YES  |     | NULL    |       |
+| city                   | varchar(50)   | NO   |     | NULL    |       |
+| state                  | varchar(50)   | YES  |     | NULL    |       |
+| postalcode             | varchar(15)   | YES  |     | NULL    |       |
+| country                | varchar(50)   | NO   |     | NULL    |       |
+| salesrepemployeenumber | int           | YES  | MUL | NULL    |       |
+| creditlimit            | decimal(10,2) | YES  |     | NULL    |       |
++------------------------+---------------+------+-----+---------+-------+
+13 rows in set (0.01 sec)
+
+mysql> select count(distinct customernumber) from customers;
++--------------------------------+
+| count(distinct customernumber) |
++--------------------------------+
+|                            122 |
++--------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> desc orders;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| orderNumber    | int         | NO   | PRI | NULL    |       |
+| orderDate      | date        | NO   |     | NULL    |       |
+| requiredDate   | date        | NO   |     | NULL    |       |
+| shippedDate    | date        | YES  |     | NULL    |       |
+| status         | varchar(15) | NO   |     | NULL    |       |
+| comments       | text        | YES  |     | NULL    |       |
+| customerNumber | int         | NO   | MUL | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select count(distinct customernumber) from orders;
++--------------------------------+
+| count(distinct customernumber) |
++--------------------------------+
+|                             98 |
++--------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> -- Ejercicio 2
+mysql> select 
+    ->     customers.customernumber, 
+    ->     customername, 
+    ->     ordernumber, 
+    -> from
+    ->     customers
+    -> left join orders on 
+    ->     orders.customernumber = customers.customernumber;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from
+    customers
+left join orders on 
+    orders.customernumber = customers.cu' at line 5
+mysql> 
+mysql> -- Ejercicio 2
+mysql> select 
+    ->     customers.customernumber, 
+    ->     customername, 
+    ->     count(ordernumber)
+    -> from
+    ->     customers
+    -> left join orders on 
+    ->     orders.customernumber = customers.customernumber
+    -> group by 1,2
+    -> order by 3 desc;
++----------------+------------------------------------+--------------------+
+| customernumber | customername                       | count(ordernumber) |
++----------------+------------------------------------+--------------------+
+|            141 | Euro+ Shopping Channel             |                 26 |
+|            124 | Mini Gifts Distributors Ltd.       |                 17 |
+|            114 | Australian Collectors, Co.         |                  5 |
+|            145 | Danish Wholesale Imports           |                  5 |
+|            148 | Dragon Souveniers, Ltd.            |                  5 |
+|            323 | Down Under Souveniers, Inc         |                  5 |
+|            353 | Reims Collectables                 |                  5 |
+|            119 | La Rochelle Gifts                  |                  4 |
+|            121 | Baane Mini Imports                 |                  4 |
+|            128 | Blauer See Auto, Co.               |                  4 |
+|            131 | Land of Toys Inc.                  |                  4 |
+|            144 | Volvo Model Replicas, Co           |                  4 |
+|            151 | Muscle Machine Inc                 |                  4 |
+|            157 | Diecast Classics Inc.              |                  4 |
+|            161 | Technics Stores Inc.               |                  4 |
+|            166 | Handji Gifts& Co                   |                  4 |
+|            276 | Anna's Decorations, Ltd            |                  4 |
+|            282 | Souveniers And Things Co.          |                  4 |
+|            321 | Corporate Gift Ideas Co.           |                  4 |
+|            381 | Royale Belge                       |                  4 |
+|            382 | Salzburg Collectables              |                  4 |
+|            398 | Tokyo Collectables, Ltd            |                  4 |
+|            450 | The Sharp Gifts Warehouse          |                  4 |
+|            496 | Kelly's Gift Shop                  |                  4 |
+|            103 | Atelier graphique                  |                  3 |
+|            112 | Signal Gift Stores                 |                  3 |
+|            129 | Mini Wheels Co.                    |                  3 |
+|            146 | Saveley & Henriot, Co.             |                  3 |
+|            167 | Herkku Gifts                       |                  3 |
+|            172 | La Corne D'abondance, Co.          |                  3 |
+|            175 | Gift Depot Inc.                    |                  3 |
+|            181 | Vitachrome Inc.                    |                  3 |
+|            186 | Toys of Finland, Co.               |                  3 |
+|            187 | AV Stores, Co.                     |                  3 |
+|            198 | Auto-Moto Classics Inc.            |                  3 |
+|            201 | UK Collectables, Ltd.              |                  3 |
+|            205 | Toys4GrownUps.com                  |                  3 |
+|            209 | Mini Caravy                        |                  3 |
+|            216 | Enaco Distributors                 |                  3 |
+|            233 | Québec Home Shopping Network       |                  3 |
+|            242 | Alpha Cognac                       |                  3 |
+|            250 | Lyon Souveniers                    |                  3 |
+|            278 | Rovelli Gifts                      |                  3 |
+|            311 | Oulu Toy Supplies, Inc.            |                  3 |
+|            314 | Petit Auto                         |                  3 |
+|            320 | Mini Creations Ltd.                |                  3 |
+|            324 | Stylish Desk Decors, Co.           |                  3 |
+|            328 | Tekni Collectables Inc.            |                  3 |
+|            333 | Australian Gift Network, Co        |                  3 |
+|            334 | Suominen Souveniers                |                  3 |
+|            350 | Marseille Mini Autos               |                  3 |
+|            357 | GiftsForHim.com                    |                  3 |
+|            362 | Gifts4AllAges.com                  |                  3 |
+|            363 | Online Diecast Creations Co.       |                  3 |
+|            379 | Collectables For Less Inc.         |                  3 |
+|            385 | Cruz & Sons Co.                    |                  3 |
+|            386 | L'ordine Souveniers                |                  3 |
+|            406 | Auto Canal+ Petit                  |                  3 |
+|            412 | Extreme Desk Decorations, Ltd      |                  3 |
+|            424 | Classic Legends Inc.               |                  3 |
+|            447 | Gift Ideas Corp.                   |                  3 |
+|            448 | Scandinavian Gift Ideas            |                  3 |
+|            452 | Mini Auto Werke                    |                  3 |
+|            458 | Corrida Auto Replicas, Ltd         |                  3 |
+|            462 | FunGiftIdeas.com                   |                  3 |
+|            471 | Australian Collectables, Ltd       |                  3 |
+|            486 | Motor Mint Distributors Inc.       |                  3 |
+|            171 | Daedalus Designs Imports           |                  2 |
+|            173 | Cambridge Collectables Co.         |                  2 |
+|            177 | Osaka Souveniers Co.               |                  2 |
+|            189 | Clover Collections, Co.            |                  2 |
+|            202 | Canadian Gift Exchange Network     |                  2 |
+|            204 | Online Mini Collectables           |                  2 |
+|            211 | King Kong Collectables, Co.        |                  2 |
+|            219 | Boards & Toys Co.                  |                  2 |
+|            227 | Heintze Collectables               |                  2 |
+|            239 | Collectable Mini Designs Co.       |                  2 |
+|            240 | giftsbymail.co.uk                  |                  2 |
+|            249 | Amica Models & Co.                 |                  2 |
+|            256 | Auto Associés & Cie.               |                  2 |
+|            259 | Toms Spezialitäten, Ltd            |                  2 |
+|            260 | Royal Canadian Collectables, Ltd.  |                  2 |
+|            286 | Marta's Replicas Co.               |                  2 |
+|            298 | Vida Sport, Ltd                    |                  2 |
+|            299 | Norway Gifts By Mail, Co.          |                  2 |
+|            319 | Mini Classics                      |                  2 |
+|            339 | Classic Gift Ideas, Inc            |                  2 |
+|            344 | CAF Imports                        |                  2 |
+|            347 | Men 'R' US Retailers, Ltd.         |                  2 |
+|            455 | Super Scale Inc.                   |                  2 |
+|            456 | Microscale Inc.                    |                  2 |
+|            473 | Frau da Collezione                 |                  2 |
+|            475 | West Coast Collectables Co.        |                  2 |
+|            484 | Iberia Gift Imports, Corp.         |                  2 |
+|            487 | Signal Collectibles Ltd.           |                  2 |
+|            489 | Double Decker Gift Stores, Ltd     |                  2 |
+|            495 | Diecast Collectables               |                  2 |
+|            415 | Bavarian Collectables Imports, Co. |                  1 |
+|            125 | Havel & Zbyszek Co                 |                  0 |
+|            168 | American Souvenirs Inc             |                  0 |
+|            169 | Porto Imports Co.                  |                  0 |
+|            206 | Asian Shopping Network, Co         |                  0 |
+|            223 | Natürlich Autos                    |                  0 |
+|            237 | ANG Resellers                      |                  0 |
+|            247 | Messner Shopping Network           |                  0 |
+|            273 | Franken Gifts, Co                  |                  0 |
+|            293 | BG&E Collectables                  |                  0 |
+|            303 | Schuyler Imports                   |                  0 |
+|            307 | Der Hund Imports                   |                  0 |
+|            335 | Cramer Spezialitäten, Ltd          |                  0 |
+|            348 | Asian Treasures, Inc.              |                  0 |
+|            356 | SAR Distributors, Co               |                  0 |
+|            361 | Kommission Auto                    |                  0 |
+|            369 | NYC Souveniers, Inc                |                  0 |
+|            376 | Precious Collectables              |                  0 |
+|            409 | Paris Collectable Exchange         |                  0 |
+|            443 | Feuer Online Stores, Inc           |                  0 |
+|            459 | Warburg Exchange                   |                  0 |
+|            465 | Anton Designs, Ltd.                |                  0 |
+|            477 | Mit Vergnügen & Co.                |                  0 |
+|            480 | Kremlin Collectables, Co.          |                  0 |
+|            481 | Raanan Stores, Inc                 |                  0 |
++----------------+------------------------------------+--------------------+
+122 rows in set (0.00 sec)
+
+mysql> 
+mysql> -- Ejercicio 3
+mysql> select 
+    ->     customers.customernumber, 
+    ->     customername, 
+    ->     count(ordernumber)
+    -> from
+    ->     customers
+    -> inner join orders on 
+    ->     orders.customernumber = customers.customernumber
+    -> group by 1,2
+    -> order by 3 desc;
++----------------+------------------------------------+--------------------+
+| customernumber | customername                       | count(ordernumber) |
++----------------+------------------------------------+--------------------+
+|            141 | Euro+ Shopping Channel             |                 26 |
+|            124 | Mini Gifts Distributors Ltd.       |                 17 |
+|            114 | Australian Collectors, Co.         |                  5 |
+|            353 | Reims Collectables                 |                  5 |
+|            145 | Danish Wholesale Imports           |                  5 |
+|            148 | Dragon Souveniers, Ltd.            |                  5 |
+|            323 | Down Under Souveniers, Inc         |                  5 |
+|            381 | Royale Belge                       |                  4 |
+|            276 | Anna's Decorations, Ltd            |                  4 |
+|            119 | La Rochelle Gifts                  |                  4 |
+|            121 | Baane Mini Imports                 |                  4 |
+|            128 | Blauer See Auto, Co.               |                  4 |
+|            131 | Land of Toys Inc.                  |                  4 |
+|            144 | Volvo Model Replicas, Co           |                  4 |
+|            496 | Kelly's Gift Shop                  |                  4 |
+|            151 | Muscle Machine Inc                 |                  4 |
+|            157 | Diecast Classics Inc.              |                  4 |
+|            161 | Technics Stores Inc.               |                  4 |
+|            166 | Handji Gifts& Co                   |                  4 |
+|            450 | The Sharp Gifts Warehouse          |                  4 |
+|            282 | Souveniers And Things Co.          |                  4 |
+|            398 | Tokyo Collectables, Ltd            |                  4 |
+|            382 | Salzburg Collectables              |                  4 |
+|            321 | Corporate Gift Ideas Co.           |                  4 |
+|            103 | Atelier graphique                  |                  3 |
+|            112 | Signal Gift Stores                 |                  3 |
+|            129 | Mini Wheels Co.                    |                  3 |
+|            167 | Herkku Gifts                       |                  3 |
+|            448 | Scandinavian Gift Ideas            |                  3 |
+|            172 | La Corne D'abondance, Co.          |                  3 |
+|            452 | Mini Auto Werke                    |                  3 |
+|            175 | Gift Depot Inc.                    |                  3 |
+|            333 | Australian Gift Network, Co        |                  3 |
+|            181 | Vitachrome Inc.                    |                  3 |
+|            186 | Toys of Finland, Co.               |                  3 |
+|            187 | AV Stores, Co.                     |                  3 |
+|            458 | Corrida Auto Replicas, Ltd         |                  3 |
+|            198 | Auto-Moto Classics Inc.            |                  3 |
+|            201 | UK Collectables, Ltd.              |                  3 |
+|            462 | FunGiftIdeas.com                   |                  3 |
+|            471 | Australian Collectables, Ltd       |                  3 |
+|            205 | Toys4GrownUps.com                  |                  3 |
+|            209 | Mini Caravy                        |                  3 |
+|            486 | Motor Mint Distributors Inc.       |                  3 |
+|            216 | Enaco Distributors                 |                  3 |
+|            233 | Québec Home Shopping Network       |                  3 |
+|            242 | Alpha Cognac                       |                  3 |
+|            250 | Lyon Souveniers                    |                  3 |
+|            278 | Rovelli Gifts                      |                  3 |
+|            146 | Saveley & Henriot, Co.             |                  3 |
+|            311 | Oulu Toy Supplies, Inc.            |                  3 |
+|            314 | Petit Auto                         |                  3 |
+|            320 | Mini Creations Ltd.                |                  3 |
+|            324 | Stylish Desk Decors, Co.           |                  3 |
+|            328 | Tekni Collectables Inc.            |                  3 |
+|            334 | Suominen Souveniers                |                  3 |
+|            350 | Marseille Mini Autos               |                  3 |
+|            357 | GiftsForHim.com                    |                  3 |
+|            362 | Gifts4AllAges.com                  |                  3 |
+|            363 | Online Diecast Creations Co.       |                  3 |
+|            379 | Collectables For Less Inc.         |                  3 |
+|            385 | Cruz & Sons Co.                    |                  3 |
+|            386 | L'ordine Souveniers                |                  3 |
+|            406 | Auto Canal+ Petit                  |                  3 |
+|            412 | Extreme Desk Decorations, Ltd      |                  3 |
+|            424 | Classic Legends Inc.               |                  3 |
+|            447 | Gift Ideas Corp.                   |                  3 |
+|            171 | Daedalus Designs Imports           |                  2 |
+|            173 | Cambridge Collectables Co.         |                  2 |
+|            177 | Osaka Souveniers Co.               |                  2 |
+|            189 | Clover Collections, Co.            |                  2 |
+|            202 | Canadian Gift Exchange Network     |                  2 |
+|            204 | Online Mini Collectables           |                  2 |
+|            211 | King Kong Collectables, Co.        |                  2 |
+|            227 | Heintze Collectables               |                  2 |
+|            319 | Mini Classics                      |                  2 |
+|            239 | Collectable Mini Designs Co.       |                  2 |
+|            339 | Classic Gift Ideas, Inc            |                  2 |
+|            344 | CAF Imports                        |                  2 |
+|            347 | Men 'R' US Retailers, Ltd.         |                  2 |
+|            299 | Norway Gifts By Mail, Co.          |                  2 |
+|            256 | Auto Associés & Cie.               |                  2 |
+|            219 | Boards & Toys Co.                  |                  2 |
+|            260 | Royal Canadian Collectables, Ltd.  |                  2 |
+|            259 | Toms Spezialitäten, Ltd            |                  2 |
+|            456 | Microscale Inc.                    |                  2 |
+|            286 | Marta's Replicas Co.               |                  2 |
+|            298 | Vida Sport, Ltd                    |                  2 |
+|            249 | Amica Models & Co.                 |                  2 |
+|            473 | Frau da Collezione                 |                  2 |
+|            475 | West Coast Collectables Co.        |                  2 |
+|            484 | Iberia Gift Imports, Corp.         |                  2 |
+|            240 | giftsbymail.co.uk                  |                  2 |
+|            487 | Signal Collectibles Ltd.           |                  2 |
+|            489 | Double Decker Gift Stores, Ltd     |                  2 |
+|            495 | Diecast Collectables               |                  2 |
+|            455 | Super Scale Inc.                   |                  2 |
+|            415 | Bavarian Collectables Imports, Co. |                  1 |
++----------------+------------------------------------+--------------------+
+98 rows in set (0.00 sec)
+
+mysql> 
+mysql> -- Ejercicio 4
+mysql> select 
+    ->     c.customernumber, 
+    ->     customername, 
+    -> status,
+    ->     count(ordernumber)
+    -> from
+    ->     orders
+    -> right join customers c on 
+    ->     orders.customernumber = c.customernumber
+    -> group by 1,2,3
+    -> having count(ordernumber) > 4
+    -> order by 4 desc;
++----------------+------------------------------+---------+--------------------+
+| customernumber | customername                 | status  | count(ordernumber) |
++----------------+------------------------------+---------+--------------------+
+|            141 | Euro+ Shopping Channel       | Shipped |                 22 |
+|            124 | Mini Gifts Distributors Ltd. | Shipped |                 16 |
+|            114 | Australian Collectors, Co.   | Shipped |                  5 |
+|            148 | Dragon Souveniers, Ltd.      | Shipped |                  5 |
+|            323 | Down Under Souveniers, Inc   | Shipped |                  5 |
+|            353 | Reims Collectables           | Shipped |                  5 |
++----------------+------------------------------+---------+--------------------+
+6 rows in set (0.00 sec)
+
+mysql> 
+mysql> select 
+    ->     c.customernumber, 
+    ->     customername, 
+    -> status,
+    ->     count(ordernumber)
+    -> from
+    ->     orders
+    -> right join customers c on 
+    ->     orders.customernumber = c.customernumber
+    -> where c.customernumber = 124
+    -> group by 1,2,3
+    -> order by 4 desc;
++----------------+------------------------------+------------+--------------------+
+| customernumber | customername                 | status     | count(ordernumber) |
++----------------+------------------------------+------------+--------------------+
+|            124 | Mini Gifts Distributors Ltd. | Shipped    |                 16 |
+|            124 | Mini Gifts Distributors Ltd. | In Process |                  1 |
++----------------+------------------------------+------------+--------------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> -- Ejercicio 5
+mysql> select customernumber id, 
+    -> concat(contactfirstname,' ',contactlastname) nombre,
+    -> city ciudad
+    -> from customers
+    -> left join orders using (customernumber)
+    -> where ordernumber is null;
++-----+--------------------------+------------------+
+| id  | nombre                   | ciudad           |
++-----+--------------------------+------------------+
+| 125 | Zbyszek  Piestrzeniewicz | Warszawa         |
+| 168 | Keith Franco             | New Haven        |
+| 169 | Isabel  de Castro        | NYC              |
+| 206 | Brydey Walker            | Singapore        |
+| 223 | Horst  Kloss             | Cunewalde        |
+| 237 | Alejandra  Camino        | Madrid           |
+| 247 | Renate  Messner          | Frankfurt        |
+| 273 | Peter  Franken           | München          |
+| 293 | Ed Harrison              | Sydney           |
+| 303 | Bradley Schuyler         | Amsterdam        |
+| 307 | Mel Andersen             | Berlin           |
+| 335 | Philip  Cramer           | Brandenburg      |
+| 348 | Patricia  McKenna        | NYC              |
+| 356 | Armand Kuger             | Tokyo            |
+| 361 | Karin Josephs            | Münster          |
+| 369 | Lino  Rodriguez          | NYC              |
+| 376 | Braun Urs                | Tokyo            |
+| 409 | Rita  Müller             | Paris            |
+| 443 | Alexander  Feuer         | Leipzig          |
+| 459 | Sven  Ottlieb            | Aachen           |
+| 465 | Carmen Anton             | Madrid           |
+| 477 | Hanna  Moos              | Mannheim         |
+| 480 | Alexander  Semenov       | Saint Petersburg |
+| 481 | Raanan Altagar,G M       | NYC              |
++-----+--------------------------+------------------+
+24 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> create or replace view clientes_obj as 
+    -> select customernumber id, 
+    -> concat(contactfirstname,' ',contactlastname) nombre,
+    -> city ciudad
+    -> from customers
+    -> left join orders using (customernumber)
+    -> where ordernumber is null
+    -> ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> show tables;
++--------------------+
+| Tables_in_replicas |
++--------------------+
+| clientes_obj       |
+| customers          |
+| employees          |
+| offices            |
+| orderdetails       |
+| orders             |
+| payments           |
+| productlines       |
+| products           |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> show create view clientes_obj;
++--------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+| View         | Create View                                                                                                                                                                                                                                                                                                                                                                                                   | character_set_client | collation_connection |
++--------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+| clientes_obj | CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `clientes_obj` AS select `customers`.`customernumber` AS `id`,concat(`customers`.`contactfirstname`,' ',`customers`.`contactlastname`) AS `nombre`,`customers`.`city` AS `ciudad` from (`customers` left join `orders` on((`customers`.`customernumber` = `orders`.`customerNumber`))) where (`orders`.`orderNumber` is null) | utf8mb4              | utf8mb4_0900_ai_ci   |
++--------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> -- Ejercicio 6
+mysql> select distinct ciudad from clientes_obj order by 1;
++------------------+
+| ciudad           |
++------------------+
+| Aachen           |
+| Amsterdam        |
+| Berlin           |
+| Brandenburg      |
+| Cunewalde        |
+| Frankfurt        |
+| Leipzig          |
+| Madrid           |
+| Mannheim         |
+| München          |
+| Münster          |
+| New Haven        |
+| NYC              |
+| Paris            |
+| Saint Petersburg |
+| Singapore        |
+| Sydney           |
+| Tokyo            |
+| Warszawa         |
++------------------+
+19 rows in set (0.00 sec)
+
+mysql> 
+mysql> select distinct ciudad,officecode,addressline1 from clientes_obj
+    -> left join offices o on clientes_obj.ciudad = o.city;
++------------------+------------+--------------------------+
+| ciudad           | officecode | addressline1             |
++------------------+------------+--------------------------+
+| Warszawa         | NULL       | NULL                     |
+| New Haven        | NULL       | NULL                     |
+| NYC              | 3          | 523 East 53rd Street     |
+| Singapore        | NULL       | NULL                     |
+| Cunewalde        | NULL       | NULL                     |
+| Madrid           | NULL       | NULL                     |
+| Frankfurt        | NULL       | NULL                     |
+| München          | NULL       | NULL                     |
+| Sydney           | 6          | 5-11 Wentworth Avenue    |
+| Amsterdam        | NULL       | NULL                     |
+| Berlin           | NULL       | NULL                     |
+| Brandenburg      | NULL       | NULL                     |
+| Tokyo            | 5          | 4-1 Kioicho              |
+| Münster          | NULL       | NULL                     |
+| Paris            | 4          | 43 Rue Jouffroy D'abbans |
+| Leipzig          | NULL       | NULL                     |
+| Aachen           | NULL       | NULL                     |
+| Mannheim         | NULL       | NULL                     |
+| Saint Petersburg | NULL       | NULL                     |
++------------------+------------+--------------------------+
+19 rows in set (0.00 sec)
+
+mysql> 
+mysql> -- Ejercicio 7
+mysql> drop view clientes_obj;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_replicas |
++--------------------+
+| customers          |
+| employees          |
+| offices            |
+| orderdetails       |
+| orders             |
+| payments           |
+| productlines       |
+| products           |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> notee

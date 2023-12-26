@@ -1,0 +1,225 @@
+mysql> source F:\Pejcovich\BBDD\Semana 14\AY19_FUNCIONES\AY19_FUNCIONES.sql
++-----------------------------------------------------------------------------------------+
+| DEFINICION                                                                              |
++-----------------------------------------------------------------------------------------+
+| Las funciones son rutinas que reciben parametros, los procesan y regresan el resultado. |
++-----------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
++---------------------------------------------------------------------------------------------------+
+| FUNCIONES PREDEFINIDAS                                                                            |
++---------------------------------------------------------------------------------------------------+
+| Funciones como SUM(),MAX(),DAY(),MONTH(),CONCAT() son ejemplos de FUNCIONES predefinidas en MYSQL |
++---------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
++----------------------------------------------------------------------------------------------------------+
+| FUNCIONES DEFINIDAS POR EL USUARIO                                                                       |
++----------------------------------------------------------------------------------------------------------+
+| Tambien se pueden crear nuevas funciones como para comparar numeros, cadenas de texto, entre otras cosas |
++----------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
++-----------------------------------------------------------------------------------------------------------------------------------------+
+| DELIMITADOR                                                                                                                             |
++-----------------------------------------------------------------------------------------------------------------------------------------+
+| Para poder crear un funcion y que MYSQL no ejecute la consulta en automatico, es necesario cambiar el delimitador o enter de MYSQL, ";" |
++-----------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
++---------------------------------------------------------------------------------------+
+| CAMBIAR DELIMITADOR                                                                   |
++---------------------------------------------------------------------------------------+
+| Para cambiar el delimitador solo hay que escribir "DELIMITER [espacio] [CADENA NUEVA] |
++---------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
++---------------------------------------------------------------------------------------------------------------------------------+
+| Ejemplo01                                                                                                                       |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Cambiemos el delimitador, ";", por "$" --> DELIMITER $ <-- y consultemos las bases de datos existentes --> SHOW DATABASES; <--  |
++---------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
++----------------------------------------------------------------------------------------+
+| Ejemplo01                                                                              |
++----------------------------------------------------------------------------------------+
+| Como cambiamos el delimitador el ";" ya no funciona y ahora todo debe terminar con "$" |
++----------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
++--------------------------------------------------------+
+| Mandamos llamar a la func --> SELECT SUMA_2N(1,2); <-- |
++--------------------------------------------------------+
+|                                                      3 |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
++----------------------------------------------------------+
+| Mandamos llamar a la func --> SELECT SUMA_2N(-1,-2); <-- |
++----------------------------------------------------------+
+|                                                       -3 |
++----------------------------------------------------------+
+1 row in set (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
++---------------------+
+| hola_pers('Sofía')  |
++---------------------+
+| Hola Sofía          |
++---------------------+
+1 row in set (0.00 sec)
+
++------------------+
+| hola_pers('tú')  |
++------------------+
+| Hola tú          |
++------------------+
+1 row in set (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
++--------------------------------------------------+
+| pais_capi(country.name,city.name)                |
++--------------------------------------------------+
+| La capital de Aruba es Oranjestad                |
+| La capital de Afghanistan es Kabul               |
+| La capital de Angola es Luanda                   |
+| La capital de Anguilla es The Valley             |
+| La capital de Albania es Tirana                  |
+| La capital de Andorra es Andorra la Vella        |
+| La capital de Netherlands Antilles es Willemstad |
+| La capital de United Arab Emirates es Abu Dhabi  |
+| La capital de Argentina es Buenos Aires          |
+| La capital de Armenia es Yerevan                 |
++--------------------------------------------------+
+10 rows in set (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
++------------+----------------------+
+| open_date  | sem_fecha(open_date) |
++------------+----------------------+
+| 2000-01-15 |                    1 |
+| 2000-01-15 |                    1 |
+| 2004-06-30 |                    1 |
+| 2001-03-12 |                    1 |
+| 2001-03-12 |                    1 |
+| 2002-11-23 |                    2 |
+| 2002-12-15 |                    2 |
+| 2003-09-12 |                    2 |
+| 2000-01-15 |                    1 |
+| 2004-09-30 |                    2 |
++------------+----------------------+
+10 rows in set (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
++------------+----------------------+
+| open_date  | tri_fecha(open_date) |
++------------+----------------------+
+| 2000-01-15 |                    1 |
+| 2000-01-15 |                    1 |
+| 2004-06-30 |                    2 |
+| 2001-03-12 |                    1 |
+| 2001-03-12 |                    1 |
+| 2002-11-23 |                    4 |
+| 2002-12-15 |                    4 |
+| 2003-09-12 |                    3 |
+| 2000-01-15 |                    1 |
+| 2004-09-30 |                    3 |
++------------+----------------------+
+10 rows in set (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
++---------------+
+| factorial(-1) |
++---------------+
+|             0 |
++---------------+
+1 row in set (0.00 sec)
+
++--------------+
+| factorial(5) |
++--------------+
+|          120 |
++--------------+
+1 row in set (0.00 sec)
+
++--------------+
+| factorial(3) |
++--------------+
+|            6 |
++--------------+
+1 row in set (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
++------------------+
+| voltea('Sofía')  |
++------------------+
+| aífoS            |
++------------------+
+1 row in set (0.00 sec)
+
++------------------------+------------------------+
+| titulo                 | voltea(titulo)         |
++------------------------+------------------------+
+|  Eclipse               |  espilcE               |
+| :( EP                  | PE (:                  |
+| ...And Justice for All | llA rof ecitsuJ dnA... |
+| 21                     | 12                     |
+| 21st Century Breakdown | nwodkaerB yrutneC ts12 |
+| 24K Magic              | cigaM K42              |
+| 5to piso               | osip ot5               |
+| A 18' del sol          | los led '81 A          |
+| A Funk Odyssey         | yessydO knuF A         |
+| A hard day's night     | thgin s'yad drah A     |
++------------------------+------------------------+
+10 rows in set (0.00 sec)
+
+Database changed
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
++----------------+
+| mini_gauss(50) |
++----------------+
+|           1275 |
++----------------+
+1 row in set (0.00 sec)
+
++-----------+
+| (50*51)/2 |
++-----------+
+| 1275.0000 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> notee

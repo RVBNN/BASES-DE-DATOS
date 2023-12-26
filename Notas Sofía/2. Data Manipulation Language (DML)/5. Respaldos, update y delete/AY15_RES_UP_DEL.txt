@@ -1,0 +1,471 @@
+mysql> /* Cambiamos el prompt  */
+mysql> prompt [\d]->
+PROMPT set to '[\d]->'
+[super]->
+[super]->/* Ejercicio 1 - base super */
+[super]->use super
+Database changed
+[super]->show tables;
++-----------------+
+| Tables_in_super |
++-----------------+
+| compras         |
++-----------------+
+1 row in set (0.00 sec)
+
+[super]->
+[super]->-- 1
+[super]->drop table if exists compras_hoy;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+[super]->create table if not exists compras_hoy like compras;
+Query OK, 0 rows affected (0.06 sec)
+
+[super]->
+[super]->desc compras;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| id_ticket | int unsigned | NO   |     | NULL    |       |
+| fecha     | date         | NO   |     | NULL    |       |
+| articulo  | varchar(50)  | NO   |     | NULL    |       |
+| precio    | double       | NO   |     | NULL    |       |
+| unidad    | varchar(10)  | NO   |     | NULL    |       |
+| cantidad  | double       | NO   |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+[super]->desc compras_hoy;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| id_ticket | int unsigned | NO   |     | NULL    |       |
+| fecha     | date         | NO   |     | NULL    |       |
+| articulo  | varchar(50)  | NO   |     | NULL    |       |
+| precio    | double       | NO   |     | NULL    |       |
+| unidad    | varchar(10)  | NO   |     | NULL    |       |
+| cantidad  | double       | NO   |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+[super]->
+[super]->-- 2
+[super]->insert compras_hoy select * from compras where unidad = 'kg';
+Query OK, 1911 rows affected (0.22 sec)
+Records: 1911  Duplicates: 0  Warnings: 0
+
+[super]->select count(*) from compras_hoy;
++----------+
+| count(*) |
++----------+
+|     1911 |
++----------+
+1 row in set (0.01 sec)
+
+[super]->
+[super]->-- 3
+[super]->select format(count(*),0) as registros,round(avg(precio),2) as precio_prom from compras;
++-----------+-------------+
+| registros | precio_prom |
++-----------+-------------+
+| 12,192    |       66.65 |
++-----------+-------------+
+1 row in set (0.03 sec)
+
+[super]->select format(count(*),0) as registros,round(avg(precio),2) as precio_prom from compras_hoy;
++-----------+-------------+
+| registros | precio_prom |
++-----------+-------------+
+| 1,911     |      122.09 |
++-----------+-------------+
+1 row in set (0.00 sec)
+
+[super]->
+[super]->select format(count(*),0) as registros1,round(avg(precio),2) as precio_prom1,
+    -> (select format(count(*),0) from compras_hoy) as registros2,
+    -> (select round(avg(precio),2) from compras_hoy) as precio_prom2
+    -> from compras;
++------------+--------------+------------+--------------+
+| registros1 | precio_prom1 | registros2 | precio_prom2 |
++------------+--------------+------------+--------------+
+| 12,192     |        66.65 | 1,911      |       122.09 |
++------------+--------------+------------+--------------+
+1 row in set (0.02 sec)
+
+[super]->
+[super]->select 'compras' as tabla,format(count(*),0) as registros,round(avg(precio),2) as precio_prom from compras
+    -> UNION
+    -> select 'compras_hoy' as tabla, format(count(*),0) as registros,round(avg(precio),2) as precio_prom from compras_hoy;
++-------------+-----------+-------------+
+| tabla       | registros | precio_prom |
++-------------+-----------+-------------+
+| compras     | 12,192    |       66.65 |
+| compras_hoy | 1,911     |      122.09 |
++-------------+-----------+-------------+
+2 rows in set (0.01 sec)
+
+[super]->
+[super]->-- 4
+[super]->drop table if exists compras_copia;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+[super]->create table if not exists compras_copia AS select * from compras_hoy;
+Query OK, 1911 rows affected (0.14 sec)
+Records: 1911  Duplicates: 0  Warnings: 0
+
+[super]->show tables;
++-----------------+
+| Tables_in_super |
++-----------------+
+| compras         |
+| compras_copia   |
+| compras_hoy     |
++-----------------+
+3 rows in set (0.00 sec)
+
+[super]->
+[super]->-- 5
+[super]->update compras_copia set fecha = '2022-11-03';
+Query OK, 1911 rows affected (0.06 sec)
+Rows matched: 1911  Changed: 1911  Warnings: 0
+
+[super]->select fecha from compras_copia limit 5;
++------------+
+| fecha      |
++------------+
+| 2022-11-03 |
+| 2022-11-03 |
+| 2022-11-03 |
+| 2022-11-03 |
+| 2022-11-03 |
++------------+
+5 rows in set (0.00 sec)
+
+[super]->
+[super]->-- 6
+[super]->select distinct articulo from compras_copia where articulo like 'C%';
++--------------+
+| articulo     |
++--------------+
+| cerdo        |
+| carne        |
+| carne molida |
+| cebollas     |
++--------------+
+4 rows in set (0.00 sec)
+
+[super]->update compras_copia set cantidad = 1.5 where articulo like 'C%';
+Query OK, 356 rows affected (0.02 sec)
+Rows matched: 356  Changed: 356  Warnings: 0
+
+[super]->
+[super]->-- 7
+[super]->alter table compras_copia add total_kg decimal(10,5) default 0 after articulo;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[super]->
+[super]->update compras_copia set total_kg = round(cantidad * precio,2);
+Query OK, 1908 rows affected (0.16 sec)
+Rows matched: 1911  Changed: 1908  Warnings: 0
+
+[super]->select * from compras_copia limit 5;
++-----------+------------+-------------------+-----------+--------+--------+----------+
+| id_ticket | fecha      | articulo          | total_kg  | precio | unidad | cantidad |
++-----------+------------+-------------------+-----------+--------+--------+----------+
+|      1778 | 2022-11-03 | pasta de hojaldre |  87.30000 |     90 | kg     |     0.97 |
+|      4162 | 2022-11-03 | uvas              |  96.39000 |    119 | kg     |     0.81 |
+|      3937 | 2022-11-03 | jamon             |  13.44000 |    168 | kg     |     0.08 |
+|      1917 | 2022-11-03 | nueces            | 133.80000 |    446 | kg     |      0.3 |
+|      3265 | 2022-11-03 | nueces            | 361.26000 |    446 | kg     |     0.81 |
++-----------+------------+-------------------+-----------+--------+--------+----------+
+5 rows in set (0.00 sec)
+
+[super]->select * from compras_copia where total_kg = 0;
++-----------+------------+----------------+----------+--------+--------+----------+
+| id_ticket | fecha      | articulo       | total_kg | precio | unidad | cantidad |
++-----------+------------+----------------+----------+--------+--------+----------+
+|      3124 | 2022-11-03 | otras verduras |  0.00000 |      8 | kg     |        0 |
+|      3638 | 2022-11-03 | mango          |  0.00000 |     20 | kg     |        0 |
+|      3321 | 2022-11-03 | pescado        |  0.00000 |    129 | kg     |        0 |
++-----------+------------+----------------+----------+--------+--------+----------+
+3 rows in set (0.01 sec)
+
+[super]->
+[super]->-- 8
+[super]->select distinct articulo from compras_copia where articulo like '% % %';
++-------------------+
+| articulo          |
++-------------------+
+| pasta de hojaldre |
+| jamon de pierna   |
++-------------------+
+2 rows in set (0.01 sec)
+
+[super]->select * from compras_copia where total_kg < 15 limit 5;
++-----------+------------+----------------+----------+--------+--------+----------+
+| id_ticket | fecha      | articulo       | total_kg | precio | unidad | cantidad |
++-----------+------------+----------------+----------+--------+--------+----------+
+|      3937 | 2022-11-03 | jamon          | 13.44000 |    168 | kg     |     0.08 |
+|      2226 | 2022-11-03 | otras verduras |  5.04000 |      8 | kg     |     0.63 |
+|      1173 | 2022-11-03 | huevos         | 14.70000 |     42 | kg     |     0.35 |
+|      3462 | 2022-11-03 | otras verduras |  6.56000 |      8 | kg     |     0.82 |
+|      4240 | 2022-11-03 | mango          | 13.00000 |     20 | kg     |     0.65 |
++-----------+------------+----------------+----------+--------+--------+----------+
+5 rows in set (0.00 sec)
+
+[super]->
+[super]->delete from compras_copia where articulo like '% % %' or total_kg < 15;
+Query OK, 666 rows affected (0.04 sec)
+
+[super]->select count(*) 'avance' from compras_copia;
++--------+
+| avance |
++--------+
+|   1245 |
++--------+
+1 row in set (0.00 sec)
+
+[super]->
+[super]->-- 9
+[super]->select * from compras_copia where articulo like '%mango%';
++-----------+------------+----------+----------+--------+--------+----------+
+| id_ticket | fecha      | articulo | total_kg | precio | unidad | cantidad |
++-----------+------------+----------+----------+--------+--------+----------+
+|      3527 | 2022-11-03 | mango    | 17.40000 |     20 | kg     |     0.87 |
+|      2353 | 2022-11-03 | mango    | 17.40000 |     20 | kg     |     0.87 |
+|      4428 | 2022-11-03 | mango    | 16.40000 |     20 | kg     |     0.82 |
+|      1419 | 2022-11-03 | mango    | 17.40000 |     20 | kg     |     0.87 |
+|      2492 | 2022-11-03 | mango    | 17.20000 |     20 | kg     |     0.86 |
+|      3980 | 2022-11-03 | mango    | 17.20000 |     20 | kg     |     0.86 |
+|      1304 | 2022-11-03 | mango    | 15.60000 |     20 | kg     |     0.78 |
+|      1539 | 2022-11-03 | mango    | 15.60000 |     20 | kg     |     0.78 |
+|      2564 | 2022-11-03 | mango    | 18.40000 |     20 | kg     |     0.92 |
+|      3098 | 2022-11-03 | mango    | 15.80000 |     20 | kg     |     0.79 |
+|      4596 | 2022-11-03 | mango    | 16.20000 |     20 | kg     |     0.81 |
+|      3393 | 2022-11-03 | mango    | 17.40000 |     20 | kg     |     0.87 |
+|      1017 | 2022-11-03 | mango    | 17.40000 |     20 | kg     |     0.87 |
+|      3735 | 2022-11-03 | mango    | 19.40000 |     20 | kg     |     0.97 |
+|      2598 | 2022-11-03 | mango    | 15.00000 |     20 | kg     |     0.75 |
+|      4077 | 2022-11-03 | mango    | 15.00000 |     20 | kg     |     0.75 |
+|      1875 | 2022-11-03 | mango    | 15.20000 |     20 | kg     |     0.76 |
+|      1946 | 2022-11-03 | mango    | 15.20000 |     20 | kg     |     0.76 |
+|      3408 | 2022-11-03 | mango    | 17.20000 |     20 | kg     |     0.86 |
+|      1297 | 2022-11-03 | mango    | 16.40000 |     20 | kg     |     0.82 |
+|      4519 | 2022-11-03 | mango    | 18.80000 |     20 | kg     |     0.94 |
+|      1660 | 2022-11-03 | mango    | 17.60000 |     20 | kg     |     0.88 |
+|      1914 | 2022-11-03 | mango    | 18.60000 |     20 | kg     |     0.93 |
+|      4029 | 2022-11-03 | mango    | 18.20000 |     20 | kg     |     0.91 |
++-----------+------------+----------+----------+--------+--------+----------+
+24 rows in set (0.00 sec)
+
+[super]->update compras_copia set precio =  (1-.18)*precio where articulo like '%mango%';
+Query OK, 24 rows affected (0.01 sec)
+Rows matched: 24  Changed: 24  Warnings: 0
+
+[super]->select * from compras_copia where articulo like '%mango%';
++-----------+------------+----------+----------+--------+--------+----------+
+| id_ticket | fecha      | articulo | total_kg | precio | unidad | cantidad |
++-----------+------------+----------+----------+--------+--------+----------+
+|      3527 | 2022-11-03 | mango    | 17.40000 |   16.4 | kg     |     0.87 |
+|      2353 | 2022-11-03 | mango    | 17.40000 |   16.4 | kg     |     0.87 |
+|      4428 | 2022-11-03 | mango    | 16.40000 |   16.4 | kg     |     0.82 |
+|      1419 | 2022-11-03 | mango    | 17.40000 |   16.4 | kg     |     0.87 |
+|      2492 | 2022-11-03 | mango    | 17.20000 |   16.4 | kg     |     0.86 |
+|      3980 | 2022-11-03 | mango    | 17.20000 |   16.4 | kg     |     0.86 |
+|      1304 | 2022-11-03 | mango    | 15.60000 |   16.4 | kg     |     0.78 |
+|      1539 | 2022-11-03 | mango    | 15.60000 |   16.4 | kg     |     0.78 |
+|      2564 | 2022-11-03 | mango    | 18.40000 |   16.4 | kg     |     0.92 |
+|      3098 | 2022-11-03 | mango    | 15.80000 |   16.4 | kg     |     0.79 |
+|      4596 | 2022-11-03 | mango    | 16.20000 |   16.4 | kg     |     0.81 |
+|      3393 | 2022-11-03 | mango    | 17.40000 |   16.4 | kg     |     0.87 |
+|      1017 | 2022-11-03 | mango    | 17.40000 |   16.4 | kg     |     0.87 |
+|      3735 | 2022-11-03 | mango    | 19.40000 |   16.4 | kg     |     0.97 |
+|      2598 | 2022-11-03 | mango    | 15.00000 |   16.4 | kg     |     0.75 |
+|      4077 | 2022-11-03 | mango    | 15.00000 |   16.4 | kg     |     0.75 |
+|      1875 | 2022-11-03 | mango    | 15.20000 |   16.4 | kg     |     0.76 |
+|      1946 | 2022-11-03 | mango    | 15.20000 |   16.4 | kg     |     0.76 |
+|      3408 | 2022-11-03 | mango    | 17.20000 |   16.4 | kg     |     0.86 |
+|      1297 | 2022-11-03 | mango    | 16.40000 |   16.4 | kg     |     0.82 |
+|      4519 | 2022-11-03 | mango    | 18.80000 |   16.4 | kg     |     0.94 |
+|      1660 | 2022-11-03 | mango    | 17.60000 |   16.4 | kg     |     0.88 |
+|      1914 | 2022-11-03 | mango    | 18.60000 |   16.4 | kg     |     0.93 |
+|      4029 | 2022-11-03 | mango    | 18.20000 |   16.4 | kg     |     0.91 |
++-----------+------------+----------+----------+--------+--------+----------+
+24 rows in set (0.00 sec)
+
+[super]->
+[super]->select *,round(cantidad*precio,2) as total_bien
+    -> from compras_copia 
+    -> where articulo like '%mango%';
++-----------+------------+----------+----------+--------+--------+----------+------------+
+| id_ticket | fecha      | articulo | total_kg | precio | unidad | cantidad | total_bien |
++-----------+------------+----------+----------+--------+--------+----------+------------+
+|      3527 | 2022-11-03 | mango    | 17.40000 |   16.4 | kg     |     0.87 |      14.27 |
+|      2353 | 2022-11-03 | mango    | 17.40000 |   16.4 | kg     |     0.87 |      14.27 |
+|      4428 | 2022-11-03 | mango    | 16.40000 |   16.4 | kg     |     0.82 |      13.45 |
+|      1419 | 2022-11-03 | mango    | 17.40000 |   16.4 | kg     |     0.87 |      14.27 |
+|      2492 | 2022-11-03 | mango    | 17.20000 |   16.4 | kg     |     0.86 |       14.1 |
+|      3980 | 2022-11-03 | mango    | 17.20000 |   16.4 | kg     |     0.86 |       14.1 |
+|      1304 | 2022-11-03 | mango    | 15.60000 |   16.4 | kg     |     0.78 |      12.79 |
+|      1539 | 2022-11-03 | mango    | 15.60000 |   16.4 | kg     |     0.78 |      12.79 |
+|      2564 | 2022-11-03 | mango    | 18.40000 |   16.4 | kg     |     0.92 |      15.09 |
+|      3098 | 2022-11-03 | mango    | 15.80000 |   16.4 | kg     |     0.79 |      12.96 |
+|      4596 | 2022-11-03 | mango    | 16.20000 |   16.4 | kg     |     0.81 |      13.28 |
+|      3393 | 2022-11-03 | mango    | 17.40000 |   16.4 | kg     |     0.87 |      14.27 |
+|      1017 | 2022-11-03 | mango    | 17.40000 |   16.4 | kg     |     0.87 |      14.27 |
+|      3735 | 2022-11-03 | mango    | 19.40000 |   16.4 | kg     |     0.97 |      15.91 |
+|      2598 | 2022-11-03 | mango    | 15.00000 |   16.4 | kg     |     0.75 |       12.3 |
+|      4077 | 2022-11-03 | mango    | 15.00000 |   16.4 | kg     |     0.75 |       12.3 |
+|      1875 | 2022-11-03 | mango    | 15.20000 |   16.4 | kg     |     0.76 |      12.46 |
+|      1946 | 2022-11-03 | mango    | 15.20000 |   16.4 | kg     |     0.76 |      12.46 |
+|      3408 | 2022-11-03 | mango    | 17.20000 |   16.4 | kg     |     0.86 |       14.1 |
+|      1297 | 2022-11-03 | mango    | 16.40000 |   16.4 | kg     |     0.82 |      13.45 |
+|      4519 | 2022-11-03 | mango    | 18.80000 |   16.4 | kg     |     0.94 |      15.42 |
+|      1660 | 2022-11-03 | mango    | 17.60000 |   16.4 | kg     |     0.88 |      14.43 |
+|      1914 | 2022-11-03 | mango    | 18.60000 |   16.4 | kg     |     0.93 |      15.25 |
+|      4029 | 2022-11-03 | mango    | 18.20000 |   16.4 | kg     |     0.91 |      14.92 |
++-----------+------------+----------+----------+--------+--------+----------+------------+
+24 rows in set (0.00 sec)
+
+[super]->
+[super]->-- 10
+[super]->select * from compras_copia limit 5;
++-----------+------------+----------+-----------+--------+--------+----------+
+| id_ticket | fecha      | articulo | total_kg  | precio | unidad | cantidad |
++-----------+------------+----------+-----------+--------+--------+----------+
+|      4162 | 2022-11-03 | uvas     |  96.39000 |    119 | kg     |     0.81 |
+|      1917 | 2022-11-03 | nueces   | 133.80000 |    446 | kg     |      0.3 |
+|      3265 | 2022-11-03 | nueces   | 361.26000 |    446 | kg     |     0.81 |
+|      1013 | 2022-11-03 | pollo    |  44.52000 |    106 | kg     |     0.42 |
+|      4610 | 2022-11-03 | platano  |  24.90000 |   24.9 | kg     |        1 |
++-----------+------------+----------+-----------+--------+--------+----------+
+5 rows in set (0.00 sec)
+
+[super]->update compras_copia set 
+    -> unidad = 'gr',
+    -> precio = precio / 1000,
+    -> cantidad = cantidad * 1000;
+Query OK, 1245 rows affected (0.03 sec)
+Rows matched: 1245  Changed: 1245  Warnings: 0
+
+[super]->select * from compras_copia limit 5;
++-----------+------------+----------+-----------+--------+--------+----------+
+| id_ticket | fecha      | articulo | total_kg  | precio | unidad | cantidad |
++-----------+------------+----------+-----------+--------+--------+----------+
+|      4162 | 2022-11-03 | uvas     |  96.39000 |  0.119 | gr     |      810 |
+|      1917 | 2022-11-03 | nueces   | 133.80000 |  0.446 | gr     |      300 |
+|      3265 | 2022-11-03 | nueces   | 361.26000 |  0.446 | gr     |      810 |
+|      1013 | 2022-11-03 | pollo    |  44.52000 |  0.106 | gr     |      420 |
+|      4610 | 2022-11-03 | platano  |  24.90000 | 0.0249 | gr     |     1000 |
++-----------+------------+----------+-----------+--------+--------+----------+
+5 rows in set (0.00 sec)
+
+[super]->
+[super]->-- 11
+[super]->alter table compras_copia change total_kg total decimal(10,2) default 0 after articulo;
+Query OK, 1245 rows affected (0.15 sec)
+Records: 1245  Duplicates: 0  Warnings: 0
+
+[super]->desc compras_copia;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| id_ticket | int unsigned  | NO   |     | NULL    |       |
+| fecha     | date          | NO   |     | NULL    |       |
+| articulo  | varchar(50)   | NO   |     | NULL    |       |
+| total     | decimal(10,2) | YES  |     | 0.00    |       |
+| precio    | double        | NO   |     | NULL    |       |
+| unidad    | varchar(10)   | NO   |     | NULL    |       |
+| cantidad  | double        | NO   |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+[super]->select * from compras_copia limit 5;
++-----------+------------+----------+--------+--------+--------+----------+
+| id_ticket | fecha      | articulo | total  | precio | unidad | cantidad |
++-----------+------------+----------+--------+--------+--------+----------+
+|      4162 | 2022-11-03 | uvas     |  96.39 |  0.119 | gr     |      810 |
+|      1917 | 2022-11-03 | nueces   | 133.80 |  0.446 | gr     |      300 |
+|      3265 | 2022-11-03 | nueces   | 361.26 |  0.446 | gr     |      810 |
+|      1013 | 2022-11-03 | pollo    |  44.52 |  0.106 | gr     |      420 |
+|      4610 | 2022-11-03 | platano  |  24.90 | 0.0249 | gr     |     1000 |
++-----------+------------+----------+--------+--------+--------+----------+
+5 rows in set (0.00 sec)
+
+[super]->
+[super]->
+[super]->-- 12
+[super]->alter table compras_copia add clase char(2) default '00';
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[super]->desc compras_copia;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| id_ticket | int unsigned  | NO   |     | NULL    |       |
+| fecha     | date          | NO   |     | NULL    |       |
+| articulo  | varchar(50)   | NO   |     | NULL    |       |
+| total     | decimal(10,2) | YES  |     | 0.00    |       |
+| precio    | double        | NO   |     | NULL    |       |
+| unidad    | varchar(10)   | NO   |     | NULL    |       |
+| cantidad  | double        | NO   |     | NULL    |       |
+| clase     | char(2)       | YES  |     | 00      |       |
++-----------+---------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+[super]->select * from compras_copia limit 4;
++-----------+------------+----------+--------+--------+--------+----------+-------+
+| id_ticket | fecha      | articulo | total  | precio | unidad | cantidad | clase |
++-----------+------------+----------+--------+--------+--------+----------+-------+
+|      4162 | 2022-11-03 | uvas     |  96.39 |  0.119 | gr     |      810 | 00    |
+|      1917 | 2022-11-03 | nueces   | 133.80 |  0.446 | gr     |      300 | 00    |
+|      3265 | 2022-11-03 | nueces   | 361.26 |  0.446 | gr     |      810 | 00    |
+|      1013 | 2022-11-03 | pollo    |  44.52 |  0.106 | gr     |      420 | 00    |
++-----------+------------+----------+--------+--------+--------+----------+-------+
+4 rows in set (0.00 sec)
+
+[super]->
+[super]->update compras_copia
+    -> set clase = case
+    -> when total <= 115 then '01'
+    -> when total > 115 then '02'
+    -> else 'NA'
+    -> end;
+Query OK, 1245 rows affected (0.07 sec)
+Rows matched: 1245  Changed: 1245  Warnings: 0
+
+[super]->
+[super]->select * from compras_copia limit 5;
++-----------+------------+----------+--------+--------+--------+----------+-------+
+| id_ticket | fecha      | articulo | total  | precio | unidad | cantidad | clase |
++-----------+------------+----------+--------+--------+--------+----------+-------+
+|      4162 | 2022-11-03 | uvas     |  96.39 |  0.119 | gr     |      810 | 01    |
+|      1917 | 2022-11-03 | nueces   | 133.80 |  0.446 | gr     |      300 | 02    |
+|      3265 | 2022-11-03 | nueces   | 361.26 |  0.446 | gr     |      810 | 02    |
+|      1013 | 2022-11-03 | pollo    |  44.52 |  0.106 | gr     |      420 | 01    |
+|      4610 | 2022-11-03 | platano  |  24.90 | 0.0249 | gr     |     1000 | 01    |
++-----------+------------+----------+--------+--------+--------+----------+-------+
+5 rows in set (0.00 sec)
+
+[super]->select * from compras_copia where clase = 'NA';
+Empty set (0.00 sec)
+
+[super]->
+[super]->-- 13
+[super]->select 
+    -> clase,
+    -> count(*) as registros,
+    -> count(distinct articulo) as art_distintos,
+    -> max(total) as max_total
+    -> from compras_copia group by clase;
++-------+-----------+---------------+-----------+
+| clase | registros | art_distintos | max_total |
++-------+-----------+---------------+-----------+
+| 01    |       789 |            14 |    114.81 |
+| 02    |       456 |            10 |    441.54 |
++-------+-----------+---------------+-----------+
+2 rows in set (0.00 sec)
+
+[super]->notee

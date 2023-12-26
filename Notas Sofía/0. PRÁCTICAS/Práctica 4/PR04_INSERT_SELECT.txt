@@ -1,0 +1,358 @@
+mysql> /* ---------------------------------------------------------------- */
+mysql> /* PARTE 1 - INSERT*/
+mysql> /* ---------------------------------------------------------------- */
+mysql> 
+mysql> 
+mysql> /* 1. Cambiar el prompt  */
+mysql> prompt \c [\R:\m]-[\d]->
+PROMPT set to '\c [\R:\m]-[\d]->'
+1 [01:05]-[(none)]->
+2 [01:05]-[(none)]->/* 2. Crear una base de datos llamada pr04_eqNN */
+3 [01:05]-[(none)]->
+4 [01:05]-[(none)]->drop database if exists pr04_eq00;
+Query OK, 5 rows affected (0.14 sec)
+
+5 [01:05]-[(none)]->create database if not exists pr04_eq00;
+Query OK, 1 row affected (0.01 sec)
+
+6 [01:05]-[(none)]->
+7 [01:05]-[(none)]->/* 3. Crear todas las tablas del siguiente diagrama */
+8 [01:05]-[(none)]->
+9 [01:05]-[(none)]->use pr04_eq00
+Database changed
+10 [01:05]-[pr04_eq00]->
+11 [01:05]-[pr04_eq00]->-- Creamos las tablas padres primero 
+12 [01:05]-[pr04_eq00]->-- Se crea la tabla vendedor
+13 [01:05]-[pr04_eq00]->create table if not exists vendedor(
+    -> num_vendedor smallint unsigned not null auto_increment primary key,
+    -> nombre varchar(30) unique
+    -> );
+Query OK, 0 rows affected (0.10 sec)
+
+14 [01:05]-[pr04_eq00]->
+15 [01:05]-[pr04_eq00]->-- Se crea la tabla tienda
+16 [01:05]-[pr04_eq00]->create table if not exists tienda(
+    ->   num_tienda int unsigned not null auto_increment primary key,
+    ->   nombre varchar(50),
+    ->   direccion varchar(100)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+17 [01:05]-[pr04_eq00]->
+18 [01:05]-[pr04_eq00]->-- Se crea la tabla producto
+19 [01:05]-[pr04_eq00]->create table if not exists producto(
+    ->   cod_prod int unsigned not null auto_increment primary key,
+    ->   precio decimal(6,2),
+    ->   tipo varchar(30),
+    ->   marca varchar(20)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+20 [01:05]-[pr04_eq00]->
+21 [01:05]-[pr04_eq00]->
+22 [01:05]-[pr04_eq00]->-- Se crean las tablas dependientes (hijas)
+23 [01:05]-[pr04_eq00]->-- Se crea la tabla Ventas que depende de Cliente, tienda y vendedor
+24 [01:05]-[pr04_eq00]->create table if not exists ventas(
+    ->   num_venta int unsigned not null auto_increment primary key,
+    ->   id_cliente int unsigned not null,
+    ->   id_vendedor smallint unsigned not null,
+    ->   id_tienda int unsigned not null,
+    ->   fecha_compra timestamp,
+    ->   total decimal(8,2),
+    ->   foreign key(id_tienda) references tienda(num_tienda),
+    ->   foreign key(id_vendedor) references vendedor(num_vendedor)
+    -> );
+Query OK, 0 rows affected (0.12 sec)
+
+25 [01:05]-[pr04_eq00]->
+26 [01:05]-[pr04_eq00]->-- se crea la tabla detalle ventas que depende de producto y ventas
+27 [01:05]-[pr04_eq00]->create table if not exists detalle_ventas(
+    ->   cod_prod int unsigned not null,
+    ->   id_venta int unsigned not null,
+    ->   cantidad smallint,
+    ->   unique(cod_prod,id_venta),
+    ->   foreign key(cod_prod) references producto(cod_prod),
+    ->   foreign key(id_venta) references ventas(num_venta)  
+    -> );
+Query OK, 0 rows affected (0.10 sec)
+
+28 [01:05]-[pr04_eq00]->
+29 [01:05]-[pr04_eq00]->show tables;
++---------------------+
+| Tables_in_pr04_eq00 |
++---------------------+
+| detalle_ventas      |
+| producto            |
+| tienda              |
+| vendedor            |
+| ventas              |
++---------------------+
+5 rows in set (0.00 sec)
+
+30 [01:05]-[pr04_eq00]->
+31 [01:05]-[pr04_eq00]->/* 4. Insertar 5 registros en cada tabla creada  */
+32 [01:05]-[pr04_eq00]->
+33 [01:05]-[pr04_eq00]->insert into vendedor values
+    -> (null,'Marisol'),
+    -> (null,'Sofia'),
+    -> (null,'Messi'),
+    -> (null,'Jonas'),
+    -> (null,'Vendedor fantasma');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+34 [01:05]-[pr04_eq00]->
+35 [01:05]-[pr04_eq00]->insert into tienda(nombre,direccion) values
+    -> ('tienda1','direccion1'),
+    -> ('tienda2','direccion2'),
+    -> ('tienda3','direccion3'),
+    -> ('tienda4','direccion4'),
+    -> ('tienda5','direccion5');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+36 [01:05]-[pr04_eq00]->
+37 [01:05]-[pr04_eq00]->insert into producto(precio,tipo,marca) values
+    -> (1.5,'small','mi marca'),
+    -> (2000.01, null, null),
+    -> (5, null, null),
+    -> (333.2, 'big', 'not mi marca'),
+    -> (0, 'none', 'pendiente');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+38 [01:05]-[pr04_eq00]->
+39 [01:05]-[pr04_eq00]->insert into ventas values
+    -> (5000,800,1,1,'2022-10-31',2001.51),
+    -> (5001,800,2,3,'1999-01-01 12:05',671.4),
+    -> (5002,800,2,2,'2022-10-31 14:05:26',null),
+    -> (5003,800,4,1,'2022-10-31 18:45:01',null),
+    -> (5004,800,4,4,'2022-10-30',null);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+40 [01:05]-[pr04_eq00]->
+41 [01:05]-[pr04_eq00]->insert into detalle_ventas values
+    -> (1,5000,1),
+    -> (2,5000,1),
+    -> (3,5001,1),
+    -> (4,5001,2),
+    -> (5,5004,null);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+42 [01:05]-[pr04_eq00]->
+43 [01:05]-[pr04_eq00]->
+44 [01:05]-[pr04_eq00]->/* 5. Mostrar contenido de las tablas ordenando por su llave primaria */
+45 [01:05]-[pr04_eq00]->
+46 [01:05]-[pr04_eq00]->select * from vendedor order by num_vendedor;
++--------------+-------------------+
+| num_vendedor | nombre            |
++--------------+-------------------+
+|            1 | Marisol           |
+|            2 | Sofia             |
+|            3 | Messi             |
+|            4 | Jonas             |
+|            5 | Vendedor fantasma |
++--------------+-------------------+
+5 rows in set (0.00 sec)
+
+47 [01:05]-[pr04_eq00]->select * from tienda order by num_tienda;
++------------+---------+------------+
+| num_tienda | nombre  | direccion  |
++------------+---------+------------+
+|          1 | tienda1 | direccion1 |
+|          2 | tienda2 | direccion2 |
+|          3 | tienda3 | direccion3 |
+|          4 | tienda4 | direccion4 |
+|          5 | tienda5 | direccion5 |
++------------+---------+------------+
+5 rows in set (0.00 sec)
+
+48 [01:05]-[pr04_eq00]->select * from producto order by cod_prod;
++----------+---------+-------+--------------+
+| cod_prod | precio  | tipo  | marca        |
++----------+---------+-------+--------------+
+|        1 |    1.50 | small | mi marca     |
+|        2 | 2000.01 | NULL  | NULL         |
+|        3 |    5.00 | NULL  | NULL         |
+|        4 |  333.20 | big   | not mi marca |
+|        5 |    0.00 | none  | pendiente    |
++----------+---------+-------+--------------+
+5 rows in set (0.00 sec)
+
+49 [01:05]-[pr04_eq00]->select * from ventas order by num_venta;
++-----------+------------+-------------+-----------+---------------------+---------+
+| num_venta | id_cliente | id_vendedor | id_tienda | fecha_compra        | total   |
++-----------+------------+-------------+-----------+---------------------+---------+
+|      5000 |        800 |           1 |         1 | 2022-10-31 00:00:00 | 2001.51 |
+|      5001 |        800 |           2 |         3 | 1999-01-01 12:05:00 |  671.40 |
+|      5002 |        800 |           2 |         2 | 2022-10-31 14:05:26 |    NULL |
+|      5003 |        800 |           4 |         1 | 2022-10-31 18:45:01 |    NULL |
+|      5004 |        800 |           4 |         4 | 2022-10-30 00:00:00 |    NULL |
++-----------+------------+-------------+-----------+---------------------+---------+
+5 rows in set (0.00 sec)
+
+50 [01:05]-[pr04_eq00]->select * from detalle_ventas order by cod_prod, id_venta;
++----------+----------+----------+
+| cod_prod | id_venta | cantidad |
++----------+----------+----------+
+|        1 |     5000 |        1 |
+|        2 |     5000 |        1 |
+|        3 |     5001 |        1 |
+|        4 |     5001 |        2 |
+|        5 |     5004 |     NULL |
++----------+----------+----------+
+5 rows in set (0.00 sec)
+
+51 [01:05]-[pr04_eq00]->
+52 [01:05]-[pr04_eq00]->
+53 [01:05]-[pr04_eq00]->/* Ejercicios 6. y 7. corresponden a su DER  */
+54 [01:05]-[pr04_eq00]->
+55 [01:05]-[pr04_eq00]->/* ---------------------------------------------------------------- */
+56 [01:05]-[pr04_eq00]->/* PARTE 2 - SELECT*/
+57 [01:05]-[pr04_eq00]->/* ---------------------------------------------------------------- */
+58 [01:05]-[pr04_eq00]->
+59 [01:05]-[pr04_eq00]->use mundo
+Database changed
+60 [01:05]-[mundo]->
+61 [01:05]-[mundo]->/* 8. Mostrar campos de los primeros 4 registros  */
+62 [01:05]-[mundo]->select * from paises limit 4;
++---------+-------------+------------+---------+-----------+--------------+------------------+
+| id_pais | pais        | continente | area    | poblacion | gdp          | capital          |
++---------+-------------+------------+---------+-----------+--------------+------------------+
+|       1 | Afghanistan | Asia       |  652230 |  25500100 |  20364000000 | Kabul            |
+|       2 | Albania     | Europe     |   28748 |   2821977 |  12044000000 | Tirana           |
+|       3 | Algeria     | Africa     | 2381741 |  38700000 | 207021000000 | Algiers          |
+|       4 | Andorra     | Europe     |     468 |     76098 |   3222000000 | Andorra la Vella |
++---------+-------------+------------+---------+-----------+--------------+------------------+
+4 rows in set (0.00 sec)
+
+63 [01:05]-[mundo]->
+64 [01:05]-[mundo]->
+65 [01:05]-[mundo]->/* 9. Listar el país de una sola palabra que contiene 
+   /*> cada una de las vocales (a,e,i,o,u).  */
+66 [01:05]-[mundo]->select pais from paises where pais like '%a%' 
+    -> and pais like '%e%'
+    -> and pais like '%i%'
+    -> and pais like '%o%'
+    -> and pais like '%u%'
+    -> and pais not like '% %';
++------------+
+| pais       |
++------------+
+| Mozambique |
++------------+
+1 row in set (0.00 sec)
+
+67 [01:05]-[mundo]->
+68 [01:05]-[mundo]->/* 10. ¿Qué países del caribe tienen poblaciones 
+   /*> mayores a 1M (un millón) o cumplen que su nombre 
+   /*> está compuesto por, al menos, dos palabras?  */
+69 [01:05]-[mundo]->select pais,poblacion from paises where continente = 'Caribbean' and 
+    -> (poblacion > 1000000 OR pais like '% %');
++---------------------+-----------+
+| pais                | poblacion |
++---------------------+-----------+
+| Antigua and Barbuda |     86295 |
+| Cuba                |  11167325 |
+| Dominican Republic  |   9445281 |
+| Haiti               |  10413211 |
+| Jamaica             |   2717991 |
+| Saint Lucia         |    180000 |
+| Trinidad and Tobago |   1328019 |
++---------------------+-----------+
+7 rows in set (0.00 sec)
+
+70 [01:05]-[mundo]->
+71 [01:05]-[mundo]->/* 11. ¿Qué capitales empiezan con la letra B 
+   /*> y constan de únicamente 6 letras (sin espacios)? 
+   /*> Mostrar su nombre y en qué país se encuentran.  */
+72 [01:05]-[mundo]->select capital, pais from paises where capital like 'B_____';
++---------+--------------------------+
+| capital | pais                     |
++---------+--------------------------+
+| Bangui  | Central African Republic |
+| Bogotá  | Colombia                 |
+| Banjul  | Gambia                   |
+| Bissau  | Guinea-Bissau            |
+| Beirut  | Lebanon                  |
+| Bamako  | Mali                     |
++---------+--------------------------+
+6 rows in set (0.00 sec)
+
+73 [01:05]-[mundo]->
+74 [01:05]-[mundo]->/* 12. En listar los países cuya capital tenga el mismo
+   /*>  número de letras que el nombre del país; y que tanto
+   /*> la capital como el país empiecen con la misma letra.  */
+75 [01:05]-[mundo]->select pais, capital, length(pais) as 'Caracteres pais',
+    -> length(capital) as 'Caracteres capital'
+    -> from paises
+    -> where length(pais) = length(capital)
+    -> and left(pais,1)=left(capital,1);
++------------+------------+-----------------+--------------------+
+| pais       | capital    | Caracteres pais | Caracteres capital |
++------------+------------+-----------------+--------------------+
+| Algeria    | Algiers    |               7 |                  7 |
+| Djibouti   | Djibouti   |               8 |                  8 |
+| Luxembourg | Luxembourg |              10 |                 10 |
+| San Marino | San Marino |              10 |                 10 |
+| Singapore  | Singapore  |               9 |                  9 |
+| Taiwan     | Taipei     |               6 |                  6 |
++------------+------------+-----------------+--------------------+
+6 rows in set (0.00 sec)
+
+76 [01:05]-[mundo]->
+77 [01:05]-[mundo]->/* 13. Listar el país, capital y total de población (en millones)
+   /*> de los top 3 países con más gente.  */
+78 [01:05]-[mundo]->select concat(pais,' con capital ',capital,' tiene ', round(poblacion/1000000,2),'M de personas.') 
+    -> as 'Pais, capital, poblacion'
+    -> from paises order by poblacion desc limit 3;
++-----------------------------------------------------------------------+
+| Pais, capital, poblacion                                              |
++-----------------------------------------------------------------------+
+| China con capital Beijing tiene 1365.37M de personas.                 |
+| India con capital New Delhi tiene 1246.16M de personas.               |
+| United States con capital Washington, D.C. tiene 318.32M de personas. |
++-----------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+79 [01:05]-[mundo]->
+80 [01:05]-[mundo]->/* 14. Enlistar el nombre de los países, su promedio de gpd
+   /*> y su continente.
+   /*> 
+   /*> Sólo seleccionar los países que tengan una ‘a’ en la segunda 
+   /*> y última posición de su nombre, y tales que su promedio esté 
+   /*> por encima de los 750 millones. Ordenar el resultado 
+   /*> alfabéticamente por continente y país (en ese orden).  */
+81 [01:05]-[mundo]->select pais,continente,avg(gdp) as 'Promedio GDP' from paises 
+    -> where pais like '_a%a'
+    -> group by pais
+    -> having avg(gdp) > 750000000
+    -> order by continente, pais;
++------------------+---------------+--------------------+
+| pais             | continente    | Promedio GDP       |
++------------------+---------------+--------------------+
+| Mauritania       | Africa        |    3866000000.0000 |
+| Namibia          | Africa        |   12807000000.0000 |
+| Tanzania         | Africa        |   28249000000.0000 |
+| Zambia           | Africa        |   21490000000.0000 |
+| Cambodia         | Asia          |   14038000000.0000 |
+| Malaysia         | Asia          |  304726000000.0000 |
+| Saudi Arabia     | Asia          |  711050000000.0000 |
+| Jamaica          | Caribbean     |   14795000000.0000 |
+| Saint Lucia      | Caribbean     |    1318000000.0000 |
+| Latvia           | Europe        |   28379000000.0000 |
+| Malta            | Europe        |    8775000000.0000 |
+| Canada           | North America | 1585000000000.0000 |
+| Panama           | North America |   36253000000.0000 |
+| Papua New Guinea | Oceania       |   15677000000.0000 |
++------------------+---------------+--------------------+
+14 rows in set (0.00 sec)
+
+82 [01:05]-[mundo]->
+83 [01:05]-[mundo]->/* ---------------------------------------------------------------- */
+84 [01:05]-[mundo]->/* EJERCICIO EXTRA*/
+85 [01:05]-[mundo]->/* ---------------------------------------------------------------- */
+86 [01:05]-[mundo]->
+87 [01:05]-[mundo]->notee

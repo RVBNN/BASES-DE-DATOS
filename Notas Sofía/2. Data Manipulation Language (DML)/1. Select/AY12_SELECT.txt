@@ -1,0 +1,387 @@
+mysql> /* Cargamos la base de datos mundo */
+mysql> -- source base_mundo.sql
+mysql> 
+mysql> /* Creamos un tee */
+mysql> -- tee ay12_select.txt
+mysql> 
+mysql> /* Ponemos al uso la base */
+mysql> use mundo
+Database changed
+mysql> 
+mysql> /* Exploramos que hay... */
+mysql> show tables;
++-----------------+
+| Tables_in_mundo |
++-----------------+
+| paises          |
++-----------------+
+1 row in set (0.01 sec)
+
+mysql> desc paises;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id_pais    | int unsigned | NO   | PRI | NULL    | auto_increment |
+| pais       | varchar(50)  | NO   |     | NULL    |                |
+| continente | varchar(30)  | NO   |     | NULL    |                |
+| area       | int          | NO   |     | NULL    |                |
+| poblacion  | bigint       | NO   |     | NULL    |                |
+| gdp        | bigint       | YES  |     | NULL    |                |
+| capital    | varchar(50)  | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from paises limit 5;
++---------+-------------+------------+---------+-----------+--------------+------------------+
+| id_pais | pais        | continente | area    | poblacion | gdp          | capital          |
++---------+-------------+------------+---------+-----------+--------------+------------------+
+|       1 | Afghanistan | Asia       |  652230 |  25500100 |  20364000000 | Kabul            |
+|       2 | Albania     | Europe     |   28748 |   2821977 |  12044000000 | Tirana           |
+|       3 | Algeria     | Africa     | 2381741 |  38700000 | 207021000000 | Algiers          |
+|       4 | Andorra     | Europe     |     468 |     76098 |   3222000000 | Andorra la Vella |
+|       5 | Angola      | Africa     | 1246700 |  19183590 | 116308000000 | Luanda           |
++---------+-------------+------------+---------+-----------+--------------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> /* Ejercicios */
+mysql> 
+mysql> select capital 
+    -> from paises 
+    -> where capital like 'M%' 
+    -> order by capital desc limit 5;
++------------+
+| capital    |
++------------+
+| Muscat     |
+| Moscow     |
+| Moroni     |
+| Montevideo |
+| Monrovia   |
++------------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> select pais,gdp from paises order by gdp desc limit 3;
++---------------+----------------+
+| pais          | gdp            |
++---------------+----------------+
+| United States | 16244600000000 |
+| China         |  8358400000000 |
+| Japan         |  5960180000000 |
++---------------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> select pais,continente, poblacion from paises where continente 
+    -> like '%america%' and poblacion < 2000000;
++----------------------------------+---------------+-----------+
+| pais                             | continente    | poblacion |
++----------------------------------+---------------+-----------+
+| Belize                           | North America |    349728 |
+| Guyana                           | South America |    784894 |
+| Saint Kitts and Nevis            | North America |     55000 |
+| Saint Vincent and the Grenadines | South America |    109000 |
+| Suriname                         | South America |    534189 |
++----------------------------------+---------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> select continente,sum(area) as area_total
+    -> from paises where continente='Europe';
++------------+------------+
+| continente | area_total |
++------------+------------+
+| Europe     |    8714329 |
++------------+------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> select pais, round(gdp/area,2) as num
+    -> from paises order by num desc limit 1;
++--------+---------------+
+| pais   | num           |
++--------+---------------+
+| Monaco | 2853500000.00 |
++--------+---------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> select pais from paises where pais like '%x%';
++------------+
+| pais       |
++------------+
+| Luxembourg |
+| Mexico     |
++------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> select pais from paises where pais like '%land';
++-------------+
+| pais        |
++-------------+
+| Finland     |
+| Iceland     |
+| Ireland     |
+| New Zealand |
+| Poland      |
+| Swaziland   |
+| Switzerland |
+| Thailand    |
++-------------+
+8 rows in set (0.00 sec)
+
+mysql> 
+mysql> select pais from paises where pais like 'C%ia';
++----------+
+| pais     |
++----------+
+| Cambodia |
+| Colombia |
+| Croatia  |
++----------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> select pais from paises where pais like '_n%';
++----------------------+
+| pais                 |
++----------------------+
+| Andorra              |
+| Angola               |
+| Antigua and Barbuda  |
+| India                |
+| Indonesia            |
+| United Arab Emirates |
+| United Kingdom       |
+| United States        |
++----------------------+
+8 rows in set (0.00 sec)
+
+mysql> 
+mysql> select pais 
+    -> from paises
+    -> where pais like '% %' and pais not like '% % %' and pais not like 'C%';;
++--------------------+
+| pais               |
++--------------------+
+| Burkina Faso       |
+| Dominican Republic |
+| El Salvador        |
+| Equatorial Guinea  |
+| Marshall Islands   |
+| New Zealand        |
+| North Korea        |
+| Saint Lucia        |
+| San Marino         |
+| Saudi Arabia       |
+| Sierra Leone       |
+| Solomon Islands    |
+| South Africa       |
+| South Korea        |
+| South Sudan        |
+| Sri Lanka          |
+| United Kingdom     |
+| United States      |
+| Vatican City       |
++--------------------+
+19 rows in set (0.00 sec)
+
+ERROR: 
+No query specified
+
+mysql> 
+mysql> /* Cargamos la base de datos bank */
+mysql> -- source base_bank.sql
+mysql> 
+mysql> /* Ponemos al uso la base */
+mysql> use bank
+Database changed
+mysql> 
+mysql> select table_name as tabla, table_rows as num_registros
+    -> from INFORMATION_SCHEMA.TABLES
+    -> where TABLE_SCHEMA = 'bank'
+    -> order by num_registros desc;
++-----------------+---------------+
+| tabla           | num_registros |
++-----------------+---------------+
+| account         |            24 |
+| acc_transaction |            21 |
+| employee        |            18 |
+| customer        |            13 |
+| individual      |             9 |
+| product         |             8 |
+| branch          |             4 |
+| business        |             4 |
+| department      |             4 |
+| officer         |             4 |
+| product_type    |             3 |
+| cte1            |             0 |
++-----------------+---------------+
+12 rows in set (0.08 sec)
+
+mysql> 
+mysql> /* Ejercicios */
+mysql> 
+mysql> select account_id,status,open_date, monthname(open_date)
+    -> from account limit 10;
++------------+--------+------------+----------------------+
+| account_id | status | open_date  | monthname(open_date) |
++------------+--------+------------+----------------------+
+|          1 | ACTIVE | 2000-01-15 | January              |
+|          2 | ACTIVE | 2000-01-15 | January              |
+|          3 | ACTIVE | 2004-06-30 | June                 |
+|          4 | ACTIVE | 2001-03-12 | March                |
+|          5 | ACTIVE | 2001-03-12 | March                |
+|          7 | ACTIVE | 2002-11-23 | November             |
+|          8 | ACTIVE | 2002-12-15 | December             |
+|         10 | ACTIVE | 2003-09-12 | September            |
+|         11 | ACTIVE | 2000-01-15 | January              |
+|         12 | ACTIVE | 2004-09-30 | September            |
++------------+--------+------------+----------------------+
+10 rows in set (0.02 sec)
+
+mysql> 
+mysql> select account_id,pending_balance,open_date, monthname(open_date)
+    -> from account where month(open_date) = 12;
++------------+-----------------+------------+----------------------+
+| account_id | pending_balance | open_date  | monthname(open_date) |
++------------+-----------------+------------+----------------------+
+|          8 |          2212.5 | 2002-12-15 | December             |
+|         15 |           10000 | 2004-12-28 | December             |
++------------+-----------------+------------+----------------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> select cust_id,avail_balance,pending_balance from account limit 10;
++---------+---------------+-----------------+
+| cust_id | avail_balance | pending_balance |
++---------+---------------+-----------------+
+|       1 |       1057.75 |         1057.75 |
+|       1 |           500 |             500 |
+|       1 |         55000 |            3000 |
+|       2 |       3000.52 |         2258.02 |
+|       2 |         86700 |             200 |
+|       3 |       1057.75 |         1057.75 |
+|       3 |        2212.5 |          2212.5 |
+|       4 |        534.12 |          534.12 |
+|       4 |        767.77 |          767.77 |
+|       4 |       5487.09 |         5487.09 |
++---------+---------------+-----------------+
+10 rows in set (0.00 sec)
+
+mysql> select cust_id,avail_balance,pending_balance 
+    -> from account where avail_balance-pending_balance > 0;
++---------+---------------+-----------------+
+| cust_id | avail_balance | pending_balance |
++---------+---------------+-----------------+
+|       1 |         55000 |            3000 |
+|       2 |       3000.52 |         2258.02 |
+|       2 |         86700 |             200 |
+|       6 |        142.37 |          122.37 |
++---------+---------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> select *
+    -> from customer
+    -> where (city = 'Salem' or city = 'Newton') and cust_type_cd != 'B'; 
++---------+----------------+--------+--------------+-------------+-------------+-------+
+| cust_id | address        | city   | cust_type_cd | fed_id      | postal_code | state |
++---------+----------------+--------+--------------+-------------+-------------+-------+
+|       5 | 2341 Main St   | Salem  | I            | 555-55-5555 | 03079       | NH    |
+|       8 | 472 Freedom Rd | Salem  | I            | 888-88-8888 | 03079       | NH    |
+|       9 | 29 Maple St    | Newton | I            | 999-99-9999 | 02458       | MA    |
++---------+----------------+--------+--------------+-------------+-------------+-------+
+3 rows in set (0.01 sec)
+
+mysql> 
+mysql> select distinct state from customer where left(fed_id,2)='04';
++-------+
+| state |
++-------+
+| NH    |
+| MA    |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> select year(txn_date),month(txn_date), amount
+    -> from acc_transaction
+    -> where year(txn_date) ='2002' and month(txn_date) in (10,11,12);
++----------------+-----------------+--------+
+| year(txn_date) | month(txn_date) | amount |
++----------------+-----------------+--------+
+|           2002 |              11 |    100 |
+|           2002 |              12 |    100 |
++----------------+-----------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> select 
+    -> concat('En el último trimestre del año ',year(txn_date),' los montos de todas las transacciones acumulan $',sum(amount),'.')
+    -> as resumen
+    -> from acc_transaction
+    -> where year(txn_date) ='2002' and month(txn_date) in (10,11,12);
++--------------------------------------------------------------------------------------------+
+| resumen                                                                                    |
++--------------------------------------------------------------------------------------------+
+| En el último trimestre del año 2002 los montos de todas las transacciones acumulan $200.   |
++--------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> select first_name as empleados,start_date as fecha_inicio, datediff(curdate(),start_date)/365 as tiempo_trabajando
+    -> from employee 
+    -> where (title='Teller' or title = 'Head Teller')
+    -> and datediff(curdate(),start_date)/365 >= 20;
++-----------+--------------+-------------------+
+| empleados | fecha_inicio | tiempo_trabajando |
++-----------+--------------+-------------------+
+| Jane      | 2002-05-03   |           20.5096 |
+| Paula     | 2002-07-27   |           20.2767 |
+| Thomas    | 2000-10-23   |           22.0356 |
+| John      | 2000-05-11   |           22.4877 |
+| Cindy     | 2002-08-09   |           20.2411 |
+| Theresa   | 2001-03-15   |           21.6438 |
+| Beth      | 2002-06-29   |           20.3534 |
++-----------+--------------+-------------------+
+7 rows in set (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> select first_name as empleados
+    -> from employee 
+    -> where (title='Teller' or title = 'Head Teller')
+    -> and datediff(curdate(),start_date)/365 > 20
+    -> order by empleados;
++-----------+
+| empleados |
++-----------+
+| Beth      |
+| Cindy     |
+| Jane      |
+| John      |
+| Paula     |
+| Theresa   |
+| Thomas    |
++-----------+
+7 rows in set (0.00 sec)
+
+mysql> 
+mysql> select name 
+    -> from business 
+    -> where (cust_id % 2) > 0 and year(incorp_date) < 2001;
++--------------------+
+| name               |
++--------------------+
+| AAA Insurance Inc. |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> /* Cerramos el tee */
+mysql> -- notee
+mysql> notee

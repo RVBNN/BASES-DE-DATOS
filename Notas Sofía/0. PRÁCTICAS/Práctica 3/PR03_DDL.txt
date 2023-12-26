@@ -1,0 +1,155 @@
+mysql> ## Parte 1 - Ejercicios DDL
+mysql> 
+mysql> -- 1.Cambiar el prompt al siguiente formato:
+mysql> prompt [\w\O \R:\m] (\d) ~>
+PROMPT set to '[\w\O \R:\m] (\d) ~>'
+[ThuSep 23:07] ((none)) ~>
+[ThuSep 23:07] ((none)) ~>-- 2.Crear una base de datos llamada ?pr03_eqN?
+[ThuSep 23:07] ((none)) ~>drop database if exists pr03_solucion;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+[ThuSep 23:07] ((none)) ~>
+[ThuSep 23:07] ((none)) ~>create database if not exists pr03_solucion;
+Query OK, 1 row affected (0.01 sec)
+
+[ThuSep 23:07] ((none)) ~>
+[ThuSep 23:07] ((none)) ~>-- 3.Crear la tabla ?trabajador?
+[ThuSep 23:07] ((none)) ~>use pr03_solucion
+Database changed
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>drop table if exists trabajador;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>create table if not exists trabajador(
+    -> id int unsigned not null primary key,
+    -> nombre_pila varchar(10),
+    -> puesto varchar(15)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>desc trabajador;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| id          | int unsigned | NO   | PRI | NULL    |       |
+| nombre_pila | varchar(10)  | YES  |     | NULL    |       |
+| puesto      | varchar(15)  | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>-- 4.Crear tabla ?ingrediente?
+[ThuSep 23:07] (pr03_solucion) ~>drop table if exists ingrediente;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>create table if not exists ingrediente(
+    -> codigo tinyint unsigned not null auto_increment primary key,
+    -> nombre varchar(20) not null,
+    -> precio_kg decimal(3,1),
+    -> disponibilidad enum('D','ND') NOT NULL default 'ND'
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>desc ingrediente;
++----------------+------------------+------+-----+---------+----------------+
+| Field          | Type             | Null | Key | Default | Extra          |
++----------------+------------------+------+-----+---------+----------------+
+| codigo         | tinyint unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre         | varchar(20)      | NO   |     | NULL    |                |
+| precio_kg      | decimal(3,1)     | YES  |     | NULL    |                |
+| disponibilidad | enum('D','ND')   | NO   |     | ND      |                |
++----------------+------------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>/* 5.De cada trabajador nos interesa conocer cu l es su ingrediente favorito. 
+   /*> Los trabajadores s¢lo pueden optar por un ingrediente, pero varios pueden elegir el 
+   /*> mismo. Es obligatorio que los trabajadores informen qu‚ ingrediente prefieren.
+   /*> 
+   /*> A trav‚s del comando alter, relacionar la tabla ?trabajador? con la tabla ?ingrediente?
+   /*> respetando lo anterior y agregar los nuevos campos */
+[ThuSep 23:07] (pr03_solucion) ~>alter table trabajador alter column puesto set default 'pasante';
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>alter table trabajador add fecha_inicio date default '2022-09-30' after nombre_pila;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>alter table trabajador add ing_fav tinyint unsigned not null;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>alter table trabajador add foreign key (ing_fav) references ingrediente(codigo);
+Query OK, 0 rows affected (0.31 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>desc trabajador;
++--------------+------------------+------+-----+------------+-------+
+| Field        | Type             | Null | Key | Default    | Extra |
++--------------+------------------+------+-----+------------+-------+
+| id           | int unsigned     | NO   | PRI | NULL       |       |
+| nombre_pila  | varchar(10)      | YES  |     | NULL       |       |
+| fecha_inicio | date             | YES  |     | 2022-09-30 |       |
+| puesto       | varchar(15)      | YES  |     | pasante    |       |
+| ing_fav      | tinyint unsigned | NO   | MUL | NULL       |       |
++--------------+------------------+------+-----+------------+-------+
+5 rows in set (0.00 sec)
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>## Ejercicios extra
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>-- 1.Enuncien tres maneras para fijar un campo como llave primaria de una tabla.
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>CREATE TABLE T1 (id_1 int PRIMARY KEY);
+Query OK, 0 rows affected (0.04 sec)
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>CREATE TABLE T2 (id_2 int, PRIMARY KEY(id_2)); 
+Query OK, 0 rows affected (0.04 sec)
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>CREATE TABLE T3 (id_3 int);
+Query OK, 0 rows affected (0.05 sec)
+
+[ThuSep 23:07] (pr03_solucion) ~>ALTER TABLE T3 MODIFY id_3 tinyint PRIMARY KEY;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>-- 2.Los 7 errores ya corregidos:
+[ThuSep 23:07] (pr03_solucion) ~>create table if not exists ej_extra (
+    -> atributo1 smallint unsigned,
+    -> atributo4 int not null auto_increment,
+    -> atributo2 year default 1997,
+    -> atributo6 varchar(50),
+    -> primary key(atributo4,atributo6)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>/* Los errores enlistados:
+   /*> 1. Para crear tablas necesitamos ?if NOT exists?
+   /*> 2. Falta indicar el nombre de la tabla
+   /*> 3. Para el campo atributo4 no se especific¢ un tipo de dato
+   /*> 4. auto_increment, i.e., lleva un gui¢n bajo entre las dos palabras
+   /*> 5. Valor a fijar por default para atributo2 es inv lido. S¢lo acepta formato YYYY o YY.
+   /*> 6. No es posible definir una llave primaria compuesta as¡. Hay que agregar 
+   /*> primary key(atributo1, atributo 6)
+   /*> 7. Falta el par‚ntesis de cierre.
+   /*> */
+[ThuSep 23:07] (pr03_solucion) ~>
+[ThuSep 23:07] (pr03_solucion) ~>drop database if exists pr03_solucion;
+Query OK, 6 rows affected (0.20 sec)
+
+[ThuSep 23:07] ((none)) ~>notee

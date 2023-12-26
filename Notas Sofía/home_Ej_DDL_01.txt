@@ -1,0 +1,277 @@
+MariaDB [(none)]> prompt \\\D mysql>
+PROMPT set to '\\\D mysql>'
+\Thu Sep 22 14:24:37 2022 mysql>
+\Thu Sep 22 14:24:52 2022 mysql>\d
+ERROR: DELIMITER must be followed by a 'delimiter' character or string
+\Thu Sep 22 14:24:54 2022 mysql>show databases;
++--------------------+
+| Database           |
++--------------------+
+| almacen            |
+| ejemplo1           |
+| ejemplo2           |
+| ejemplo3           |
+| ejemplo4           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| tienda             |
++--------------------+
+9 rows in set (0.051 sec)
+
+\Thu Sep 22 14:25:11 2022 mysql>if not exists
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+\Thu Sep 22 14:28:04 2022 mysql>
+\Thu Sep 22 14:28:11 2022 mysql>
+\Thu Sep 22 14:28:12 2022 mysql>create database if not exists Base_Datos_01;
+Query OK, 1 row affected (0.000 sec)
+
+\Thu Sep 22 14:28:36 2022 mysql>\clear
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'lear' at line 1
+\Thu Sep 22 14:30:57 2022 mysql>DROP DATABASE IF EXISTS Base_Datos_01;
+Query OK, 0 rows affected (0.019 sec)
+
+\Thu Sep 22 14:33:29 2022 mysql>SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| almacen            |
+| ejemplo1           |
+| ejemplo2           |
+| ejemplo3           |
+| ejemplo4           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| tienda             |
++--------------------+
+9 rows in set (0.001 sec)
+
+\Thu Sep 22 14:33:36 2022 mysql>CREATE DATABASE IF NOT EXISTS Base_Datos_01;
+Query OK, 1 row affected (0.000 sec)
+
+\Thu Sep 22 14:33:53 2022 mysql>SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| Base_Datos_01      |
+| almacen            |
+| ejemplo1           |
+| ejemplo2           |
+| ejemplo3           |
+| ejemplo4           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| tienda             |
++--------------------+
+10 rows in set (0.000 sec)
+
+\Thu Sep 22 14:33:56 2022 mysql>CREATE TABLE alumnos;
+ERROR 1046 (3D000): No database selected
+\Thu Sep 22 14:37:35 2022 mysql>USE Base_Datos_01;
+Database changed
+\Thu Sep 22 14:37:50 2022 mysql>CREATE TABLE alumnos;
+ERROR 1113 (42000): A table must have at least 1 column
+\Thu Sep 22 14:37:52 2022 mysql>CREATE TABLE alumnos(
+    -> ID tinyint,
+    -> ApellidoP varchar(15),
+    -> ApellidoM varchar(15),
+    -> FechaNac date,
+    -> Facultad varchar(30) default 'Facultad de Ciencias'
+    -> );
+Query OK, 0 rows affected (0.169 sec)
+
+\Thu Sep 22 14:40:29 2022 mysql>SHOW CREATE alumnos;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'alumnos' at line 1
+\Thu Sep 22 14:41:02 2022 mysql>SHOW CREATE TABLE alumnos;
++---------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                                                                                             |
++---------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| alumnos | CREATE TABLE `alumnos` (
+  `ID` tinyint(4) DEFAULT NULL,
+  `ApellidoP` varchar(15) DEFAULT NULL,
+  `ApellidoM` varchar(15) DEFAULT NULL,
+  `FechaNac` date DEFAULT NULL,
+  `Facultad` varchar(30) DEFAULT 'Facultad de Ciencias'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 |
++---------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+\Thu Sep 22 14:41:15 2022 mysql>DESCRIBE alumnos;
++-----------+-------------+------+-----+----------------------+-------+
+| Field     | Type        | Null | Key | Default              | Extra |
++-----------+-------------+------+-----+----------------------+-------+
+| ID        | tinyint(4)  | YES  |     | NULL                 |       |
+| ApellidoP | varchar(15) | YES  |     | NULL                 |       |
+| ApellidoM | varchar(15) | YES  |     | NULL                 |       |
+| FechaNac  | date        | YES  |     | NULL                 |       |
+| Facultad  | varchar(30) | YES  |     | Facultad de Ciencias |       |
++-----------+-------------+------+-----+----------------------+-------+
+5 rows in set (0.001 sec)
+
+\Thu Sep 22 14:41:34 2022 mysql>ALTER TABLE alumnos;
+Query OK, 0 rows affected (0.000 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+\Thu Sep 22 14:43:22 2022 mysql>ALTER COLUMN ApellidoP varchar(15) not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'COLUMN ApellidoP varchar(15) not null' at line 1
+\Thu Sep 22 14:43:51 2022 mysql>ALTER TABLE alumnos
+    -> MODIFY ApellidoP varchar(15) not null;
+Query OK, 0 rows affected (0.241 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+\Thu Sep 22 14:44:45 2022 mysql>DESCRIBE alumnos;
++-----------+-------------+------+-----+----------------------+-------+
+| Field     | Type        | Null | Key | Default              | Extra |
++-----------+-------------+------+-----+----------------------+-------+
+| ID        | tinyint(4)  | YES  |     | NULL                 |       |
+| ApellidoP | varchar(15) | NO   |     | NULL                 |       |
+| ApellidoM | varchar(15) | YES  |     | NULL                 |       |
+| FechaNac  | date        | YES  |     | NULL                 |       |
+| Facultad  | varchar(30) | YES  |     | Facultad de Ciencias |       |
++-----------+-------------+------+-----+----------------------+-------+
+5 rows in set (0.001 sec)
+
+\Thu Sep 22 14:44:56 2022 mysql>SHOW CREATE TABLE alumnos;
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                                                                                         |
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| alumnos | CREATE TABLE `alumnos` (
+  `ID` tinyint(4) DEFAULT NULL,
+  `ApellidoP` varchar(15) NOT NULL,
+  `ApellidoM` varchar(15) DEFAULT NULL,
+  `FechaNac` date DEFAULT NULL,
+  `Facultad` varchar(30) DEFAULT 'Facultad de Ciencias'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 |
++---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+\Thu Sep 22 14:48:19 2022 mysql>CREATE DATABASE Base_Datos_02;
+Query OK, 1 row affected (0.000 sec)
+
+\Thu Sep 22 14:54:08 2022 mysql>USE Base_Datos_02;
+Database changed
+\Thu Sep 22 14:54:19 2022 mysql>CREATE TABLE Profesores(
+    -> ID int not null,
+    -> nombre varchar(20),
+    -> ApellidoP varchar(20),
+    -> ApellidoM varchar(15)
+    -> );
+Query OK, 0 rows affected (0.139 sec)
+
+\Thu Sep 22 14:56:19 2022 mysql>DESCRIBE Profesores;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| ID        | int(11)     | NO   |     | NULL    |       |
+| nombre    | varchar(20) | YES  |     | NULL    |       |
+| ApellidoP | varchar(20) | YES  |     | NULL    |       |
+| ApellidoM | varchar(15) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.001 sec)
+
+\Thu Sep 22 14:56:29 2022 mysql>SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| Base_Datos_01      |
+| Base_Datos_02      |
+| almacen            |
+| ejemplo1           |
+| ejemplo2           |
+| ejemplo3           |
+| ejemplo4           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| tienda             |
++--------------------+
+11 rows in set (0.001 sec)
+
+\Thu Sep 22 14:59:39 2022 mysql>DROP TABLE IF EXISTS 'EJ_04'
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''EJ_04'' at line 1
+\Thu Sep 22 15:00:18 2022 mysql>DROP TABLE IF EXISTS EJ_04
+    -> ;
+Query OK, 0 rows affected, 1 warning (0.014 sec)
+
+\Thu Sep 22 15:00:27 2022 mysql>CREATE IF NOT EXISTS EJ_04;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'IF NOT EXISTS EJ_04' at line 1
+\Thu Sep 22 15:01:26 2022 mysql>CREATE DATABSE IF NOT EXISTS EJ_04;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'DATABSE IF NOT EXISTS EJ_04' at line 1
+\Thu Sep 22 15:01:50 2022 mysql>SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| Base_Datos_01      |
+| Base_Datos_02      |
+| almacen            |
+| ejemplo1           |
+| ejemplo2           |
+| ejemplo3           |
+| ejemplo4           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| tienda             |
++--------------------+
+11 rows in set (0.001 sec)
+
+\Thu Sep 22 15:01:59 2022 mysql>CREATE DATABASE IF NOT EXISTS EJ_04;
+Query OK, 1 row affected (0.000 sec)
+
+\Thu Sep 22 15:02:24 2022 mysql>CREATE TABLE Estudiantes(
+    -> ID int unsigned primary key autoincrement,
+    -> nombre varchar(20) not null,
+    -> apP varchar(20),
+    -> apM varchar(15),
+    -> feNac date
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '
+nombre varchar(20) not null,
+apP varchar(20),
+apM varchar(15),
+feNac date
+)' at line 2
+\Thu Sep 22 15:04:12 2022 mysql>USE EJ_04;
+Database changed
+\Thu Sep 22 15:04:21 2022 mysql>CREATE TABLE Estudiantes( ID int unsigned primary key autoincrement, nombre varchar(20) not null, apP varchar(20), apM varchar(15), feNac date );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' nombre varchar(20) not null, apP varchar(20), apM varchar(15), feNac date )' at line 1
+\Thu Sep 22 15:04:23 2022 mysql>DESCRIBE Ej_04;
+ERROR 1146 (42S02): Table 'EJ_04.Ej_04' doesn't exist
+\Thu Sep 22 15:04:40 2022 mysql>SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| Base_Datos_01      |
+| Base_Datos_02      |
+| EJ_04              |
+| almacen            |
+| ejemplo1           |
+| ejemplo2           |
+| ejemplo3           |
+| ejemplo4           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| tienda             |
++--------------------+
+12 rows in set (0.001 sec)
+
+\Thu Sep 22 15:04:55 2022 mysql>SHOW TABLES EJ_04;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'EJ_04' at line 1
+\Thu Sep 22 15:05:10 2022 mysql>
+\Thu Sep 22 15:05:19 2022 mysql>USE EJ_04;
+Database changed
+\Thu Sep 22 15:05:27 2022 mysql>Show tables;
+Empty set (0.000 sec)
+
+\Thu Sep 22 15:05:34 2022 mysql>CREATE TABLE Estudiantes( ID int unsigned primary key autoincrement, nombre varchar(20) not null, apP varchar(20), apM varchar(15), feNac date );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' nombre varchar(20) not null, apP varchar(20), apM varchar(15), feNac date )' at line 1
+\Thu Sep 22 15:05:50 2022 mysql>CREATE TABLE Estudiantes( ID int unsigned primary key, nombre varchar(20) not null, apP varchar(20), apM varchar(15), feNac date );
+Query OK, 0 rows affected (0.121 sec)
+
+\Thu Sep 22 15:06:10 2022 mysql>notee

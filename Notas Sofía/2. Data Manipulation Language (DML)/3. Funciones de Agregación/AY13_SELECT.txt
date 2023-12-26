@@ -1,0 +1,310 @@
+mysql> /* Cambiamos el prompt  */
+mysql> prompt [\R:\m \O\y]-[\d]->
+PROMPT set to '[\R:\m \O\y]-[\d]->'
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->/* Cargamos la base de datos super */
+[01:14 Oct22]-[super]->-- source base_super.sql
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->/* Creamos un tee */
+[01:14 Oct22]-[super]->-- tee ay13_select.txt
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->/* Ponemos al uso la base */
+[01:14 Oct22]-[super]->use super
+Database changed
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->/* Exploramos que hay... */
+[01:14 Oct22]-[super]->show tables;
++-----------------+
+| Tables_in_super |
++-----------------+
+| compras         |
++-----------------+
+1 row in set (0.00 sec)
+
+[01:14 Oct22]-[super]->desc compras;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| id_ticket | int unsigned | NO   |     | NULL    |       |
+| fecha     | date         | NO   |     | NULL    |       |
+| articulo  | varchar(50)  | NO   |     | NULL    |       |
+| precio    | double       | NO   |     | NULL    |       |
+| unidad    | varchar(10)  | NO   |     | NULL    |       |
+| cantidad  | double       | NO   |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+[01:14 Oct22]-[super]->select * from compras limit 5;
++-----------+------------+------------------+--------+--------+----------+
+| id_ticket | fecha      | articulo         | precio | unidad | cantidad |
++-----------+------------+------------------+--------+--------+----------+
+|      3756 | 2021-08-03 | medias noches    |     39 | pza    |        5 |
+|      3688 | 2021-03-16 | leche condensada |     25 | pza    |        1 |
+|      4334 | 2021-04-16 | salsa verde      |   21.1 | pza    |        5 |
+|      3736 | 2021-09-16 | te verde         |    105 | pza    |        5 |
+|      4392 | 2021-11-18 | te de manzanilla |   22.5 | pza    |        4 |
++-----------+------------+------------------+--------+--------+----------+
+5 rows in set (0.00 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->/* Ejercicios */
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->-- Mostrar el total de tickets, artículos y precio medio de los artículos de la tabla compras
+[01:14 Oct22]-[super]->select count(distinct id_ticket) as 'numero de tickets',
+    -> count(distinct articulo) as 'articulos distintos',
+    -> round(avg(precio),2) as 'precio medio por articulo'
+    -> from compras;
++-------------------+---------------------+---------------------------+
+| numero de tickets | articulos distintos | precio medio por articulo |
++-------------------+---------------------+---------------------------+
+|              3560 |                 135 |                     66.65 |
++-------------------+---------------------+---------------------------+
+1 row in set (0.03 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->-- Replicar el ejercicio anterior pero ahora segmentando mes a mes
+[01:14 Oct22]-[super]->select month(fecha) as 'mes fecha',
+    -> count(distinct id_ticket) as 'numero de tickets',
+    -> count(distinct articulo) as 'articulos distintos',
+    -> round(avg(precio),2) as 'precio medio por articulo'
+    -> from compras
+    -> group by 1;
++-----------+-------------------+---------------------+---------------------------+
+| mes fecha | numero de tickets | articulos distintos | precio medio por articulo |
++-----------+-------------------+---------------------+---------------------------+
+|         1 |               668 |                 134 |                     66.42 |
+|         2 |               576 |                 135 |                     66.97 |
+|         3 |               631 |                 135 |                     69.43 |
+|         4 |               661 |                 134 |                     65.87 |
+|         5 |               625 |                 134 |                     66.69 |
+|         6 |               650 |                 135 |                      66.6 |
+|         7 |               599 |                 135 |                     68.74 |
+|         8 |               675 |                 135 |                     60.92 |
+|         9 |               668 |                 135 |                     64.31 |
+|        10 |               598 |                 135 |                     67.55 |
+|        11 |               638 |                 135 |                     69.57 |
+|        12 |               641 |                 135 |                     67.43 |
++-----------+-------------------+---------------------+---------------------------+
+12 rows in set (0.07 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->-- Ordenando por mes de manera descendente
+[01:14 Oct22]-[super]->select month(fecha) as 'mes fecha',
+    -> count(distinct id_ticket) as 'numero de tickets',
+    -> count(distinct articulo) as 'articulos distintos',
+    -> round(avg(precio),2) as 'precio medio por articulo'
+    -> from compras
+    -> group by 1
+    -> order by 1 desc;
++-----------+-------------------+---------------------+---------------------------+
+| mes fecha | numero de tickets | articulos distintos | precio medio por articulo |
++-----------+-------------------+---------------------+---------------------------+
+|        12 |               641 |                 135 |                     67.43 |
+|        11 |               638 |                 135 |                     69.57 |
+|        10 |               598 |                 135 |                     67.55 |
+|         9 |               668 |                 135 |                     64.31 |
+|         8 |               675 |                 135 |                     60.92 |
+|         7 |               599 |                 135 |                     68.74 |
+|         6 |               650 |                 135 |                      66.6 |
+|         5 |               625 |                 134 |                     66.69 |
+|         4 |               661 |                 134 |                     65.87 |
+|         3 |               631 |                 135 |                     69.43 |
+|         2 |               576 |                 135 |                     66.97 |
+|         1 |               668 |                 134 |                     66.42 |
++-----------+-------------------+---------------------+---------------------------+
+12 rows in set (0.05 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->-- Mostrar los meses impares con precios promedios mayores a 66.00
+[01:14 Oct22]-[super]->/* 
+   /*> MOD(N, M)
+   /*> or
+   /*> N % M
+   /*> or
+   /*> N MOD M 
+   /*> */
+[01:14 Oct22]-[super]->/* select month(fecha) as 'mes fecha'
+   /*> from compras
+   /*> where mod(month(fecha),2) > 0
+   /*> order by 1; */
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->select distinct month(fecha) as 'mes fecha'
+    -> from compras
+    -> where mod(month(fecha),2) > 0
+    -> order by 1;
++-----------+
+| mes fecha |
++-----------+
+|         1 |
+|         3 |
+|         5 |
+|         7 |
+|         9 |
+|        11 |
++-----------+
+6 rows in set (0.03 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->select month(fecha), round(avg(precio),2) 'precio medio por articulo' 
+    -> from compras 
+    -> group by 1 
+    -> having avg(precio) > 66
+    -> order by 1;
++--------------+---------------------------+
+| month(fecha) | precio medio por articulo |
++--------------+---------------------------+
+|            1 |                     66.42 |
+|            2 |                     66.97 |
+|            3 |                     69.43 |
+|            5 |                     66.69 |
+|            6 |                      66.6 |
+|            7 |                     68.74 |
+|           10 |                     67.55 |
+|           11 |                     69.57 |
+|           12 |                     67.43 |
++--------------+---------------------------+
+9 rows in set (0.02 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->select month(fecha) 'mes fecha',
+    -> round(avg(precio),2) 'precio medio por articulo' 
+    -> from compras
+    -> where mod(month(fecha),2) > 0
+    -> group by 1
+    -> having avg(precio) > 66
+    -> order by 1;
++-----------+---------------------------+
+| mes fecha | precio medio por articulo |
++-----------+---------------------------+
+|         1 |                     66.42 |
+|         3 |                     69.43 |
+|         5 |                     66.69 |
+|         7 |                     68.74 |
+|        11 |                     69.57 |
++-----------+---------------------------+
+5 rows in set (0.02 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->-- Repetir la consulta anterior, pero añadiendo el nombre del mes
+[01:14 Oct22]-[super]->select monthname(fecha) 'mes fecha',
+    -> round(avg(precio),2) 'precio medio por articulo' 
+    -> from compras
+    -> where mod(month(fecha),2) > 0
+    -> group by 1
+    -> having avg(precio) > 66
+    -> order by 1;
++-----------+---------------------------+
+| mes fecha | precio medio por articulo |
++-----------+---------------------------+
+| January   |                     66.42 |
+| July      |                     68.74 |
+| March     |                     69.43 |
+| May       |                     66.69 |
+| November  |                     69.57 |
++-----------+---------------------------+
+5 rows in set (0.02 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->-- Ordenar por transcurso real de los meses
+[01:14 Oct22]-[super]->select monthname(fecha) 'mes fecha',
+    -> round(avg(precio),2) 'precio medio por articulo' 
+    -> from compras
+    -> where mod(month(fecha),2) > 0
+    -> group by 1
+    -> having avg(precio) > 66
+    -> order by month(fecha);
++-----------+---------------------------+
+| mes fecha | precio medio por articulo |
++-----------+---------------------------+
+| January   |                     66.42 |
+| March     |                     69.43 |
+| May       |                     66.69 |
+| July      |                     68.74 |
+| November  |                     69.57 |
++-----------+---------------------------+
+5 rows in set (0.02 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->-- Listar el total de ventas (precio * cantidad) por día de la semana.
+[01:14 Oct22]-[super]->/*
+   /*> CASE
+   /*>     WHEN condition1 THEN result1
+   /*>     WHEN condition2 THEN result2
+   /*>     WHEN conditionN THEN resultN
+   /*>     ELSE result
+   /*> END;
+   /*> */
+[01:14 Oct22]-[super]->select dayname(fecha) as 'Dia semana',
+    -> format(sum(precio*cantidad),2) as 'Total Ventas'
+    -> from compras
+    -> group by 1
+    -> order by weekday(fecha);
++------------+--------------+
+| Dia semana | Total Ventas |
++------------+--------------+
+| Monday     | 309,903.30   |
+| Tuesday    | 308,785.66   |
+| Wednesday  | 315,357.88   |
+| Thursday   | 282,532.59   |
+| Friday     | 321,397.57   |
+| Saturday   | 302,177.81   |
+| Sunday     | 308,527.07   |
++------------+--------------+
+7 rows in set (0.03 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->-- Listar el total de ventas por trimestre
+[01:14 Oct22]-[super]->select fecha,
+    -> case
+    -> when month(fecha) in (1,2,3) then 'Q1'
+    -> when month(fecha) in (4,5,6) then 'Q2'
+    -> when month(fecha) in (7,8,9) then 'Q3'
+    -> else 'Q4'
+    -> end as trimestre
+    -> from compras
+    -> limit 5;
++------------+-----------+
+| fecha      | trimestre |
++------------+-----------+
+| 2021-08-03 | Q3        |
+| 2021-03-16 | Q1        |
+| 2021-04-16 | Q2        |
+| 2021-09-16 | Q3        |
+| 2021-11-18 | Q4        |
++------------+-----------+
+5 rows in set (0.00 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->select
+    -> concat_ws('-',
+    -> case
+    -> when month(fecha) in (1,2,3) then 'Q1'
+    -> when month(fecha) in (4,5,6) then 'Q2'
+    -> when month(fecha) in (7,8,9) then 'Q3'
+    -> else 'Q4'
+    -> end,
+    -> year(fecha)) as trimestre,
+    -> format(sum(precio*cantidad),2) as 'Total Ventas'
+    -> from compras
+    -> group by 1
+    -> order by month(fecha);
++-----------+--------------+
+| trimestre | Total Ventas |
++-----------+--------------+
+| Q1-2021   | 555,103.65   |
+| Q2-2021   | 532,585.86   |
+| Q3-2021   | 531,355.50   |
+| Q4-2021   | 529,636.87   |
++-----------+--------------+
+4 rows in set (0.05 sec)
+
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->-- Mostrar la lista del super de los tickets impares, comprados el 12 de marzo de 2021.
+[01:14 Oct22]-[super]->-- ¿?
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->
+[01:14 Oct22]-[super]->/* Cerramos el tee */
+[01:14 Oct22]-[super]->-- notee
+[01:14 Oct22]-[super]-> notee

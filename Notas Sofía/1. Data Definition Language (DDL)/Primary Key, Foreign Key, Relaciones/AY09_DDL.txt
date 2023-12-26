@@ -1,0 +1,390 @@
+mysql> ## Ej1_27sep.sql
+mysql> 
+mysql> -- Cambiamos el prompt para mostrar base y fecha y mysql>
+mysql> prompt (Ando en \d) mysql>
+PROMPT set to '(Ando en \d) mysql>'
+(Ando en (none)) mysql>
+(Ando en (none)) mysql>-- Borrar base 'ej_01'
+(Ando en (none)) mysql>drop DATABASE if EXISTS ej_01;
+Query OK, 1 row affected (0.04 sec)
+
+(Ando en (none)) mysql>
+(Ando en (none)) mysql>-- crear base 'ej_01'
+(Ando en (none)) mysql>CREATE DATABASE if not EXISTS ej_01;
+Query OK, 1 row affected (0.01 sec)
+
+(Ando en (none)) mysql>
+(Ando en (none)) mysql>-- crear tabla 'alumnos'
+(Ando en (none)) mysql>-- primero se habilita la tabla
+(Ando en (none)) mysql>
+(Ando en (none)) mysql>use ej_01;
+Database changed
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>create table if not exists alumnos (
+    -> id int unsigned not null auto_increment primary key
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>-- mostramos la descripcion de la tabla alumnos
+(Ando en ej_01) mysql>desc alumnos;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int unsigned | NO   | PRI | NULL    | auto_increment |
++-------+--------------+------+-----+---------+----------------+
+1 row in set (0.00 sec)
+
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>-- a¤adimos el campo nombre
+(Ando en ej_01) mysql>alter table alumnos add (
+    -> nombre varchar(20) not null
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>-- se repite el mostrar la descripcion
+(Ando en ej_01) mysql>desc alumnos;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| id     | int unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(20)  | NO   |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>-- a¤adir a la tabla 'alumnos' los campos de apellidos y fecha
+(Ando en ej_01) mysql>alter table alumnos add (
+    -> apP varchar(20),
+    -> apM varchar(20),
+    -> feNac date default '1999-01-17'
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>-- se repite el mostrar la descripcion
+(Ando en ej_01) mysql>desc alumnos; 
++--------+--------------+------+-----+------------+----------------+
+| Field  | Type         | Null | Key | Default    | Extra          |
++--------+--------------+------+-----+------------+----------------+
+| id     | int unsigned | NO   | PRI | NULL       | auto_increment |
+| nombre | varchar(20)  | NO   |     | NULL       |                |
+| apP    | varchar(20)  | YES  |     | NULL       |                |
+| apM    | varchar(20)  | YES  |     | NULL       |                |
+| feNac  | date         | YES  |     | 1999-01-17 |                |
++--------+--------------+------+-----+------------+----------------+
+5 rows in set (0.00 sec)
+
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>-- Renombramos la tabla alumnos a chicos
+(Ando en ej_01) mysql>alter table alumnos rename to chicos;
+Query OK, 0 rows affected (0.11 sec)
+
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>-- Revisamos
+(Ando en ej_01) mysql>show tables;
++-----------------+
+| Tables_in_ej_01 |
++-----------------+
+| chicos          |
++-----------------+
+1 row in set (0.00 sec)
+
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>-- Borrar base 'ej_01'
+(Ando en ej_01) mysql>-- drop DATABASE if EXISTS ej_01;
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>## Ej2_27sep.sql
+(Ando en ej_01) mysql>-- EJERCICIO 2a
+(Ando en ej_01) mysql>
+(Ando en ej_01) mysql>-- cambiar el prompt
+(Ando en ej_01) mysql>prompt (\d: \\\D) mysql>
+PROMPT set to '(\d: \\\D) mysql>'
+(ej_01: \Wed Sep 28 11:35:10 2022) mysql>
+(ej_01: \Wed Sep 28 11:35:10 2022) mysql>drop database if exists registro_coches;
+Query OK, 5 rows affected (0.25 sec)
+
+(ej_01: \Wed Sep 28 11:35:10 2022) mysql>
+(ej_01: \Wed Sep 28 11:35:10 2022) mysql>create database if not exists registro_coches;
+Query OK, 1 row affected (0.01 sec)
+
+(ej_01: \Wed Sep 28 11:35:10 2022) mysql>
+(ej_01: \Wed Sep 28 11:35:10 2022) mysql>use registro_coches
+Database changed
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>drop table if exists accidente;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>create table if not exists accidente(
+    -> id_accidente int NOT NULL primary key,
+    -> fecha_accidente date NOT NULL
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>drop table if exists informe_accidente;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>create table if not exists informe_accidente(
+    -> id_informe int NOT NULL,
+    -> hora_accidente time,
+    -> direccion varchar(100),
+    -> primary key(id_informe),
+    -> constraint FK_accidente foreign key (id_informe) references accidente(id_accidente)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>-- EJERCICIO 2b
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>use registro_coches
+Database changed
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>drop table if exists cliente;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>create table if not exists cliente(
+    -> RFC char(12) NOT NULL unique,
+    -> CURP char(18) NOT NULL unique
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:10 2022) mysql>ALTER TABLE cliente MODIFY column RFC char(12) NOT NULL unique primary key;
+Query OK, 0 rows affected, 1 warning (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>drop table if exists auto;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>create table if not exists auto(
+    -> placa char(8) NOT NULL unique primary key,
+    -> num_serie char(18) NOT NULL unique,
+    -> RFC char(12) NOT NULL unique
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>ALTER TABLE auto ADD CONSTRAINT FK_cliente foreign key(RFC)
+    ->  references cliente(RFC) on delete cascade on update cascade;
+Query OK, 0 rows affected (0.18 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>desc cliente;
++-------+----------+------+-----+---------+-------+
+| Field | Type     | Null | Key | Default | Extra |
++-------+----------+------+-----+---------+-------+
+| RFC   | char(12) | NO   | PRI | NULL    |       |
+| CURP  | char(18) | NO   | UNI | NULL    |       |
++-------+----------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>show create table cliente;
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                                                                                     |
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| cliente | CREATE TABLE `cliente` (
+  `RFC` char(12) NOT NULL,
+  `CURP` char(18) NOT NULL,
+  PRIMARY KEY (`RFC`),
+  UNIQUE KEY `RFC` (`RFC`),
+  UNIQUE KEY `CURP` (`CURP`),
+  UNIQUE KEY `RFC_2` (`RFC`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>desc auto;
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| placa     | char(8)  | NO   | PRI | NULL    |       |
+| num_serie | char(18) | NO   | UNI | NULL    |       |
+| RFC       | char(12) | NO   | UNI | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>show create table auto;
++-------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                 |
++-------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| auto  | CREATE TABLE `auto` (
+  `placa` char(8) NOT NULL,
+  `num_serie` char(18) NOT NULL,
+  `RFC` char(12) NOT NULL,
+  PRIMARY KEY (`placa`),
+  UNIQUE KEY `placa` (`placa`),
+  UNIQUE KEY `num_serie` (`num_serie`),
+  UNIQUE KEY `RFC` (`RFC`),
+  CONSTRAINT `FK_cliente` FOREIGN KEY (`RFC`) REFERENCES `cliente` (`RFC`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>-- EJERCICIO 2c
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>use registro_coches
+Database changed
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>desc auto;
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| placa     | char(8)  | NO   | PRI | NULL    |       |
+| num_serie | char(18) | NO   | UNI | NULL    |       |
+| RFC       | char(12) | NO   | UNI | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>desc accidente;
++-----------------+------+------+-----+---------+-------+
+| Field           | Type | Null | Key | Default | Extra |
++-----------------+------+------+-----+---------+-------+
+| id_accidente    | int  | NO   | PRI | NULL    |       |
+| fecha_accidente | date | NO   |     | NULL    |       |
++-----------------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>drop table if exists sufre_accidente;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>create table if not exists sufre_accidente(
+    -> placa char(8) NOT NULL,
+    -> id_acc int NOT NULL,
+    -> primary key(placa, id_acc),
+    -> foreign key (placa) references auto(placa)
+    -> on delete restrict on update cascade ,
+    -> foreign key (id_acc) references accidente(id_accidente)
+    -> on delete cascade on update cascade
+    -> );
+Query OK, 0 rows affected (0.10 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>desc sufre_accidente;
++--------+---------+------+-----+---------+-------+
+| Field  | Type    | Null | Key | Default | Extra |
++--------+---------+------+-----+---------+-------+
+| placa  | char(8) | NO   | PRI | NULL    |       |
+| id_acc | int     | NO   | PRI | NULL    |       |
++--------+---------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>show create table sufre_accidente;
++-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table           | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
++-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| sufre_accidente | CREATE TABLE `sufre_accidente` (
+  `placa` char(8) NOT NULL,
+  `id_acc` int NOT NULL,
+  PRIMARY KEY (`placa`,`id_acc`),
+  KEY `id_acc` (`id_acc`),
+  CONSTRAINT `sufre_accidente_ibfk_1` FOREIGN KEY (`placa`) REFERENCES `auto` (`placa`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `sufre_accidente_ibfk_2` FOREIGN KEY (`id_acc`) REFERENCES `accidente` (`id_accidente`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>-- ALTER CHANGE MODIFY
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>drop table if exists  mi_tabla;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>
+(registro_coches: \Wed Sep 28 11:35:11 2022) mysql>use nombre_DB --o alguna
+Database changed
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>create table if not exists mi_tabla(
+    -> id int,
+    -> nombre char(5),
+    -> fac varchar(10)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>desc mi_tabla;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int         | YES  |     | NULL    |       |
+| nombre | char(5)     | YES  |     | NULL    |       |
+| fac    | varchar(10) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>ALTER table mi_tabla ALTER COLUMN nombre SET DEFAULT 'sofia';
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>desc mi_tabla;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int         | YES  |     | NULL    |       |
+| nombre | char(5)     | YES  |     | sofia   |       |
+| fac    | varchar(10) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>ALTER table mi_tabla ALTER COLUMN nombre DROP DEFAULT;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>ALTER table mi_tabla CHANGE COLUMN nombre nom VARCHAR(32) NOT NULL first;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>desc mi_tabla;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| nom   | varchar(32) | NO   |     | NULL    |       |
+| id    | int         | YES  |     | NULL    |       |
+| fac   | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>
+(nombre_DB: \Wed Sep 28 11:35:11 2022) mysql>ALTER table mi_tabla CHANGE COLUMN nom nom2 VARCHAR(32) NOT NULL AFTER fac;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+(nombre_DB: \Wed Sep 28 11:35:12 2022) mysql>
+(nombre_DB: \Wed Sep 28 11:35:12 2022) mysql>desc mi_tabla;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | YES  |     | NULL    |       |
+| fac   | varchar(10) | YES  |     | NULL    |       |
+| nom2  | varchar(32) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+(nombre_DB: \Wed Sep 28 11:35:12 2022) mysql>
+(nombre_DB: \Wed Sep 28 11:35:12 2022) mysql>ALTER TABLE mi_tabla MODIFY COLUMN fac text NOT NULL AFTER nom2;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+(nombre_DB: \Wed Sep 28 11:35:12 2022) mysql>
+(nombre_DB: \Wed Sep 28 11:35:12 2022) mysql>drop table if exists mi_tabla;
+Query OK, 0 rows affected (0.12 sec)
+
+(nombre_DB: \Wed Sep 28 11:35:15 2022) mysql>notee

@@ -1,0 +1,1196 @@
+[MonOct 01:18] ((none)) ~>/* Abrimos un tee \! cls*/
+[MonOct 01:18] ((none)) ~>-- tee F:\Pejcovich\BBDD\Semana 10\AY11_INSERT\AY11_Insert.txt
+[MonOct 01:18] ((none)) ~>
+[MonOct 01:18] ((none)) ~>\! cls
+[MonOct 01:18] ((none)) ~>/* Cambiamos el prompt */
+[MonOct 01:18] ((none)) ~>prompt [\w\O \R:\m] (\d) ~>
+PROMPT set to '[\w\O \R:\m] (\d) ~>'
+[MonOct 01:18] ((none)) ~>
+[MonOct 01:18] ((none)) ~>/* ---------------------------------------------------------------------------------------------------- */
+[MonOct 01:18] ((none)) ~>/* EJERCICIO 1 */
+[MonOct 01:18] ((none)) ~>/* ---------------------------------------------------------------------------------------------------- */
+[MonOct 01:18] ((none)) ~>
+[MonOct 01:18] ((none)) ~>/* Cargamos el esquema de la pixup store */
+[MonOct 01:18] ((none)) ~>-- source F:\Pejcovich\BBDD\Semana 10\AY11_INSERT\15_mapeoDER_pixupSchema.sql
+[MonOct 01:18] ((none)) ~>use pixup
+Database changed
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Revisamos la tabla idioma */
+[MonOct 01:18] (pixup) ~>desc idioma;
++-----------+------------------+------+-----+---------+----------------+
+| Field     | Type             | Null | Key | Default | Extra          |
++-----------+------------------+------+-----+---------+----------------+
+| id_idioma | tinyint unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(50)      | NO   | UNI | NULL    |                |
++-----------+------------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>show create table idioma;
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                                                                        |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| idioma | CREATE TABLE `idioma` (
+  `id_idioma` tinyint unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_idioma`),
+  UNIQUE KEY `nombre` (`nombre`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Verificamos que no haya registros en la tabla */
+[MonOct 01:18] (pixup) ~>select count(*) as num_registros from idioma;
++---------------+
+| num_registros |
++---------------+
+|            30 |
++---------------+
+1 row in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar el idioma ALEMAN con id_idioma = -1 */
+[MonOct 01:18] (pixup) ~>insert into idioma values(-1,'ALEMAN');
+ERROR 1264 (22003): Out of range value for column 'id_idioma' at row 1
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar el idioma ALEMAN con id_idioma = 2 */
+[MonOct 01:18] (pixup) ~>insert into idioma values(2,'ALEMAN'); 
+ERROR 1062 (23000): Duplicate entry '2' for key 'idioma.PRIMARY'
+[MonOct 01:18] (pixup) ~>select * from idioma;
++-----------+--------------------+
+| id_idioma | nombre             |
++-----------+--------------------+
+|        12 | Aleman             |
+|         6 | Arabe              |
+|         8 | Bengali            |
+|        22 | Chino cantones     |
+|         3 | Chino mandarin     |
+|        28 | Chino Min Nan      |
+|        16 | Chino Wu           |
+|        19 | Coreano            |
+|         1 | Español            |
+|         5 | Frances            |
+|        29 | Griego             |
+|        25 | Hausa              |
+|         4 | Hindi              |
+|        10 | Indonesio          |
+|         2 | Inglés             |
+|        24 | Italiano           |
+|        13 | Japones            |
+|        15 | Javanes            |
+|        30 | Kazako             |
+|        20 | Marati             |
+|        14 | Panyabi occidental |
+|        27 | Persa irani        |
+|         9 | Portugues          |
+|         7 | Ruso               |
+|        26 | Tailandes          |
+|        21 | Tamil              |
+|        17 | Telugu             |
+|        18 | Turco              |
+|        11 | Urdu               |
+|        23 | Vietnamita         |
++-----------+--------------------+
+30 rows in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~> /* Insertar el idioma ALEMAN con id_idioma = 3 */
+[MonOct 01:18] (pixup) ~>insert into idioma(id_idioma,nombre) values (3,'ALEMAN'); 
+ERROR 1062 (23000): Duplicate entry '3' for key 'idioma.PRIMARY'
+[MonOct 01:18] (pixup) ~>insert into idioma(id_idioma,nombre) values (3,'aleman'); 
+ERROR 1062 (23000): Duplicate entry '3' for key 'idioma.PRIMARY'
+[MonOct 01:18] (pixup) ~>insert into idioma(id_idioma,nombre) values (3,'Aleman'); 
+ERROR 1062 (23000): Duplicate entry '3' for key 'idioma.PRIMARY'
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar ITALIANO con id = 2, sin especificar columnas */
+[MonOct 01:18] (pixup) ~>insert into idioma values (2, 'ITALIANO');
+ERROR 1062 (23000): Duplicate entry '2' for key 'idioma.PRIMARY'
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar ITALIANO con id = 10, sin especificar columnas */
+[MonOct 01:18] (pixup) ~>insert into idioma values (10, 'ITALIANO'); 
+ERROR 1062 (23000): Duplicate entry '10' for key 'idioma.PRIMARY'
+[MonOct 01:18] (pixup) ~>/* todas las columnas y mismo orden */
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>select * from idioma;
++-----------+--------------------+
+| id_idioma | nombre             |
++-----------+--------------------+
+|        12 | Aleman             |
+|         6 | Arabe              |
+|         8 | Bengali            |
+|        22 | Chino cantones     |
+|         3 | Chino mandarin     |
+|        28 | Chino Min Nan      |
+|        16 | Chino Wu           |
+|        19 | Coreano            |
+|         1 | Español            |
+|         5 | Frances            |
+|        29 | Griego             |
+|        25 | Hausa              |
+|         4 | Hindi              |
+|        10 | Indonesio          |
+|         2 | Inglés             |
+|        24 | Italiano           |
+|        13 | Japones            |
+|        15 | Javanes            |
+|        30 | Kazako             |
+|        20 | Marati             |
+|        14 | Panyabi occidental |
+|        27 | Persa irani        |
+|         9 | Portugues          |
+|         7 | Ruso               |
+|        26 | Tailandes          |
+|        21 | Tamil              |
+|        17 | Telugu             |
+|        18 | Turco              |
+|        11 | Urdu               |
+|        23 | Vietnamita         |
++-----------+--------------------+
+30 rows in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar los idiomas INGLES y SUECO con id_idioma = 0 y nulo. */
+[MonOct 01:18] (pixup) ~>insert into idioma values (0,'INGLES'),(null,'SUECO');
+ERROR 1062 (23000): Duplicate entry 'INGLES' for key 'idioma.nombre'
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar el idioma CHINO sin id. */
+[MonOct 01:18] (pixup) ~>insert into idioma values ('CHINO');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar el idioma CHINO sin id, pero que funcione. */
+[MonOct 01:18] (pixup) ~>insert into idioma(nombre) values ('CHINO'); 
+Query OK, 1 row affected (0.01 sec)
+
+[MonOct 01:18] (pixup) ~>/* El numero de columnas de la tabla y el numero de valores a insertar
+   /*> no coincide. Para resolverlo hay de dos: modificamos la insercion para 
+   /*> que respete el numero de columnas de la tabla o especificamos solo las
+   /*> columnas para las que tenemos datos.*/
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar el idioma CHINO sin id. */
+[MonOct 01:18] (pixup) ~>insert into idioma(nombre) values ('CHINO');
+ERROR 1062 (23000): Duplicate entry 'CHINO' for key 'idioma.nombre'
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar los idiomas ARABE y PORTUGES en una misma sentencia
+   /*> sin ingresar valores (ni siquiera nulo) para id_idioma.  */
+[MonOct 01:18] (pixup) ~>insert into idioma(nombre) values ('ARABE'),('PORTUGUES');
+ERROR 1062 (23000): Duplicate entry 'ARABE' for key 'idioma.nombre'
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>select * from idioma order by id_idioma asc;
++-----------+--------------------+
+| id_idioma | nombre             |
++-----------+--------------------+
+|         1 | Español            |
+|         2 | Inglés             |
+|         3 | Chino mandarin     |
+|         4 | Hindi              |
+|         5 | Frances            |
+|         6 | Arabe              |
+|         7 | Ruso               |
+|         8 | Bengali            |
+|         9 | Portugues          |
+|        10 | Indonesio          |
+|        11 | Urdu               |
+|        12 | Aleman             |
+|        13 | Japones            |
+|        14 | Panyabi occidental |
+|        15 | Javanes            |
+|        16 | Chino Wu           |
+|        17 | Telugu             |
+|        18 | Turco              |
+|        19 | Coreano            |
+|        20 | Marati             |
+|        21 | Tamil              |
+|        22 | Chino cantones     |
+|        23 | Vietnamita         |
+|        24 | Italiano           |
+|        25 | Hausa              |
+|        26 | Tailandes          |
+|        27 | Persa irani        |
+|        28 | Chino Min Nan      |
+|        29 | Griego             |
+|        30 | Kazako             |
+|        33 | CHINO              |
++-----------+--------------------+
+31 rows in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar el idioma ALEMAN sin id_idioma */
+[MonOct 01:18] (pixup) ~>insert into idioma values(0,'ALEMAN');
+ERROR 1062 (23000): Duplicate entry 'ALEMAN' for key 'idioma.nombre'
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar el idioma JAPONES sin id */
+[MonOct 01:18] (pixup) ~>insert into idioma(nombre,id_idioma) values('JAPONES',null);
+ERROR 1062 (23000): Duplicate entry 'JAPONES' for key 'idioma.nombre'
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Mostrar todos los registros de la tabla idioma */
+[MonOct 01:18] (pixup) ~>select * from idioma order by id_idioma asc;
++-----------+--------------------+
+| id_idioma | nombre             |
++-----------+--------------------+
+|         1 | Español            |
+|         2 | Inglés             |
+|         3 | Chino mandarin     |
+|         4 | Hindi              |
+|         5 | Frances            |
+|         6 | Arabe              |
+|         7 | Ruso               |
+|         8 | Bengali            |
+|         9 | Portugues          |
+|        10 | Indonesio          |
+|        11 | Urdu               |
+|        12 | Aleman             |
+|        13 | Japones            |
+|        14 | Panyabi occidental |
+|        15 | Javanes            |
+|        16 | Chino Wu           |
+|        17 | Telugu             |
+|        18 | Turco              |
+|        19 | Coreano            |
+|        20 | Marati             |
+|        21 | Tamil              |
+|        22 | Chino cantones     |
+|        23 | Vietnamita         |
+|        24 | Italiano           |
+|        25 | Hausa              |
+|        26 | Tailandes          |
+|        27 | Persa irani        |
+|        28 | Chino Min Nan      |
+|        29 | Griego             |
+|        30 | Kazako             |
+|        33 | CHINO              |
++-----------+--------------------+
+31 rows in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Cuando ya existe una fila en la tabla y una consulta de insercion falla,
+   /*> la columna de clave principal aun se incrementara.
+   /*> Los valores de incremento automatico no necesitan ser consecutivos, solo deben ser unicos.*/
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* ---------------------------------------------------------------------------------------------------- */
+[MonOct 01:18] (pixup) ~>/* EJERCICIO 2 */
+[MonOct 01:18] (pixup) ~>/* ---------------------------------------------------------------------------------------------------- */
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Maneras de insertar datos en tablas
+   /*> 1. Poniendo las columnas y valores explicitamente
+   /*> insert into nom_tbl(camp1,camp2,...) values(val1,val2,...)
+   /*>  
+   /*> 2. Solo indicando los valores
+   /*> NOTA: tenemos que respetar el orden de las columnas
+   /*> insert into nom_tbl values(val1,val2,...)
+   /*> 
+   /*> 3. Podemos ingresar varios renglones a la vez. Separando por comas los parentesiss
+   /*> insert into nom_tbl values (ren1),(ren2),....,(renN)
+   /*> */
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Cargamos el esquema de la pixup store */
+[MonOct 01:18] (pixup) ~>-- source F:\Pejcovich\BBDD\Semana 10\AY11_INSERT\15_mapeoDER_pixupSchema.sql
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Revisamos la tabla estado */
+[MonOct 01:18] (pixup) ~>desc estado;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| clave  | char(2)     | NO   | PRI | NULL    |       |
+| nombre | varchar(40) | NO   | UNI | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>show create table estado;
++--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                      |
++--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| estado | CREATE TABLE `estado` (
+  `clave` char(2) NOT NULL,
+  `nombre` varchar(40) NOT NULL,
+  PRIMARY KEY (`clave`),
+  UNIQUE KEY `nombre` (`nombre`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Verificar numero de registros en 'estado' */
+[MonOct 01:18] (pixup) ~>select count(*) as num_registros from estado;
++---------------+
+| num_registros |
++---------------+
+|            32 |
++---------------+
+1 row in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar el estado CDMX con clave DF en la tabla estado con la sintaxis completa */
+[MonOct 01:18] (pixup) ~>insert into estado values('DF','CDMX');
+Query OK, 1 row affected (0.01 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar JALISCO con clave JAL en la tabla estado */
+[MonOct 01:18] (pixup) ~>insert into estado values('JAL','JALISCO');
+ERROR 1406 (22001): Data too long for column 'clave' at row 1
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar cdmx (en minusculas) con la clave MX */
+[MonOct 01:18] (pixup) ~>insert into estado values('MX','cdmx');
+ERROR 1062 (23000): Duplicate entry 'cdmx' for key 'estado.nombre'
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar DURANGO sin clave */
+[MonOct 01:18] (pixup) ~>insert into estado values('DURANGO');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+[MonOct 01:18] (pixup) ~>insert into estado(nombre) values('DURANGO');
+ERROR 1364 (HY000): Field 'clave' doesn't have a default value
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar ZACATECAS con clave Z (en ese orden) */
+[MonOct 01:18] (pixup) ~>insert into estado(nombre,clave) values('ZACATECAS','Z');
+ERROR 1062 (23000): Duplicate entry 'ZACATECAS' for key 'estado.nombre'
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* ¿Por que funciona?
+   /*> Cuando usamos CHAR decimos que la memoria sera reservada para la cantidad de bytes especificada. 
+   /*> E.g., si declaramos un CHAR de longitud 2, y guardamos 'Z' sólo se ocupara 1 byte y el que resta se llenara con un espacio.
+   /*> Siempre se ocupara la longitud que definimos, llenemos de caracteres de datos o no.
+   /*> -> La ventaja es que CHAR es mas rapido que VARCHAR en cuanto a rendimiento ya que
+   /*> el motor sabe de antemano cual es la longitud de los datos a procesar. 
+   /*> En conclusion, si vamos a almacenar datos cuyo tamanio sabemos de antemano, 
+   /*> lo mejor es optar por CHAR, pues acelera el rendimiento.*/
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* ¿Que hago si quiero restringir que todas las claves sean de longitud 2 y no menores? */
+[MonOct 01:18] (pixup) ~>delete from estado where clave = 'Z';
+Query OK, 0 rows affected (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>select * from estado;
++-------+---------------------+
+| clave | nombre              |
++-------+---------------------+
+| 01    | Aguascalientes      |
+| 02    | Baja California     |
+| 03    | Baja California Sur |
+| 04    | Campeche            |
+| DF    | CDMX                |
+| 07    | Chiapas             |
+| 08    | Chihuahua           |
+| 09    | Ciudad de México    |
+| 05    | Coahulia            |
+| 06    | Colima              |
+| 10    | Durango             |
+| 11    | Estado de México    |
+| 12    | Guanajuato          |
+| 13    | Guerrero            |
+| 14    | Hidalgo             |
+| 15    | Jalisco             |
+| 16    | Michoacán           |
+| 17    | Morelos             |
+| 18    | Nayarit             |
+| 19    | Nuevo León          |
+| 20    | Oaxaca              |
+| 21    | Puebla              |
+| 22    | Querétaro           |
+| 23    | Quintana Roo        |
+| 24    | San Luis Potosí     |
+| 25    | Sinaloa             |
+| 26    | Sonora              |
+| 27    | Tabasco             |
+| 28    | Tamaulipas          |
+| 29    | Tlaxcala            |
+| 30    | Veracruz            |
+| 31    | Yucatán             |
+| 32    | Zacatecas           |
++-------+---------------------+
+33 rows in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>alter table estado add constraint MINIMO check (CHAR_LENGTH(clave) >= 2);
+Query OK, 33 rows affected (0.15 sec)
+Records: 33  Duplicates: 0  Warnings: 0
+
+[MonOct 01:18] (pixup) ~>insert into estado(nombre,clave) values('ZACATECAS','Z');
+ERROR 3819 (HY000): Check constraint 'MINIMO' is violated.
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>alter table estado drop constraint MINIMO;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[MonOct 01:18] (pixup) ~>insert into estado(nombre,clave) values('ZACATECAS','Z');
+ERROR 1062 (23000): Duplicate entry 'ZACATECAS' for key 'estado.nombre'
+[MonOct 01:18] (pixup) ~>select * from estado;
++-------+---------------------+
+| clave | nombre              |
++-------+---------------------+
+| 01    | Aguascalientes      |
+| 02    | Baja California     |
+| 03    | Baja California Sur |
+| 04    | Campeche            |
+| DF    | CDMX                |
+| 07    | Chiapas             |
+| 08    | Chihuahua           |
+| 09    | Ciudad de México    |
+| 05    | Coahulia            |
+| 06    | Colima              |
+| 10    | Durango             |
+| 11    | Estado de México    |
+| 12    | Guanajuato          |
+| 13    | Guerrero            |
+| 14    | Hidalgo             |
+| 15    | Jalisco             |
+| 16    | Michoacán           |
+| 17    | Morelos             |
+| 18    | Nayarit             |
+| 19    | Nuevo León          |
+| 20    | Oaxaca              |
+| 21    | Puebla              |
+| 22    | Querétaro           |
+| 23    | Quintana Roo        |
+| 24    | San Luis Potosí     |
+| 25    | Sinaloa             |
+| 26    | Sonora              |
+| 27    | Tabasco             |
+| 28    | Tamaulipas          |
+| 29    | Tlaxcala            |
+| 30    | Veracruz            |
+| 31    | Yucatán             |
+| 32    | Zacatecas           |
++-------+---------------------+
+33 rows in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar DURANGO con clave null */
+[MonOct 01:18] (pixup) ~>insert into estado values(null,'DURANGO');
+ERROR 1048 (23000): Column 'clave' cannot be null
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar DURANGO con clave vacia */
+[MonOct 01:18] (pixup) ~>insert into estado values('','DURANGO');
+ERROR 1062 (23000): Duplicate entry 'DURANGO' for key 'estado.nombre'
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Mostrar todos los registros de la tabla estado */
+[MonOct 01:18] (pixup) ~>select * from estado;
++-------+---------------------+
+| clave | nombre              |
++-------+---------------------+
+| 01    | Aguascalientes      |
+| 02    | Baja California     |
+| 03    | Baja California Sur |
+| 04    | Campeche            |
+| DF    | CDMX                |
+| 07    | Chiapas             |
+| 08    | Chihuahua           |
+| 09    | Ciudad de México    |
+| 05    | Coahulia            |
+| 06    | Colima              |
+| 10    | Durango             |
+| 11    | Estado de México    |
+| 12    | Guanajuato          |
+| 13    | Guerrero            |
+| 14    | Hidalgo             |
+| 15    | Jalisco             |
+| 16    | Michoacán           |
+| 17    | Morelos             |
+| 18    | Nayarit             |
+| 19    | Nuevo León          |
+| 20    | Oaxaca              |
+| 21    | Puebla              |
+| 22    | Querétaro           |
+| 23    | Quintana Roo        |
+| 24    | San Luis Potosí     |
+| 25    | Sinaloa             |
+| 26    | Sonora              |
+| 27    | Tabasco             |
+| 28    | Tamaulipas          |
+| 29    | Tlaxcala            |
+| 30    | Veracruz            |
+| 31    | Yucatán             |
+| 32    | Zacatecas           |
++-------+---------------------+
+33 rows in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Insertar 3 estados en la tabla estado, todo en una misma sentencia sin errores */
+[MonOct 01:18] (pixup) ~>insert into estado(nombre,clave) values ('VERACRUZ','VE'),('GUADALAJARA','GA'),('QUINTANA ROO','QR');
+ERROR 1062 (23000): Duplicate entry 'VERACRUZ' for key 'estado.nombre'
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Mostrar todos los registros de la tabla estado */
+[MonOct 01:18] (pixup) ~>select * from estado;
++-------+---------------------+
+| clave | nombre              |
++-------+---------------------+
+| 01    | Aguascalientes      |
+| 02    | Baja California     |
+| 03    | Baja California Sur |
+| 04    | Campeche            |
+| DF    | CDMX                |
+| 07    | Chiapas             |
+| 08    | Chihuahua           |
+| 09    | Ciudad de México    |
+| 05    | Coahulia            |
+| 06    | Colima              |
+| 10    | Durango             |
+| 11    | Estado de México    |
+| 12    | Guanajuato          |
+| 13    | Guerrero            |
+| 14    | Hidalgo             |
+| 15    | Jalisco             |
+| 16    | Michoacán           |
+| 17    | Morelos             |
+| 18    | Nayarit             |
+| 19    | Nuevo León          |
+| 20    | Oaxaca              |
+| 21    | Puebla              |
+| 22    | Querétaro           |
+| 23    | Quintana Roo        |
+| 24    | San Luis Potosí     |
+| 25    | Sinaloa             |
+| 26    | Sonora              |
+| 27    | Tabasco             |
+| 28    | Tamaulipas          |
+| 29    | Tlaxcala            |
+| 30    | Veracruz            |
+| 31    | Yucatán             |
+| 32    | Zacatecas           |
++-------+---------------------+
+33 rows in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>/* Vaciar la tabla estado */
+[MonOct 01:18] (pixup) ~>delete from estado;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`pixup`.`municipio`, CONSTRAINT `FK_mun_edo` FOREIGN KEY (`clave_estado`) REFERENCES `estado` (`clave`))
+[MonOct 01:18] (pixup) ~>select * from estado;
++-------+---------------------+
+| clave | nombre              |
++-------+---------------------+
+| 01    | Aguascalientes      |
+| 02    | Baja California     |
+| 03    | Baja California Sur |
+| 04    | Campeche            |
+| DF    | CDMX                |
+| 07    | Chiapas             |
+| 08    | Chihuahua           |
+| 09    | Ciudad de México    |
+| 05    | Coahulia            |
+| 06    | Colima              |
+| 10    | Durango             |
+| 11    | Estado de México    |
+| 12    | Guanajuato          |
+| 13    | Guerrero            |
+| 14    | Hidalgo             |
+| 15    | Jalisco             |
+| 16    | Michoacán           |
+| 17    | Morelos             |
+| 18    | Nayarit             |
+| 19    | Nuevo León          |
+| 20    | Oaxaca              |
+| 21    | Puebla              |
+| 22    | Querétaro           |
+| 23    | Quintana Roo        |
+| 24    | San Luis Potosí     |
+| 25    | Sinaloa             |
+| 26    | Sonora              |
+| 27    | Tabasco             |
+| 28    | Tamaulipas          |
+| 29    | Tlaxcala            |
+| 30    | Veracruz            |
+| 31    | Yucatán             |
+| 32    | Zacatecas           |
++-------+---------------------+
+33 rows in set (0.00 sec)
+
+[MonOct 01:18] (pixup) ~>
+[MonOct 01:18] (pixup) ~>--notee
+    -> Terminal close -- exit!
+mysql> /* Abrimos un tee \! cls*/
+mysql> -- tee F:\Pejcovich\BBDD\Semana 10\AY11_INSERT\AY11_Insert.txt
+mysql> 
+mysql> \! cls
+mysql> /* Cambiamos el prompt */
+mysql> prompt [\w\O \R:\m] (\d) ~>
+PROMPT set to '[\w\O \R:\m] (\d) ~>'
+[MonOct 01:19] ((none)) ~>
+[MonOct 01:19] ((none)) ~>/* ---------------------------------------------------------------------------------------------------- */
+[MonOct 01:19] ((none)) ~>/* EJERCICIO 1 */
+[MonOct 01:19] ((none)) ~>/* ---------------------------------------------------------------------------------------------------- */
+[MonOct 01:19] ((none)) ~>
+[MonOct 01:19] ((none)) ~>/* Cargamos el esquema de la pixup store */
+[MonOct 01:19] ((none)) ~>-- source F:\Pejcovich\BBDD\Semana 10\AY11_INSERT\15_mapeoDER_pixupSchema.sql
+[MonOct 01:19] ((none)) ~>use pixup
+Database changed
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Revisamos la tabla idioma */
+[MonOct 01:19] (pixup) ~>desc idioma;
++-----------+------------------+------+-----+---------+----------------+
+| Field     | Type             | Null | Key | Default | Extra          |
++-----------+------------------+------+-----+---------+----------------+
+| id_idioma | tinyint unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(50)      | NO   | UNI | NULL    |                |
++-----------+------------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>show create table idioma;
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                                                                        |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| idioma | CREATE TABLE `idioma` (
+  `id_idioma` tinyint unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_idioma`),
+  UNIQUE KEY `nombre` (`nombre`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Verificamos que no haya registros en la tabla */
+[MonOct 01:19] (pixup) ~>select count(*) as num_registros from idioma;
++---------------+
+| num_registros |
++---------------+
+|            31 |
++---------------+
+1 row in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar el idioma ALEMAN con id_idioma = -1 */
+[MonOct 01:19] (pixup) ~>insert into idioma values(-1,'ALEMAN');
+ERROR 1264 (22003): Out of range value for column 'id_idioma' at row 1
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar el idioma ALEMAN con id_idioma = 2 */
+[MonOct 01:19] (pixup) ~>insert into idioma values(2,'ALEMAN'); 
+ERROR 1062 (23000): Duplicate entry '2' for key 'idioma.PRIMARY'
+[MonOct 01:19] (pixup) ~>select * from idioma;
++-----------+--------------------+
+| id_idioma | nombre             |
++-----------+--------------------+
+|        12 | Aleman             |
+|         6 | Arabe              |
+|         8 | Bengali            |
+|        33 | CHINO              |
+|        22 | Chino cantones     |
+|         3 | Chino mandarin     |
+|        28 | Chino Min Nan      |
+|        16 | Chino Wu           |
+|        19 | Coreano            |
+|         1 | Español            |
+|         5 | Frances            |
+|        29 | Griego             |
+|        25 | Hausa              |
+|         4 | Hindi              |
+|        10 | Indonesio          |
+|         2 | Inglés             |
+|        24 | Italiano           |
+|        13 | Japones            |
+|        15 | Javanes            |
+|        30 | Kazako             |
+|        20 | Marati             |
+|        14 | Panyabi occidental |
+|        27 | Persa irani        |
+|         9 | Portugues          |
+|         7 | Ruso               |
+|        26 | Tailandes          |
+|        21 | Tamil              |
+|        17 | Telugu             |
+|        18 | Turco              |
+|        11 | Urdu               |
+|        23 | Vietnamita         |
++-----------+--------------------+
+31 rows in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~> /* Insertar el idioma ALEMAN con id_idioma = 3 */
+[MonOct 01:19] (pixup) ~>insert into idioma(id_idioma,nombre) values (3,'ALEMAN'); 
+ERROR 1062 (23000): Duplicate entry '3' for key 'idioma.PRIMARY'
+[MonOct 01:19] (pixup) ~>insert into idioma(id_idioma,nombre) values (3,'aleman'); 
+ERROR 1062 (23000): Duplicate entry '3' for key 'idioma.PRIMARY'
+[MonOct 01:19] (pixup) ~>insert into idioma(id_idioma,nombre) values (3,'Aleman'); 
+ERROR 1062 (23000): Duplicate entry '3' for key 'idioma.PRIMARY'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar ITALIANO con id = 2, sin especificar columnas */
+[MonOct 01:19] (pixup) ~>insert into idioma values (2, 'ITALIANO');
+ERROR 1062 (23000): Duplicate entry '2' for key 'idioma.PRIMARY'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar ITALIANO con id = 10, sin especificar columnas */
+[MonOct 01:19] (pixup) ~>insert into idioma values (10, 'ITALIANO'); 
+ERROR 1062 (23000): Duplicate entry '10' for key 'idioma.PRIMARY'
+[MonOct 01:19] (pixup) ~>/* todas las columnas y mismo orden */
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>select * from idioma;
++-----------+--------------------+
+| id_idioma | nombre             |
++-----------+--------------------+
+|        12 | Aleman             |
+|         6 | Arabe              |
+|         8 | Bengali            |
+|        33 | CHINO              |
+|        22 | Chino cantones     |
+|         3 | Chino mandarin     |
+|        28 | Chino Min Nan      |
+|        16 | Chino Wu           |
+|        19 | Coreano            |
+|         1 | Español            |
+|         5 | Frances            |
+|        29 | Griego             |
+|        25 | Hausa              |
+|         4 | Hindi              |
+|        10 | Indonesio          |
+|         2 | Inglés             |
+|        24 | Italiano           |
+|        13 | Japones            |
+|        15 | Javanes            |
+|        30 | Kazako             |
+|        20 | Marati             |
+|        14 | Panyabi occidental |
+|        27 | Persa irani        |
+|         9 | Portugues          |
+|         7 | Ruso               |
+|        26 | Tailandes          |
+|        21 | Tamil              |
+|        17 | Telugu             |
+|        18 | Turco              |
+|        11 | Urdu               |
+|        23 | Vietnamita         |
++-----------+--------------------+
+31 rows in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar los idiomas INGLES y SUECO con id_idioma = 0 y nulo. */
+[MonOct 01:19] (pixup) ~>insert into idioma values (0,'INGLES'),(null,'SUECO');
+ERROR 1062 (23000): Duplicate entry 'INGLES' for key 'idioma.nombre'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar el idioma CHINO sin id. */
+[MonOct 01:19] (pixup) ~>insert into idioma values ('CHINO');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar el idioma CHINO sin id, pero que funcione. */
+[MonOct 01:19] (pixup) ~>insert into idioma(nombre) values ('CHINO'); 
+ERROR 1062 (23000): Duplicate entry 'CHINO' for key 'idioma.nombre'
+[MonOct 01:19] (pixup) ~>/* El numero de columnas de la tabla y el numero de valores a insertar
+   /*> no coincide. Para resolverlo hay de dos: modificamos la insercion para 
+   /*> que respete el numero de columnas de la tabla o especificamos solo las
+   /*> columnas para las que tenemos datos.*/
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar el idioma CHINO sin id. */
+[MonOct 01:19] (pixup) ~>insert into idioma(nombre) values ('CHINO');
+ERROR 1062 (23000): Duplicate entry 'CHINO' for key 'idioma.nombre'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar los idiomas ARABE y PORTUGES en una misma sentencia
+   /*> sin ingresar valores (ni siquiera nulo) para id_idioma.  */
+[MonOct 01:19] (pixup) ~>insert into idioma(nombre) values ('ARABE'),('PORTUGUES');
+ERROR 1062 (23000): Duplicate entry 'ARABE' for key 'idioma.nombre'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>select * from idioma order by id_idioma asc;
++-----------+--------------------+
+| id_idioma | nombre             |
++-----------+--------------------+
+|         1 | Español            |
+|         2 | Inglés             |
+|         3 | Chino mandarin     |
+|         4 | Hindi              |
+|         5 | Frances            |
+|         6 | Arabe              |
+|         7 | Ruso               |
+|         8 | Bengali            |
+|         9 | Portugues          |
+|        10 | Indonesio          |
+|        11 | Urdu               |
+|        12 | Aleman             |
+|        13 | Japones            |
+|        14 | Panyabi occidental |
+|        15 | Javanes            |
+|        16 | Chino Wu           |
+|        17 | Telugu             |
+|        18 | Turco              |
+|        19 | Coreano            |
+|        20 | Marati             |
+|        21 | Tamil              |
+|        22 | Chino cantones     |
+|        23 | Vietnamita         |
+|        24 | Italiano           |
+|        25 | Hausa              |
+|        26 | Tailandes          |
+|        27 | Persa irani        |
+|        28 | Chino Min Nan      |
+|        29 | Griego             |
+|        30 | Kazako             |
+|        33 | CHINO              |
++-----------+--------------------+
+31 rows in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar el idioma ALEMAN sin id_idioma */
+[MonOct 01:19] (pixup) ~>insert into idioma values(0,'ALEMAN');
+ERROR 1062 (23000): Duplicate entry 'ALEMAN' for key 'idioma.nombre'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar el idioma JAPONES sin id */
+[MonOct 01:19] (pixup) ~>insert into idioma(nombre,id_idioma) values('JAPONES',null);
+ERROR 1062 (23000): Duplicate entry 'JAPONES' for key 'idioma.nombre'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Mostrar todos los registros de la tabla idioma */
+[MonOct 01:19] (pixup) ~>select * from idioma order by id_idioma asc;
++-----------+--------------------+
+| id_idioma | nombre             |
++-----------+--------------------+
+|         1 | Español            |
+|         2 | Inglés             |
+|         3 | Chino mandarin     |
+|         4 | Hindi              |
+|         5 | Frances            |
+|         6 | Arabe              |
+|         7 | Ruso               |
+|         8 | Bengali            |
+|         9 | Portugues          |
+|        10 | Indonesio          |
+|        11 | Urdu               |
+|        12 | Aleman             |
+|        13 | Japones            |
+|        14 | Panyabi occidental |
+|        15 | Javanes            |
+|        16 | Chino Wu           |
+|        17 | Telugu             |
+|        18 | Turco              |
+|        19 | Coreano            |
+|        20 | Marati             |
+|        21 | Tamil              |
+|        22 | Chino cantones     |
+|        23 | Vietnamita         |
+|        24 | Italiano           |
+|        25 | Hausa              |
+|        26 | Tailandes          |
+|        27 | Persa irani        |
+|        28 | Chino Min Nan      |
+|        29 | Griego             |
+|        30 | Kazako             |
+|        33 | CHINO              |
++-----------+--------------------+
+31 rows in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Cuando ya existe una fila en la tabla y una consulta de insercion falla,
+   /*> la columna de clave principal aun se incrementara.
+   /*> Los valores de incremento automatico no necesitan ser consecutivos, solo deben ser unicos.*/
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* ---------------------------------------------------------------------------------------------------- */
+[MonOct 01:19] (pixup) ~>/* EJERCICIO 2 */
+[MonOct 01:19] (pixup) ~>/* ---------------------------------------------------------------------------------------------------- */
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Maneras de insertar datos en tablas
+   /*> 1. Poniendo las columnas y valores explicitamente
+   /*> insert into nom_tbl(camp1,camp2,...) values(val1,val2,...)
+   /*>  
+   /*> 2. Solo indicando los valores
+   /*> NOTA: tenemos que respetar el orden de las columnas
+   /*> insert into nom_tbl values(val1,val2,...)
+   /*> 
+   /*> 3. Podemos ingresar varios renglones a la vez. Separando por comas los parentesiss
+   /*> insert into nom_tbl values (ren1),(ren2),....,(renN)
+   /*> */
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Cargamos el esquema de la pixup store */
+[MonOct 01:19] (pixup) ~>-- source F:\Pejcovich\BBDD\Semana 10\AY11_INSERT\15_mapeoDER_pixupSchema.sql
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Revisamos la tabla estado */
+[MonOct 01:19] (pixup) ~>desc estado;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| clave  | char(2)     | NO   | PRI | NULL    |       |
+| nombre | varchar(40) | NO   | UNI | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>show create table estado;
++--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                      |
++--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| estado | CREATE TABLE `estado` (
+  `clave` char(2) NOT NULL,
+  `nombre` varchar(40) NOT NULL,
+  PRIMARY KEY (`clave`),
+  UNIQUE KEY `nombre` (`nombre`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Verificar numero de registros en 'estado' */
+[MonOct 01:19] (pixup) ~>select count(*) as num_registros from estado;
++---------------+
+| num_registros |
++---------------+
+|            33 |
++---------------+
+1 row in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar el estado CDMX con clave DF en la tabla estado con la sintaxis completa */
+[MonOct 01:19] (pixup) ~>insert into estado values('DF','CDMX');
+ERROR 1062 (23000): Duplicate entry 'DF' for key 'estado.PRIMARY'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar JALISCO con clave JAL en la tabla estado */
+[MonOct 01:19] (pixup) ~>insert into estado values('JAL','JALISCO');
+ERROR 1406 (22001): Data too long for column 'clave' at row 1
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar cdmx (en minusculas) con la clave MX */
+[MonOct 01:19] (pixup) ~>insert into estado values('MX','cdmx');
+ERROR 1062 (23000): Duplicate entry 'cdmx' for key 'estado.nombre'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar DURANGO sin clave */
+[MonOct 01:19] (pixup) ~>insert into estado values('DURANGO');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+[MonOct 01:19] (pixup) ~>insert into estado(nombre) values('DURANGO');
+ERROR 1364 (HY000): Field 'clave' doesn't have a default value
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar ZACATECAS con clave Z (en ese orden) */
+[MonOct 01:19] (pixup) ~>insert into estado(nombre,clave) values('ZACATECAS','Z');
+ERROR 1062 (23000): Duplicate entry 'ZACATECAS' for key 'estado.nombre'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* ¿Por que funciona?
+   /*> Cuando usamos CHAR decimos que la memoria sera reservada para la cantidad de bytes especificada. 
+   /*> E.g., si declaramos un CHAR de longitud 2, y guardamos 'Z' sólo se ocupara 1 byte y el que resta se llenara con un espacio.
+   /*> Siempre se ocupara la longitud que definimos, llenemos de caracteres de datos o no.
+   /*> -> La ventaja es que CHAR es mas rapido que VARCHAR en cuanto a rendimiento ya que
+   /*> el motor sabe de antemano cual es la longitud de los datos a procesar. 
+   /*> En conclusion, si vamos a almacenar datos cuyo tamanio sabemos de antemano, 
+   /*> lo mejor es optar por CHAR, pues acelera el rendimiento.*/
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* ¿Que hago si quiero restringir que todas las claves sean de longitud 2 y no menores? */
+[MonOct 01:19] (pixup) ~>delete from estado where clave = 'Z';
+Query OK, 0 rows affected (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>select * from estado;
++-------+---------------------+
+| clave | nombre              |
++-------+---------------------+
+| 01    | Aguascalientes      |
+| 02    | Baja California     |
+| 03    | Baja California Sur |
+| 04    | Campeche            |
+| DF    | CDMX                |
+| 07    | Chiapas             |
+| 08    | Chihuahua           |
+| 09    | Ciudad de México    |
+| 05    | Coahulia            |
+| 06    | Colima              |
+| 10    | Durango             |
+| 11    | Estado de México    |
+| 12    | Guanajuato          |
+| 13    | Guerrero            |
+| 14    | Hidalgo             |
+| 15    | Jalisco             |
+| 16    | Michoacán           |
+| 17    | Morelos             |
+| 18    | Nayarit             |
+| 19    | Nuevo León          |
+| 20    | Oaxaca              |
+| 21    | Puebla              |
+| 22    | Querétaro           |
+| 23    | Quintana Roo        |
+| 24    | San Luis Potosí     |
+| 25    | Sinaloa             |
+| 26    | Sonora              |
+| 27    | Tabasco             |
+| 28    | Tamaulipas          |
+| 29    | Tlaxcala            |
+| 30    | Veracruz            |
+| 31    | Yucatán             |
+| 32    | Zacatecas           |
++-------+---------------------+
+33 rows in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>alter table estado add constraint MINIMO check (CHAR_LENGTH(clave) >= 2);
+Query OK, 33 rows affected (0.16 sec)
+Records: 33  Duplicates: 0  Warnings: 0
+
+[MonOct 01:19] (pixup) ~>insert into estado(nombre,clave) values('ZACATECAS','Z');
+ERROR 3819 (HY000): Check constraint 'MINIMO' is violated.
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>alter table estado drop constraint MINIMO;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[MonOct 01:19] (pixup) ~>insert into estado(nombre,clave) values('ZACATECAS','Z');
+ERROR 1062 (23000): Duplicate entry 'ZACATECAS' for key 'estado.nombre'
+[MonOct 01:19] (pixup) ~>select * from estado;
++-------+---------------------+
+| clave | nombre              |
++-------+---------------------+
+| 01    | Aguascalientes      |
+| 02    | Baja California     |
+| 03    | Baja California Sur |
+| 04    | Campeche            |
+| DF    | CDMX                |
+| 07    | Chiapas             |
+| 08    | Chihuahua           |
+| 09    | Ciudad de México    |
+| 05    | Coahulia            |
+| 06    | Colima              |
+| 10    | Durango             |
+| 11    | Estado de México    |
+| 12    | Guanajuato          |
+| 13    | Guerrero            |
+| 14    | Hidalgo             |
+| 15    | Jalisco             |
+| 16    | Michoacán           |
+| 17    | Morelos             |
+| 18    | Nayarit             |
+| 19    | Nuevo León          |
+| 20    | Oaxaca              |
+| 21    | Puebla              |
+| 22    | Querétaro           |
+| 23    | Quintana Roo        |
+| 24    | San Luis Potosí     |
+| 25    | Sinaloa             |
+| 26    | Sonora              |
+| 27    | Tabasco             |
+| 28    | Tamaulipas          |
+| 29    | Tlaxcala            |
+| 30    | Veracruz            |
+| 31    | Yucatán             |
+| 32    | Zacatecas           |
++-------+---------------------+
+33 rows in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar DURANGO con clave null */
+[MonOct 01:19] (pixup) ~>insert into estado values(null,'DURANGO');
+ERROR 1048 (23000): Column 'clave' cannot be null
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar DURANGO con clave vacia */
+[MonOct 01:19] (pixup) ~>insert into estado values('','DURANGO');
+ERROR 1062 (23000): Duplicate entry 'DURANGO' for key 'estado.nombre'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Mostrar todos los registros de la tabla estado */
+[MonOct 01:19] (pixup) ~>select * from estado;
++-------+---------------------+
+| clave | nombre              |
++-------+---------------------+
+| 01    | Aguascalientes      |
+| 02    | Baja California     |
+| 03    | Baja California Sur |
+| 04    | Campeche            |
+| DF    | CDMX                |
+| 07    | Chiapas             |
+| 08    | Chihuahua           |
+| 09    | Ciudad de México    |
+| 05    | Coahulia            |
+| 06    | Colima              |
+| 10    | Durango             |
+| 11    | Estado de México    |
+| 12    | Guanajuato          |
+| 13    | Guerrero            |
+| 14    | Hidalgo             |
+| 15    | Jalisco             |
+| 16    | Michoacán           |
+| 17    | Morelos             |
+| 18    | Nayarit             |
+| 19    | Nuevo León          |
+| 20    | Oaxaca              |
+| 21    | Puebla              |
+| 22    | Querétaro           |
+| 23    | Quintana Roo        |
+| 24    | San Luis Potosí     |
+| 25    | Sinaloa             |
+| 26    | Sonora              |
+| 27    | Tabasco             |
+| 28    | Tamaulipas          |
+| 29    | Tlaxcala            |
+| 30    | Veracruz            |
+| 31    | Yucatán             |
+| 32    | Zacatecas           |
++-------+---------------------+
+33 rows in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Insertar 3 estados en la tabla estado, todo en una misma sentencia sin errores */
+[MonOct 01:19] (pixup) ~>insert into estado(nombre,clave) values ('VERACRUZ','VE'),('GUADALAJARA','GA'),('QUINTANA ROO','QR');
+ERROR 1062 (23000): Duplicate entry 'VERACRUZ' for key 'estado.nombre'
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Mostrar todos los registros de la tabla estado */
+[MonOct 01:19] (pixup) ~>select * from estado;
++-------+---------------------+
+| clave | nombre              |
++-------+---------------------+
+| 01    | Aguascalientes      |
+| 02    | Baja California     |
+| 03    | Baja California Sur |
+| 04    | Campeche            |
+| DF    | CDMX                |
+| 07    | Chiapas             |
+| 08    | Chihuahua           |
+| 09    | Ciudad de México    |
+| 05    | Coahulia            |
+| 06    | Colima              |
+| 10    | Durango             |
+| 11    | Estado de México    |
+| 12    | Guanajuato          |
+| 13    | Guerrero            |
+| 14    | Hidalgo             |
+| 15    | Jalisco             |
+| 16    | Michoacán           |
+| 17    | Morelos             |
+| 18    | Nayarit             |
+| 19    | Nuevo León          |
+| 20    | Oaxaca              |
+| 21    | Puebla              |
+| 22    | Querétaro           |
+| 23    | Quintana Roo        |
+| 24    | San Luis Potosí     |
+| 25    | Sinaloa             |
+| 26    | Sonora              |
+| 27    | Tabasco             |
+| 28    | Tamaulipas          |
+| 29    | Tlaxcala            |
+| 30    | Veracruz            |
+| 31    | Yucatán             |
+| 32    | Zacatecas           |
++-------+---------------------+
+33 rows in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>/* Vaciar la tabla estado */
+[MonOct 01:19] (pixup) ~>delete from estado;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`pixup`.`municipio`, CONSTRAINT `FK_mun_edo` FOREIGN KEY (`clave_estado`) REFERENCES `estado` (`clave`))
+[MonOct 01:19] (pixup) ~>select * from estado;
++-------+---------------------+
+| clave | nombre              |
++-------+---------------------+
+| 01    | Aguascalientes      |
+| 02    | Baja California     |
+| 03    | Baja California Sur |
+| 04    | Campeche            |
+| DF    | CDMX                |
+| 07    | Chiapas             |
+| 08    | Chihuahua           |
+| 09    | Ciudad de México    |
+| 05    | Coahulia            |
+| 06    | Colima              |
+| 10    | Durango             |
+| 11    | Estado de México    |
+| 12    | Guanajuato          |
+| 13    | Guerrero            |
+| 14    | Hidalgo             |
+| 15    | Jalisco             |
+| 16    | Michoacán           |
+| 17    | Morelos             |
+| 18    | Nayarit             |
+| 19    | Nuevo León          |
+| 20    | Oaxaca              |
+| 21    | Puebla              |
+| 22    | Querétaro           |
+| 23    | Quintana Roo        |
+| 24    | San Luis Potosí     |
+| 25    | Sinaloa             |
+| 26    | Sonora              |
+| 27    | Tabasco             |
+| 28    | Tamaulipas          |
+| 29    | Tlaxcala            |
+| 30    | Veracruz            |
+| 31    | Yucatán             |
+| 32    | Zacatecas           |
++-------+---------------------+
+33 rows in set (0.00 sec)
+
+[MonOct 01:19] (pixup) ~>
+[MonOct 01:19] (pixup) ~>-- notee
+[MonOct 01:19] (pixup) ~>notee

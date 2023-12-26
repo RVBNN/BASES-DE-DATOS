@@ -1,0 +1,525 @@
+mysql> /* Cambiamos el prompt  */
+mysql> prompt [\d]->
+PROMPT set to '[\d]->'
+[(none)]->
+[(none)]->/* Ejercicio 1 - base mundo */
+[(none)]->
+[(none)]->-- Paises con pob mayor a la de canada pero menor a la de mexico
+[(none)]->use mundo
+Database changed
+[mundo]->
+[mundo]->select pais, format(poblacion,0) 
+    -> from paises
+    -> where pais in ('Canada','Mexico')
+    -> order by 2;
++--------+---------------------+
+| pais   | format(poblacion,0) |
++--------+---------------------+
+| Mexico | 119,713,203         |
+| Canada | 35,427,524          |
++--------+---------------------+
+2 rows in set (0.00 sec)
+
+[mundo]->
+[mundo]->select pais, format(poblacion,0), continente
+    -> from paises
+    -> where poblacion > 35427524 
+    -> and poblacion < 119713203;
++-------------------------------+---------------------+---------------+
+| pais                          | format(poblacion,0) | continente    |
++-------------------------------+---------------------+---------------+
+| Algeria                       | 38,700,000          | Africa        |
+| Argentina                     | 42,669,500          | South America |
+| Colombia                      | 47,662,000          | South America |
+| Congo, Democratic Republic of | 69,360,000          | Africa        |
+| Egypt                         | 86,736,900          | Asia          |
+| Ethiopia                      | 87,952,991          | Africa        |
+| France                        | 65,906,000          | Europe        |
+| Germany                       | 80,716,000          | Europe        |
+| Iran                          | 77,552,000          | Asia          |
+| Iraq                          | 36,004,552          | Asia          |
+| Italy                         | 60,782,668          | Europe        |
+| Kenya                         | 45,546,000          | Africa        |
+| Myanmar                       | 61,120,000          | Asia          |
+| Philippines                   | 99,804,200          | Asia          |
+| Poland                        | 38,496,000          | Europe        |
+| South Africa                  | 52,981,991          | Africa        |
+| South Korea                   | 50,423,955          | Asia          |
+| Spain                         | 46,609,700          | Europe        |
+| Sudan                         | 37,289,406          | Africa        |
+| Tanzania                      | 44,928,923          | Africa        |
+| Thailand                      | 64,456,700          | Asia          |
+| Turkey                        | 76,667,864          | Asia          |
+| Ukraine                       | 43,009,258          | Europe        |
+| United Kingdom                | 64,105,700          | Europe        |
+| Vietnam                       | 89,708,900          | Asia          |
++-------------------------------+---------------------+---------------+
+25 rows in set (0.00 sec)
+
+[mundo]->
+[mundo]->
+[mundo]->select pais, format(poblacion,0), continente
+    -> from paises
+    -> where poblacion > 35427524 
+    -> and poblacion < 119713203
+    -> and (continente like '%america%'
+    -> or continente like '%caribbean%')
+    -> order by 2;
++-----------+---------------------+---------------+
+| pais      | format(poblacion,0) | continente    |
++-----------+---------------------+---------------+
+| Argentina | 42,669,500          | South America |
+| Colombia  | 47,662,000          | South America |
++-----------+---------------------+---------------+
+2 rows in set (0.00 sec)
+
+[mundo]->
+[mundo]->select pais, format(poblacion,0) as poblacion
+    -> from paises
+    -> where poblacion > (select poblacion from paises where pais like 'Canada')
+    -> and poblacion < (select poblacion from paises where pais like 'Mexico')
+    -> and (continente like '%america%'
+    -> or continente like '%caribbean%')
+    -> order by 2;
++-----------+------------+
+| pais      | poblacion  |
++-----------+------------+
+| Argentina | 42,669,500 |
+| Colombia  | 47,662,000 |
++-----------+------------+
+2 rows in set (0.00 sec)
+
+[mundo]->
+[mundo]->-- Porcentaje de pob total por continente
+[mundo]->select distinct continente from paises;
++---------------+
+| continente    |
++---------------+
+| Asia          |
+| Europe        |
+| Africa        |
+| Caribbean     |
+| South America |
+| Eurasia       |
+| Oceania       |
+| North America |
++---------------+
+8 rows in set (0.00 sec)
+
+[mundo]->
+[mundo]->select distinct
+    -> case
+    -> when pais like '%armenia%' then 'Europe'
+    -> when pais like '%russia%' then 'Asia'
+    -> when continente like '%america%'
+    -> or continente like '%caribbean%' then 'America'
+    -> else continente
+    -> end as nuevos_continentes
+    -> from paises
+    -> order by 1;
++--------------------+
+| nuevos_continentes |
++--------------------+
+| Africa             |
+| America            |
+| Asia               |
+| Europe             |
+| Oceania            |
++--------------------+
+5 rows in set (0.00 sec)
+
+[mundo]->
+[mundo]->
+[mundo]->select distinct
+    -> case
+    -> when pais like '%armenia%' then 'Europe'
+    -> when pais like '%russia%' then 'Asia'
+    -> when continente like '%america%'
+    -> or continente like '%caribbean%' then 'America'
+    -> else continente
+    -> end as nuevos_continentes,
+    -> sum(poblacion)
+    -> from paises
+    -> group by 1
+    -> order by 1;
++--------------------+----------------+
+| nuevos_continentes | sum(poblacion) |
++--------------------+----------------+
+| Africa             |     1016091005 |
+| America            |      962523330 |
+| Asia               |     4488955676 |
+| Europe             |      613279250 |
+| Oceania            |       37783477 |
++--------------------+----------------+
+5 rows in set (0.00 sec)
+
+[mundo]->
+[mundo]->select sum(poblacion) from paises;
++----------------+
+| sum(poblacion) |
++----------------+
+|     7118632738 |
++----------------+
+1 row in set (0.00 sec)
+
+[mundo]->
+[mundo]->select distinct
+    -> case
+    -> when pais like '%armenia%' then 'Europe'
+    -> when pais like '%russia%' then 'Asia'
+    -> when continente like '%america%'
+    -> or continente like '%caribbean%' then 'America'
+    -> else continente
+    -> end as nuevos_continentes,
+    -> sum(poblacion) as pob_continente,
+    -> (select sum(poblacion) from paises) as pob_total
+    -> from paises
+    -> group by 1
+    -> order by 1;
++--------------------+----------------+------------+
+| nuevos_continentes | pob_continente | pob_total  |
++--------------------+----------------+------------+
+| Africa             |     1016091005 | 7118632738 |
+| America            |      962523330 | 7118632738 |
+| Asia               |     4488955676 | 7118632738 |
+| Europe             |      613279250 | 7118632738 |
+| Oceania            |       37783477 | 7118632738 |
++--------------------+----------------+------------+
+5 rows in set (0.00 sec)
+
+[mundo]->
+[mundo]->
+[mundo]->select distinct
+    -> case
+    -> when pais like '%armenia%' then 'Europe'
+    -> when pais like '%russia%' then 'Asia'
+    -> when continente like '%america%'
+    -> or continente like '%caribbean%' then 'America'
+    -> else continente
+    -> end as nuevos_continentes,
+    -> sum(poblacion) as pob_continente,
+    -> (select sum(poblacion) from paises) as pob_total,
+    -> sum(poblacion)/(select sum(poblacion) from paises) as proporcion
+    -> from paises
+    -> group by 1
+    -> order by 1;
++--------------------+----------------+------------+------------+
+| nuevos_continentes | pob_continente | pob_total  | proporcion |
++--------------------+----------------+------------+------------+
+| Africa             |     1016091005 | 7118632738 |     0.1427 |
+| America            |      962523330 | 7118632738 |     0.1352 |
+| Asia               |     4488955676 | 7118632738 |     0.6306 |
+| Europe             |      613279250 | 7118632738 |     0.0862 |
+| Oceania            |       37783477 | 7118632738 |     0.0053 |
++--------------------+----------------+------------+------------+
+5 rows in set (0.00 sec)
+
+[mundo]->
+[mundo]->select distinct
+    -> case
+    -> when pais like '%armenia%' then 'Europe'
+    -> when pais like '%russia%' then 'Asia'
+    -> when continente like '%america%'
+    -> or continente like '%caribbean%' then 'America'
+    -> else continente
+    -> end as nuevos_continentes,
+    -> format(sum(poblacion),0) as pob_continente,
+    -> format((select sum(poblacion) from paises),0) as pob_total,
+    -> concat(round(100*sum(poblacion)/(select sum(poblacion) from paises),2),' %') as proporcion
+    -> from paises
+    -> group by 1
+    -> order by sum(poblacion) desc;
++--------------------+----------------+---------------+------------+
+| nuevos_continentes | pob_continente | pob_total     | proporcion |
++--------------------+----------------+---------------+------------+
+| Asia               | 4,488,955,676  | 7,118,632,738 | 63.06 %    |
+| Africa             | 1,016,091,005  | 7,118,632,738 | 14.27 %    |
+| America            | 962,523,330    | 7,118,632,738 | 13.52 %    |
+| Europe             | 613,279,250    | 7,118,632,738 | 8.62 %     |
+| Oceania            | 37,783,477     | 7,118,632,738 | 0.53 %     |
++--------------------+----------------+---------------+------------+
+5 rows in set (0.00 sec)
+
+[mundo]->
+[mundo]->-- Si quisieramos ahora filtrar por los 
+[mundo]->-- continentes con poblacion mayor a mil millones (1x10^9)
+[mundo]->select distinct
+    -> case
+    -> when pais like '%armenia%' then 'Europe'
+    -> when pais like '%russia%' then 'Asia'
+    -> when continente like '%america%'
+    -> or continente like '%caribbean%' then 'America'
+    -> else continente
+    -> end as nuevos_continentes,
+    -> format(sum(poblacion),0) as pob_continente,
+    -> format((select sum(poblacion) from paises),0) as pob_total,
+    -> concat(round(100*sum(poblacion)/(select sum(poblacion) from paises),2),' %') as proporcion
+    -> from paises
+    -> group by 1
+    -> having sum(poblacion) > 1000000000
+    -> order by sum(poblacion) desc;
++--------------------+----------------+---------------+------------+
+| nuevos_continentes | pob_continente | pob_total     | proporcion |
++--------------------+----------------+---------------+------------+
+| Asia               | 4,488,955,676  | 7,118,632,738 | 63.06 %    |
+| Africa             | 1,016,091,005  | 7,118,632,738 | 14.27 %    |
++--------------------+----------------+---------------+------------+
+2 rows in set (0.00 sec)
+
+[mundo]->
+[mundo]->/* Ejercicio 2 - base sakila */
+[mundo]->
+[mundo]->
+[mundo]->/* Fecha estreno seguido del título de las peliculas
+   /*> que sean de tipo accion y que lleven una u en la segunda letra de su título*/
+[mundo]->
+[mundo]->use sakila
+Database changed
+[sakila]->desc category;
++-------------+------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type             | Null | Key | Default           | Extra                                         |
++-------------+------------------+------+-----+-------------------+-----------------------------------------------+
+| category_id | tinyint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| name        | varchar(25)      | NO   |     | NULL              |                                               |
+| last_update | timestamp        | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+------------------+------+-----+-------------------+-----------------------------------------------+
+3 rows in set (0.01 sec)
+
+[sakila]->desc film;
++----------------------+---------------------------------------------------------------------+------+-----+-------------------+-----------------------------------------------+
+| Field                | Type                                                                | Null | Key | Default           | Extra                                         |
++----------------------+---------------------------------------------------------------------+------+-----+-------------------+-----------------------------------------------+
+| film_id              | smallint unsigned                                                   | NO   | PRI | NULL              | auto_increment                                |
+| title                | varchar(128)                                                        | NO   | MUL | NULL              |                                               |
+| description          | text                                                                | YES  |     | NULL              |                                               |
+| release_year         | year                                                                | YES  |     | NULL              |                                               |
+| language_id          | tinyint unsigned                                                    | NO   | MUL | NULL              |                                               |
+| original_language_id | tinyint unsigned                                                    | YES  | MUL | NULL              |                                               |
+| rental_duration      | tinyint unsigned                                                    | NO   |     | 3                 |                                               |
+| rental_rate          | decimal(4,2)                                                        | NO   |     | 4.99              |                                               |
+| length               | smallint unsigned                                                   | YES  |     | NULL              |                                               |
+| replacement_cost     | decimal(5,2)                                                        | NO   |     | 19.99             |                                               |
+| rating               | enum('G','PG','PG-13','R','NC-17')                                  | YES  |     | G                 |                                               |
+| special_features     | set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') | YES  |     | NULL              |                                               |
+| last_update          | timestamp                                                           | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++----------------------+---------------------------------------------------------------------+------+-----+-------------------+-----------------------------------------------+
+13 rows in set (0.00 sec)
+
+[sakila]->desc film_category;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| film_id     | smallint unsigned | NO   | PRI | NULL              |                                               |
+| category_id | tinyint unsigned  | NO   | PRI | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+3 rows in set (0.00 sec)
+
+[sakila]->
+[sakila]->select * from category where name like '%action%';
++-------------+--------+---------------------+
+| category_id | name   | last_update         |
++-------------+--------+---------------------+
+|           1 | Action | 2006-02-15 04:46:27 |
++-------------+--------+---------------------+
+1 row in set (0.00 sec)
+
+[sakila]->select count(*) 'pelis de accion' from film_category where category_id = 1;
++-----------------+
+| pelis de accion |
++-----------------+
+|              64 |
++-----------------+
+1 row in set (0.00 sec)
+
+[sakila]->
+[sakila]->select * from film_category 
+    -> where category_id in 
+    -> (select category_id from category where name like '%action%');
++---------+-------------+---------------------+
+| film_id | category_id | last_update         |
++---------+-------------+---------------------+
+|      19 |           1 | 2006-02-15 05:07:09 |
+|      21 |           1 | 2006-02-15 05:07:09 |
+|      29 |           1 | 2006-02-15 05:07:09 |
+|      38 |           1 | 2006-02-15 05:07:09 |
+|      56 |           1 | 2006-02-15 05:07:09 |
+|      67 |           1 | 2006-02-15 05:07:09 |
+|      97 |           1 | 2006-02-15 05:07:09 |
+|     105 |           1 | 2006-02-15 05:07:09 |
+|     111 |           1 | 2006-02-15 05:07:09 |
+|     115 |           1 | 2006-02-15 05:07:09 |
+|     126 |           1 | 2006-02-15 05:07:09 |
+|     130 |           1 | 2006-02-15 05:07:09 |
+|     162 |           1 | 2006-02-15 05:07:09 |
+|     194 |           1 | 2006-02-15 05:07:09 |
+|     205 |           1 | 2006-02-15 05:07:09 |
+|     210 |           1 | 2006-02-15 05:07:09 |
+|     212 |           1 | 2006-02-15 05:07:09 |
+|     229 |           1 | 2006-02-15 05:07:09 |
+|     250 |           1 | 2006-02-15 05:07:09 |
+|     252 |           1 | 2006-02-15 05:07:09 |
+|     253 |           1 | 2006-02-15 05:07:09 |
+|     271 |           1 | 2006-02-15 05:07:09 |
+|     287 |           1 | 2006-02-15 05:07:09 |
+|     292 |           1 | 2006-02-15 05:07:09 |
+|     303 |           1 | 2006-02-15 05:07:09 |
+|     318 |           1 | 2006-02-15 05:07:09 |
+|     327 |           1 | 2006-02-15 05:07:09 |
+|     329 |           1 | 2006-02-15 05:07:09 |
+|     360 |           1 | 2006-02-15 05:07:09 |
+|     371 |           1 | 2006-02-15 05:07:09 |
+|     375 |           1 | 2006-02-15 05:07:09 |
+|     395 |           1 | 2006-02-15 05:07:09 |
+|     417 |           1 | 2006-02-15 05:07:09 |
+|     501 |           1 | 2006-02-15 05:07:09 |
+|     511 |           1 | 2006-02-15 05:07:09 |
+|     530 |           1 | 2006-02-15 05:07:09 |
+|     542 |           1 | 2006-02-15 05:07:09 |
+|     549 |           1 | 2006-02-15 05:07:09 |
+|     574 |           1 | 2006-02-15 05:07:09 |
+|     579 |           1 | 2006-02-15 05:07:09 |
+|     586 |           1 | 2006-02-15 05:07:09 |
+|     594 |           1 | 2006-02-15 05:07:09 |
+|     659 |           1 | 2006-02-15 05:07:09 |
+|     664 |           1 | 2006-02-15 05:07:09 |
+|     697 |           1 | 2006-02-15 05:07:09 |
+|     707 |           1 | 2006-02-15 05:07:09 |
+|     717 |           1 | 2006-02-15 05:07:09 |
+|     732 |           1 | 2006-02-15 05:07:09 |
+|     748 |           1 | 2006-02-15 05:07:09 |
+|     793 |           1 | 2006-02-15 05:07:09 |
+|     794 |           1 | 2006-02-15 05:07:09 |
+|     802 |           1 | 2006-02-15 05:07:09 |
+|     823 |           1 | 2006-02-15 05:07:09 |
+|     825 |           1 | 2006-02-15 05:07:09 |
+|     838 |           1 | 2006-02-15 05:07:09 |
+|     850 |           1 | 2006-02-15 05:07:09 |
+|     869 |           1 | 2006-02-15 05:07:09 |
+|     911 |           1 | 2006-02-15 05:07:09 |
+|     915 |           1 | 2006-02-15 05:07:09 |
+|     927 |           1 | 2006-02-15 05:07:09 |
+|     964 |           1 | 2006-02-15 05:07:09 |
+|     968 |           1 | 2006-02-15 05:07:09 |
+|     982 |           1 | 2006-02-15 05:07:09 |
+|     991 |           1 | 2006-02-15 05:07:09 |
++---------+-------------+---------------------+
+64 rows in set (0.00 sec)
+
+[sakila]->
+[sakila]->select film_id from film_category 
+    -> where category_id in 
+    -> (select category_id from category where name like '%action%');
++---------+
+| film_id |
++---------+
+|      19 |
+|      21 |
+|      29 |
+|      38 |
+|      56 |
+|      67 |
+|      97 |
+|     105 |
+|     111 |
+|     115 |
+|     126 |
+|     130 |
+|     162 |
+|     194 |
+|     205 |
+|     210 |
+|     212 |
+|     229 |
+|     250 |
+|     252 |
+|     253 |
+|     271 |
+|     287 |
+|     292 |
+|     303 |
+|     318 |
+|     327 |
+|     329 |
+|     360 |
+|     371 |
+|     375 |
+|     395 |
+|     417 |
+|     501 |
+|     511 |
+|     530 |
+|     542 |
+|     549 |
+|     574 |
+|     579 |
+|     586 |
+|     594 |
+|     659 |
+|     664 |
+|     697 |
+|     707 |
+|     717 |
+|     732 |
+|     748 |
+|     793 |
+|     794 |
+|     802 |
+|     823 |
+|     825 |
+|     838 |
+|     850 |
+|     869 |
+|     911 |
+|     915 |
+|     927 |
+|     964 |
+|     968 |
+|     982 |
+|     991 |
++---------+
+64 rows in set (0.00 sec)
+
+[sakila]->
+[sakila]->select release_year,title from
+    -> (select * from film where film_id in
+    -> (select film_id from film_category 
+    -> where category_id in 
+    -> (select category_id from category where name like '%action%')))
+    -> as base
+    -> where title like '_u%';
++--------------+---------------------+
+| release_year | title               |
++--------------+---------------------+
+|         2006 | BULL SHAWSHANK      |
+|         2006 | LUST LOCK           |
+|         2006 | QUEST MUSSOLINI     |
+|         2006 | RUGRATS SHAKESPEARE |
+|         2006 | SUSPECTS QUILLS     |
++--------------+---------------------+
+5 rows in set (0.00 sec)
+
+[sakila]->
+[sakila]->select concat_ws('-',release_year,title) as 'mis pelis'
+    -> from
+    -> (select * from film where film_id in
+    -> (select film_id from film_category 
+    -> where category_id in 
+    -> (select category_id from category where name like '%action%')))
+    -> as consulta
+    -> where title like '_u%';
++--------------------------+
+| mis pelis                |
++--------------------------+
+| 2006-BULL SHAWSHANK      |
+| 2006-LUST LOCK           |
+| 2006-QUEST MUSSOLINI     |
+| 2006-RUGRATS SHAKESPEARE |
+| 2006-SUSPECTS QUILLS     |
++--------------------------+
+5 rows in set (0.00 sec)
+
+[sakila]->
+[sakila]->
+[sakila]->/* Cerramos el tee */
+[sakila]->notee
