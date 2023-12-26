@@ -1,0 +1,188 @@
+[TueOct 02:20] ((none)) ~># 1.
+[TueOct 02:20] ((none)) ~>prompt [\w\O \r:\m] (\d) ~>
+PROMPT set to '[\w\O \r:\m] (\d) ~>'
+[TueOct 02:20] ((none)) ~>
+[TueOct 02:20] ((none)) ~># 2.
+[TueOct 02:20] ((none)) ~>CREATE DATABASE IF NOT EXISTS pr03_eq09;
+Query OK, 1 row affected (0.00 sec)
+
+[TueOct 02:20] ((none)) ~>USE pr03_eq09;
+Database changed
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~># 3.
+[TueOct 02:20] (pr03_eq09) ~>CREATE TABLE trabajador(
+    -> id int unsigned not null primary key,
+    -> nombre_pila varchar(10),
+    -> puesto varchar(15)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>DESC trabajador;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| id          | int unsigned | NO   | PRI | NULL    |       |
+| nombre_pila | varchar(10)  | YES  |     | NULL    |       |
+| puesto      | varchar(15)  | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~># 4.
+[TueOct 02:20] (pr03_eq09) ~>CREATE TABLE ingrediente( 
+    -> codigo tinyint unsigned auto_increment not null primary key,
+    -> nombre varchar(20),
+    -> precio_kg decimal(3,1),
+    -> disponibilidad enum('D','ND') default 'ND' 
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+[TueOct 02:20] (pr03_eq09) ~>DESC ingrediente;
++----------------+------------------+------+-----+---------+----------------+
+| Field          | Type             | Null | Key | Default | Extra          |
++----------------+------------------+------+-----+---------+----------------+
+| codigo         | tinyint unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre         | varchar(20)      | YES  |     | NULL    |                |
+| precio_kg      | decimal(3,1)     | YES  |     | NULL    |                |
+| disponibilidad | enum('D','ND')   | YES  |     | ND      |                |
++----------------+------------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~># 5.
+[TueOct 02:20] (pr03_eq09) ~>ALTER TABLE trabajador 
+    -> ADD fecha_inicio date DEFAULT  '2022-09-30' AFTER nombre_pila;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>ALTER TABLE trabajador 
+    -> ADD ing_fav tinyint unsigned not null AFTER puesto;
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>ALTER TABLE trabajador 
+    -> ALTER puesto SET DEFAULT 'pasante';
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>ALTER TABLE trabajador 
+    -> ADD FOREIGN KEY(ing_fav) REFERENCES ingrediente(codigo);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>DESC trabajador; 
++--------------+------------------+------+-----+------------+-------+
+| Field        | Type             | Null | Key | Default    | Extra |
++--------------+------------------+------+-----+------------+-------+
+| id           | int unsigned     | NO   | PRI | NULL       |       |
+| nombre_pila  | varchar(10)      | YES  |     | NULL       |       |
+| fecha_inicio | date             | YES  |     | 2022-09-30 |       |
+| puesto       | varchar(15)      | YES  |     | pasante    |       |
+| ing_fav      | tinyint unsigned | NO   | MUL | NULL       |       |
++--------------+------------------+------+-----+------------+-------+
+5 rows in set (0.00 sec)
+
+[TueOct 02:20] (pr03_eq09) ~># 6.
+[TueOct 02:20] (pr03_eq09) ~>CREATE TABLE IF NOT EXISTS paciente(
+    -> id_paciente int unsigned not null,
+    -> id_dueño int unsigned not null,
+    -> nombre varchar(30) not null,
+    -> raza varchar(30) not null,
+    -> color varchar(30) not null,
+    -> edad smallint not null,
+    -> padecimiento varchar(200) not null,
+    -> alergia varchar(200) not null
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>CREATE TABLE IF NOT EXISTS dueño(
+    -> id_dueño int unsigned not null,
+    -> nombre varchar(30) not null, 
+    -> telefono int unsigned not null,
+    -> email varchar(50) not null unique,
+    -> calle varchar(100) unique,
+    -> codigo_postal int(5) unsigned
+    -> ); 
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>CREATE TABLE IF NOT EXISTS consulta(
+    -> id_consulta int unsigned not null,
+    -> id_paciente int unsigned not null,
+    -> fecha_consulta date not null,
+    -> fecha_siguiente_consulta date not null,
+    -> motivo varchar(200) not null
+    -> );
+Query OK, 0 rows affected (0.00 sec)
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>CREATE TABLE IF NOT EXISTS consulta_tratamiento(
+    -> id_consulta int unsigned not null,
+    -> id_tratamiento int unsigned not null
+    -> );
+Query OK, 0 rows affected (0.00 sec)
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>CREATE TABLE IF NOT EXISTS tratamiento(
+    -> id_tratamiento int unsigned not null,
+    -> nombre varchar(30) not null,
+    -> precio decimal(6,2) not null
+    -> );
+Query OK, 0 rows affected (0.00 sec)
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~># Esta última tabla(6) es la que hace que esté completo nuestro DER
+[TueOct 02:20] (pr03_eq09) ~>CREATE TABLE IF NOT EXISTS usuario(
+    -> id_usuario int unsigned not null,
+    -> nombre varchar(30) not null,
+    -> contraseña varchar(50) not null
+    -> ); 
+Query OK, 0 rows affected (0.01 sec)
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~># 7. RELACION 1:M, M:M & AJUSTE DE LLAVES
+[TueOct 02:20] (pr03_eq09) ~>ALTER TABLE dueño
+    -> ADD PRIMARY KEY(id_dueño);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>ALTER TABLE paciente
+    -> ADD PRIMARY KEY(id_paciente),
+    -> ADD CONSTRAINT FK_paciente_dueño FOREIGN KEY(id_dueño) REFERENCES dueño(id_dueño);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>ALTER TABLE consulta
+    -> ADD PRIMARY KEY(id_consulta),
+    -> ADD CONSTRAINT FK_paciente_consulta FOREIGN KEY(id_paciente) REFERENCES paciente(id_paciente);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~>ALTER TABLE tratamiento
+    -> ADD PRIMARY KEY(id_tratamiento);
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[TueOct 02:20] (pr03_eq09) ~>
+[TueOct 02:20] (pr03_eq09) ~># 8. IMPLEMENTACIÓN RELACIÓN M:M
+[TueOct 02:20] (pr03_eq09) ~>ALTER TABLE consulta_tratamiento
+    -> ADD PRIMARY KEY(id_consulta, id_tratamiento),
+    -> ADD FOREIGN KEY(id_consulta) REFERENCES consulta(id_consulta),
+    -> ADD FOREIGN KEY(id_tratamiento) REFERENCES tratamiento(id_tratamiento);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+[TueOct 02:20] (pr03_eq09) ~>drop database pr03_eq09;
+Query OK, 8 rows affected (0.02 sec)
+
+[TueOct 02:20] ((none)) ~>notee

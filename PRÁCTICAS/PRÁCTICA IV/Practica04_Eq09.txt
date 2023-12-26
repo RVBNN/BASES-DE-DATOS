@@ -1,0 +1,866 @@
+2 [23:51]-[pr03_eq09] ->/* PARTE 1 */
+3 [23:51]-[pr03_eq09] ->
+4 [23:51]-[pr03_eq09] ->/* Paso 1 */
+5 [23:51]-[pr03_eq09] ->
+6 [23:51]-[pr03_eq09] ->prompt \c [\R:\m]-[\d] ->
+PROMPT set to '\c [\R:\m]-[\d] ->'
+1 [23:51]-[pr03_eq09] ->
+2 [23:51]-[pr03_eq09] ->/* Paso 2 */
+3 [23:51]-[pr03_eq09] ->
+4 [23:51]-[pr03_eq09] ->DROP DATABASE IF EXISTS pr04_eq09;
+Query OK, 5 rows affected (0.02 sec)
+
+5 [23:51]-[pr03_eq09] ->
+6 [23:51]-[pr03_eq09] ->CREATE DATABASE IF NOT EXISTS pr04_eq09;
+Query OK, 1 row affected (0.00 sec)
+
+7 [23:51]-[pr03_eq09] ->
+8 [23:51]-[pr03_eq09] ->USE pr04_eq09;
+Database changed
+9 [23:51]-[pr04_eq09] ->
+10 [23:51]-[pr04_eq09] ->/* Paso 3 */ 
+11 [23:51]-[pr04_eq09] ->
+12 [23:51]-[pr04_eq09] ->CREATE TABLE tienda(
+    -> num_tienda int unsigned not null auto_increment primary key,
+    -> nombre varchar(50) not null,
+    -> direccion varchar(100) not null);
+Query OK, 0 rows affected (0.00 sec)
+
+13 [23:51]-[pr04_eq09] ->
+14 [23:51]-[pr04_eq09] ->CREATE TABLE vendedor(
+    -> num_vendedor smallint unsigned not null auto_increment primary key,
+    -> nombre varchar(30) not null);
+Query OK, 0 rows affected (0.01 sec)
+
+15 [23:51]-[pr04_eq09] ->
+16 [23:51]-[pr04_eq09] ->CREATE TABLE producto(
+    -> cod_prod int unsigned not null auto_increment primary key,
+    -> precio decimal(6,2) not null,
+    -> tipo varchar(30) not null,
+    -> marca varchar(20) not null);
+Query OK, 0 rows affected (0.00 sec)
+
+17 [23:51]-[pr04_eq09] ->
+18 [23:51]-[pr04_eq09] ->CREATE TABLE ventas( 
+    -> num_venta int unsigned not null auto_increment primary key,
+    -> id_cliente int unsigned not null,
+    -> id_vendedor smallint unsigned not null,
+    -> id_tienda int unsigned not null,
+    -> fecha_compra timestamp not null,
+    -> total decimal(8,2) not null,
+    -> FOREIGN KEY(id_vendedor) REFERENCES vendedor(num_vendedor) ON DELETE RESTRICT ON UPDATE CASCADE,
+    -> FOREIGN KEY (id_tienda) REFERENCES tienda(num_tienda) ON DELETE RESTRICT ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.02 sec)
+
+19 [23:51]-[pr04_eq09] ->
+20 [23:51]-[pr04_eq09] ->CREATE TABLE detalle_ventas(
+    -> cod_prod int unsigned not null,
+    -> id_venta int unsigned not null,
+    -> cantidad smallint unsigned not null,
+    -> FOREIGN KEY(cod_prod) REFERENCES producto(cod_prod) ON DELETE RESTRICT ON UPDATE CASCADE,
+    -> FOREIGN KEY(id_venta) REFERENCES ventas(num_venta) ON DELETE RESTRICT ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.01 sec)
+
+21 [23:51]-[pr04_eq09] ->
+22 [23:51]-[pr04_eq09] ->/* Paso 4 */
+23 [23:51]-[pr04_eq09] ->
+24 [23:51]-[pr04_eq09] ->/* Producto */
+25 [23:51]-[pr04_eq09] ->
+26 [23:51]-[pr04_eq09] ->INSERT INTO producto(cod_prod,precio,tipo,marca) VALUES(null,99.50,'shampoo','Head&Shoulders');
+Query OK, 1 row affected (0.00 sec)
+
+27 [23:51]-[pr04_eq09] ->
+28 [23:51]-[pr04_eq09] ->INSERT INTO producto(cod_prod,precio,tipo,marca) VALUES(null,1399.99,'papel de bano','Petalo');
+Query OK, 1 row affected (0.00 sec)
+
+29 [23:51]-[pr04_eq09] ->
+30 [23:51]-[pr04_eq09] ->INSERT INTO producto(cod_prod,precio,tipo,marca) VALUES(null,3500.45,'paquete de salchichas','FUD');
+Query OK, 1 row affected (0.00 sec)
+
+31 [23:51]-[pr04_eq09] ->
+32 [23:51]-[pr04_eq09] ->INSERT INTO producto(cod_prod,precio,tipo,marca) VALUES(null,15.00,'cheetos flamin hot','Sabritas');
+Query OK, 1 row affected (0.00 sec)
+
+33 [23:51]-[pr04_eq09] ->
+34 [23:51]-[pr04_eq09] ->INSERT INTO producto(cod_prod,precio,tipo,marca) VALUES(null,76.99,'dalmata','Marinela');
+Query OK, 1 row affected (0.00 sec)
+
+35 [23:51]-[pr04_eq09] ->
+36 [23:51]-[pr04_eq09] ->   
+37 [23:51]-[pr04_eq09] ->/* Tienda */
+38 [23:51]-[pr04_eq09] ->
+39 [23:51]-[pr04_eq09] ->INSERT INTO tienda(num_tienda,nombre,direccion) VALUES(null,'El Perrito Panzon','Calle Santa Catarina 45');
+Query OK, 1 row affected (0.00 sec)
+
+40 [23:51]-[pr04_eq09] ->
+41 [23:51]-[pr04_eq09] ->INSERT INTO tienda(num_tienda,nombre,direccion) VALUES(null,'Abarrotes La Chona','Av. Gustavo I. Madero 37');
+Query OK, 1 row affected (0.00 sec)
+
+42 [23:51]-[pr04_eq09] ->
+43 [23:51]-[pr04_eq09] ->INSERT INTO tienda(num_tienda,nombre,direccion) VALUES(null,'La Merkadona','Calle San Juan de Atoxpan 220');
+Query OK, 1 row affected (0.00 sec)
+
+44 [23:51]-[pr04_eq09] ->
+45 [23:51]-[pr04_eq09] ->INSERT INTO tienda(num_tienda,nombre,direccion) VALUES(null,'Abarrotes Kem-Monito','Av. Hidalgo 105');
+Query OK, 1 row affected (0.00 sec)
+
+46 [23:51]-[pr04_eq09] ->
+47 [23:51]-[pr04_eq09] ->INSERT INTO tienda(num_tienda,nombre,direccion) VALUES(null,'Cremeria La Numero 10','Calle Insurgentes Oeste 1543');
+Query OK, 1 row affected (0.00 sec)
+
+48 [23:51]-[pr04_eq09] ->
+49 [23:51]-[pr04_eq09] ->/* Vendedor */
+50 [23:51]-[pr04_eq09] ->
+51 [23:51]-[pr04_eq09] ->INSERT INTO vendedor(num_vendedor,nombre) VALUES(null,'Juanito Perez');
+Query OK, 1 row affected (0.01 sec)
+
+52 [23:51]-[pr04_eq09] ->
+53 [23:51]-[pr04_eq09] ->INSERT INTO vendedor(num_vendedor,nombre) VALUES(null,'Valentina Mayorga');
+Query OK, 1 row affected (0.00 sec)
+
+54 [23:51]-[pr04_eq09] ->
+55 [23:51]-[pr04_eq09] ->INSERT INTO vendedor(num_vendedor,nombre) VALUES(null,'Alfredo Mazo');
+Query OK, 1 row affected (0.00 sec)
+
+56 [23:51]-[pr04_eq09] ->
+57 [23:51]-[pr04_eq09] ->INSERT INTO vendedor(num_vendedor,nombre) VALUES(null,'Omar Chaparro');
+Query OK, 1 row affected (0.00 sec)
+
+58 [23:51]-[pr04_eq09] ->
+59 [23:51]-[pr04_eq09] ->INSERT INTO vendedor(num_vendedor,nombre) VALUES(null,'Sofia Lara');
+Query OK, 1 row affected (0.00 sec)
+
+60 [23:51]-[pr04_eq09] ->
+61 [23:51]-[pr04_eq09] ->
+62 [23:51]-[pr04_eq09] ->/* Ventas */
+63 [23:51]-[pr04_eq09] ->
+64 [23:51]-[pr04_eq09] ->INSERT INTO ventas(num_venta,id_cliente,id_vendedor,id_tienda,fecha_compra,total) VALUES(null,3541,2,3,'2022-02-25',15.00);
+Query OK, 1 row affected (0.00 sec)
+
+65 [23:51]-[pr04_eq09] ->
+66 [23:51]-[pr04_eq09] ->INSERT INTO ventas(num_venta,id_cliente,id_vendedor,id_tienda,fecha_compra,total) VALUES(null,8132,5,4,'2022-09-7',76.99);
+Query OK, 1 row affected (0.00 sec)
+
+67 [23:51]-[pr04_eq09] ->
+68 [23:51]-[pr04_eq09] ->INSERT INTO ventas(num_venta,id_cliente,id_vendedor,id_tienda,fecha_compra,total) VALUES(null,6743,3,5,'2022-05-23',1399.99);
+Query OK, 1 row affected (0.00 sec)
+
+69 [23:51]-[pr04_eq09] ->
+70 [23:51]-[pr04_eq09] ->INSERT INTO ventas(num_venta,id_cliente,id_vendedor,id_tienda,fecha_compra,total) VALUES(null,3541,1,2,'2022-07-14',99.50);
+Query OK, 1 row affected (0.00 sec)
+
+71 [23:51]-[pr04_eq09] ->
+72 [23:51]-[pr04_eq09] ->INSERT INTO ventas(num_venta,id_cliente,id_vendedor,id_tienda,fecha_compra,total) VALUES(null,3541,4,1,'2022-03-08',3500.45);
+Query OK, 1 row affected (0.00 sec)
+
+73 [23:51]-[pr04_eq09] ->
+74 [23:51]-[pr04_eq09] ->/* Detalle_Ventas */
+75 [23:51]-[pr04_eq09] ->
+76 [23:51]-[pr04_eq09] ->INSERT INTO detalle_ventas(cod_prod,id_venta,cantidad) VALUES(4,1,1);
+Query OK, 1 row affected (0.01 sec)
+
+77 [23:51]-[pr04_eq09] ->
+78 [23:51]-[pr04_eq09] ->INSERT INTO detalle_ventas(cod_prod,id_venta,cantidad) VALUES(5,2,1);
+Query OK, 1 row affected (0.00 sec)
+
+79 [23:51]-[pr04_eq09] ->
+80 [23:51]-[pr04_eq09] ->INSERT INTO detalle_ventas(cod_prod,id_venta,cantidad) VALUES(2,3,1);
+Query OK, 1 row affected (0.00 sec)
+
+81 [23:51]-[pr04_eq09] ->
+82 [23:51]-[pr04_eq09] ->INSERT INTO detalle_ventas(cod_prod,id_venta,cantidad) VALUES(1,4,1);
+Query OK, 1 row affected (0.00 sec)
+
+83 [23:51]-[pr04_eq09] ->
+84 [23:51]-[pr04_eq09] ->INSERT INTO detalle_ventas(cod_prod,id_venta,cantidad) VALUES(3,5,1);
+Query OK, 1 row affected (0.00 sec)
+
+85 [23:51]-[pr04_eq09] ->
+86 [23:51]-[pr04_eq09] ->/* Paso 5 */
+87 [23:51]-[pr04_eq09] ->
+88 [23:51]-[pr04_eq09] ->SELECT * FROM producto order by cod_prod asc;
++----------+---------+-----------------------+----------------+
+| cod_prod | precio  | tipo                  | marca          |
++----------+---------+-----------------------+----------------+
+|        1 |   99.50 | shampoo               | Head&Shoulders |
+|        2 | 1399.99 | papel de bano         | Petalo         |
+|        3 | 3500.45 | paquete de salchichas | FUD            |
+|        4 |   15.00 | cheetos flamin hot    | Sabritas       |
+|        5 |   76.99 | dalmata               | Marinela       |
++----------+---------+-----------------------+----------------+
+5 rows in set (0.00 sec)
+
+89 [23:51]-[pr04_eq09] ->
+90 [23:51]-[pr04_eq09] ->SELECT * FROM vendedor order by num_vendedor asc;
++--------------+-------------------+
+| num_vendedor | nombre            |
++--------------+-------------------+
+|            1 | Juanito Perez     |
+|            2 | Valentina Mayorga |
+|            3 | Alfredo Mazo      |
+|            4 | Omar Chaparro     |
+|            5 | Sofia Lara        |
++--------------+-------------------+
+5 rows in set (0.00 sec)
+
+91 [23:51]-[pr04_eq09] ->
+92 [23:51]-[pr04_eq09] ->SELECT * FROM tienda order by num_tienda asc;
++------------+-----------------------+-------------------------------+
+| num_tienda | nombre                | direccion                     |
++------------+-----------------------+-------------------------------+
+|          1 | El Perrito Panzon     | Calle Santa Catarina 45       |
+|          2 | Abarrotes La Chona    | Av. Gustavo I. Madero 37      |
+|          3 | La Merkadona          | Calle San Juan de Atoxpan 220 |
+|          4 | Abarrotes Kem-Monito  | Av. Hidalgo 105               |
+|          5 | Cremeria La Numero 10 | Calle Insurgentes Oeste 1543  |
++------------+-----------------------+-------------------------------+
+5 rows in set (0.00 sec)
+
+93 [23:51]-[pr04_eq09] ->
+94 [23:51]-[pr04_eq09] ->SELECT * FROM ventas order by num_venta asc;
++-----------+------------+-------------+-----------+---------------------+---------+
+| num_venta | id_cliente | id_vendedor | id_tienda | fecha_compra        | total   |
++-----------+------------+-------------+-----------+---------------------+---------+
+|         1 |       3541 |           2 |         3 | 2022-02-25 00:00:00 |   15.00 |
+|         2 |       8132 |           5 |         4 | 2022-09-07 00:00:00 |   76.99 |
+|         3 |       6743 |           3 |         5 | 2022-05-23 00:00:00 | 1399.99 |
+|         4 |       3541 |           1 |         2 | 2022-07-14 00:00:00 |   99.50 |
+|         5 |       3541 |           4 |         1 | 2022-03-08 00:00:00 | 3500.45 |
++-----------+------------+-------------+-----------+---------------------+---------+
+5 rows in set (0.00 sec)
+
+95 [23:51]-[pr04_eq09] ->
+96 [23:51]-[pr04_eq09] ->SELECT * FROM detalle_ventas order by cod_prod asc;
++----------+----------+----------+
+| cod_prod | id_venta | cantidad |
++----------+----------+----------+
+|        1 |        4 |        1 |
+|        2 |        3 |        1 |
+|        3 |        5 |        1 |
+|        4 |        1 |        1 |
+|        5 |        2 |        1 |
++----------+----------+----------+
+5 rows in set (0.00 sec)
+
+97 [23:51]-[pr04_eq09] ->
+98 [23:51]-[pr04_eq09] ->SELECT * FROM detalle_ventas order by id_venta asc;
++----------+----------+----------+
+| cod_prod | id_venta | cantidad |
++----------+----------+----------+
+|        4 |        1 |        1 |
+|        5 |        2 |        1 |
+|        2 |        3 |        1 |
+|        1 |        4 |        1 |
+|        3 |        5 |        1 |
++----------+----------+----------+
+5 rows in set (0.00 sec)
+
+99 [23:51]-[pr04_eq09] ->
+100 [23:51]-[pr04_eq09] -> /* Paso 6 Creación de las Tablas con el código ya existente de la práctica anterior */
+101 [23:51]-[pr04_eq09] ->/* Adjuntamos el Código de la Base de Datos de nuestro DER */
+102 [23:51]-[pr04_eq09] ->
+103 [23:51]-[pr04_eq09] ->DROP DATABASE IF EXISTS pr03_eq09;
+Query OK, 8 rows affected (0.03 sec)
+
+104 [23:51]-[pr04_eq09] ->
+105 [23:51]-[pr04_eq09] ->CREATE DATABASE IF NOT EXISTS pr03_eq09;
+Query OK, 1 row affected (0.00 sec)
+
+106 [23:51]-[pr04_eq09] ->
+107 [23:51]-[pr04_eq09] ->USE pr03_eq09;
+Database changed
+108 [23:51]-[pr03_eq09] ->
+109 [23:51]-[pr03_eq09] ->CREATE TABLE trabajador(
+    -> id int unsigned auto_increment not null primary key,
+    -> nombre_pila varchar(10),
+    -> puesto varchar(15)
+    -> );
+Query OK, 0 rows affected (0.00 sec)
+
+110 [23:51]-[pr03_eq09] ->
+111 [23:51]-[pr03_eq09] ->DESC trabajador;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre_pila | varchar(10)  | YES  |     | NULL    |                |
+| puesto      | varchar(15)  | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+112 [23:51]-[pr03_eq09] ->
+113 [23:51]-[pr03_eq09] ->CREATE TABLE ingrediente( 
+    -> codigo tinyint unsigned auto_increment not null primary key,
+    -> nombre varchar(20),
+    -> precio_kg decimal(3,1),
+    -> disponibilidad enum('D','ND') default 'ND' 
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+114 [23:51]-[pr03_eq09] ->DESC ingrediente;
++----------------+------------------+------+-----+---------+----------------+
+| Field          | Type             | Null | Key | Default | Extra          |
++----------------+------------------+------+-----+---------+----------------+
+| codigo         | tinyint unsigned | NO   | PRI | NULL    | auto_increment |
+| nombre         | varchar(20)      | YES  |     | NULL    |                |
+| precio_kg      | decimal(3,1)     | YES  |     | NULL    |                |
+| disponibilidad | enum('D','ND')   | YES  |     | ND      |                |
++----------------+------------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+115 [23:51]-[pr03_eq09] ->
+116 [23:51]-[pr03_eq09] ->ALTER TABLE trabajador 
+    -> ADD fecha_inicio date DEFAULT  '2022-09-30' AFTER nombre_pila;
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+117 [23:51]-[pr03_eq09] ->
+118 [23:51]-[pr03_eq09] ->ALTER TABLE trabajador 
+    -> ADD ing_fav tinyint unsigned not null AFTER puesto;
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+119 [23:51]-[pr03_eq09] ->
+120 [23:51]-[pr03_eq09] ->ALTER TABLE trabajador 
+    -> ALTER puesto SET DEFAULT 'pasante';
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+121 [23:51]-[pr03_eq09] ->
+122 [23:51]-[pr03_eq09] ->ALTER TABLE trabajador 
+    -> ADD FOREIGN KEY(ing_fav) REFERENCES ingrediente(codigo) ON DELETE RESTRICT ON UPDATE CASCADE;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+123 [23:51]-[pr03_eq09] ->
+124 [23:51]-[pr03_eq09] ->DESC trabajador; 
++--------------+------------------+------+-----+------------+----------------+
+| Field        | Type             | Null | Key | Default    | Extra          |
++--------------+------------------+------+-----+------------+----------------+
+| id           | int unsigned     | NO   | PRI | NULL       | auto_increment |
+| nombre_pila  | varchar(10)      | YES  |     | NULL       |                |
+| fecha_inicio | date             | YES  |     | 2022-09-30 |                |
+| puesto       | varchar(15)      | YES  |     | pasante    |                |
+| ing_fav      | tinyint unsigned | NO   | MUL | NULL       |                |
++--------------+------------------+------+-----+------------+----------------+
+5 rows in set (0.00 sec)
+
+125 [23:51]-[pr03_eq09] ->
+126 [23:51]-[pr03_eq09] ->
+127 [23:51]-[pr03_eq09] ->CREATE TABLE IF NOT EXISTS paciente(
+    -> id_paciente int unsigned not null,
+    -> id_dueno int unsigned not null,
+    -> nombre varchar(30) not null,
+    -> raza varchar(30) not null,
+    -> color varchar(30) not null,
+    -> edad smallint not null,
+    -> padecimiento varchar(200) not null,
+    -> alergia varchar(200) not null
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+128 [23:51]-[pr03_eq09] ->
+129 [23:51]-[pr03_eq09] ->CREATE TABLE IF NOT EXISTS dueno(
+    -> id_dueno int unsigned not null,
+    -> nombre varchar(30) not null, 
+    -> telefono int unsigned not null,
+    -> email varchar(50) not null unique,
+    -> calle varchar(100) unique,
+    -> codigo_postal int(5) unsigned
+    -> ); 
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+130 [23:51]-[pr03_eq09] ->
+131 [23:51]-[pr03_eq09] ->CREATE TABLE IF NOT EXISTS consulta(
+    -> id_consulta int unsigned not null,
+    -> id_paciente int unsigned not null,
+    -> fecha_consulta date not null,
+    -> fecha_siguiente_consulta date not null,
+    -> motivo varchar(200) not null
+    -> );
+Query OK, 0 rows affected (0.00 sec)
+
+132 [23:51]-[pr03_eq09] ->
+133 [23:51]-[pr03_eq09] ->CREATE TABLE IF NOT EXISTS consulta_tratamiento(
+    -> id_consulta int unsigned not null,
+    -> id_tratamiento int unsigned not null
+    -> );
+Query OK, 0 rows affected (0.00 sec)
+
+134 [23:51]-[pr03_eq09] ->
+135 [23:51]-[pr03_eq09] ->CREATE TABLE IF NOT EXISTS tratamiento(
+    -> id_tratamiento int unsigned not null,
+    -> nombre varchar(30) not null,
+    -> precio decimal(6,2) not null
+    -> );
+Query OK, 0 rows affected (0.00 sec)
+
+136 [23:51]-[pr03_eq09] ->
+137 [23:51]-[pr03_eq09] ->
+138 [23:51]-[pr03_eq09] ->CREATE TABLE IF NOT EXISTS usuario(
+    -> id_usuario int unsigned not null,
+    -> nombre varchar(30) not null,
+    -> contrasena varchar(50) not null
+    -> ); 
+Query OK, 0 rows affected (0.01 sec)
+
+139 [23:51]-[pr03_eq09] ->
+140 [23:51]-[pr03_eq09] ->
+141 [23:51]-[pr03_eq09] ->ALTER TABLE dueno
+    -> ADD PRIMARY KEY(id_dueno);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+142 [23:51]-[pr03_eq09] ->
+143 [23:51]-[pr03_eq09] ->ALTER TABLE paciente
+    -> ADD PRIMARY KEY(id_paciente),
+    -> ADD CONSTRAINT FK_paciente_dueno FOREIGN KEY(id_dueno) REFERENCES dueno(id_dueno) ON DELETE RESTRICT ON UPDATE CASCADE;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+144 [23:51]-[pr03_eq09] ->
+145 [23:51]-[pr03_eq09] ->ALTER TABLE consulta
+    -> ADD PRIMARY KEY(id_consulta),
+    -> ADD CONSTRAINT FK_paciente_consulta FOREIGN KEY(id_paciente) REFERENCES paciente(id_paciente) ON DELETE RESTRICT ON UPDATE CASCADE;
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+146 [23:51]-[pr03_eq09] ->
+147 [23:51]-[pr03_eq09] ->ALTER TABLE tratamiento
+    -> ADD PRIMARY KEY(id_tratamiento);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+148 [23:51]-[pr03_eq09] ->
+149 [23:51]-[pr03_eq09] ->ALTER TABLE consulta_tratamiento
+    -> ADD PRIMARY KEY(id_consulta, id_tratamiento),
+    -> ADD FOREIGN KEY(id_consulta) REFERENCES consulta(id_consulta) ON DELETE RESTRICT ON UPDATE CASCADE,
+    -> ADD FOREIGN KEY(id_tratamiento) REFERENCES tratamiento(id_tratamiento) ON DELETE RESTRICT ON UPDATE CASCADE;
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+150 [23:51]-[pr03_eq09] ->
+151 [23:51]-[pr03_eq09] ->
+152 [23:51]-[pr03_eq09] ->/*Paso 6 Mostrar la Descripción de las Tablas */
+153 [23:51]-[pr03_eq09] ->
+154 [23:51]-[pr03_eq09] ->DESC consulta;
++--------------------------+--------------+------+-----+---------+-------+
+| Field                    | Type         | Null | Key | Default | Extra |
++--------------------------+--------------+------+-----+---------+-------+
+| id_consulta              | int unsigned | NO   | PRI | NULL    |       |
+| id_paciente              | int unsigned | NO   | MUL | NULL    |       |
+| fecha_consulta           | date         | NO   |     | NULL    |       |
+| fecha_siguiente_consulta | date         | NO   |     | NULL    |       |
+| motivo                   | varchar(200) | NO   |     | NULL    |       |
++--------------------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+155 [23:51]-[pr03_eq09] ->
+156 [23:51]-[pr03_eq09] ->DESC dueno;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| id_dueno      | int unsigned | NO   | PRI | NULL    |       |
+| nombre        | varchar(30)  | NO   |     | NULL    |       |
+| telefono      | int unsigned | NO   |     | NULL    |       |
+| email         | varchar(50)  | NO   | UNI | NULL    |       |
+| calle         | varchar(100) | YES  | UNI | NULL    |       |
+| codigo_postal | int unsigned | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+157 [23:51]-[pr03_eq09] ->
+158 [23:51]-[pr03_eq09] ->DESC paciente;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| id_paciente  | int unsigned | NO   | PRI | NULL    |       |
+| id_dueno     | int unsigned | NO   | MUL | NULL    |       |
+| nombre       | varchar(30)  | NO   |     | NULL    |       |
+| raza         | varchar(30)  | NO   |     | NULL    |       |
+| color        | varchar(30)  | NO   |     | NULL    |       |
+| edad         | smallint     | NO   |     | NULL    |       |
+| padecimiento | varchar(200) | NO   |     | NULL    |       |
+| alergia      | varchar(200) | NO   |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+159 [23:51]-[pr03_eq09] ->
+160 [23:51]-[pr03_eq09] ->DESC tratamiento;
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| id_tratamiento | int unsigned | NO   | PRI | NULL    |       |
+| nombre         | varchar(30)  | NO   |     | NULL    |       |
+| precio         | decimal(6,2) | NO   |     | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+161 [23:51]-[pr03_eq09] ->
+162 [23:51]-[pr03_eq09] ->/* Paso 7 */ 
+163 [23:51]-[pr03_eq09] ->/* Insertar elemtos a cada tabla */
+164 [23:51]-[pr03_eq09] ->
+165 [23:51]-[pr03_eq09] ->INSERT INTO dueno(id_dueno,nombre,telefono,email,calle,codigo_postal) VALUES(1111,'Juan Hernandez',2912536787,'juanhernan@hotmail.com','Calle Durango 30',24367);
+Query OK, 1 row affected (0.00 sec)
+
+166 [23:51]-[pr03_eq09] ->
+167 [23:51]-[pr03_eq09] ->INSERT INTO dueno(id_dueno,nombre,telefono,email,calle,codigo_postal) VALUES(1789,'Alfredo Adame',3745389032,'alfred87@hotmail.com','Calle Aldama Prieto 27',89056);
+Query OK, 1 row affected (0.00 sec)
+
+168 [23:51]-[pr03_eq09] ->
+169 [23:51]-[pr03_eq09] ->INSERT INTO dueno(id_dueno,nombre,telefono,email,calle,codigo_postal) VALUES(5467,'Andrea Martinez',3421789076,'andymar@outlook.com','Calle Gustavo Colon',67345);
+Query OK, 1 row affected (0.00 sec)
+
+170 [23:51]-[pr03_eq09] ->
+171 [23:51]-[pr03_eq09] ->
+172 [23:51]-[pr03_eq09] ->INSERT INTO paciente(id_paciente,id_dueno,nombre,raza,color,edad,padecimiento,alergia) VALUES(1,1789,'Zoe','Pastor Aleman','Negro con Cafe',5,'Estrenimiento','Cacahuate');
+Query OK, 1 row affected (0.00 sec)
+
+173 [23:51]-[pr03_eq09] ->
+174 [23:51]-[pr03_eq09] ->INSERT INTO paciente(id_paciente,id_dueno,nombre,raza,color,edad,padecimiento,alergia) VALUES(2,5467,'Gambito','Pez Veta','Violeta',1,'Fatiga y Cansancio','Paracetamol');
+Query OK, 1 row affected (0.00 sec)
+
+175 [23:51]-[pr03_eq09] ->
+176 [23:51]-[pr03_eq09] ->INSERT INTO paciente(id_paciente,id_dueno,nombre,raza,color,edad,padecimiento,alergia) VALUES(3,1789,'Kira','Bulldog','Negro',8,'Falta de Apetito','Pollo y Salchicha de Pavo');
+Query OK, 1 row affected (0.00 sec)
+
+177 [23:51]-[pr03_eq09] ->
+178 [23:51]-[pr03_eq09] ->
+179 [23:51]-[pr03_eq09] ->INSERT INTO consulta(id_consulta,id_paciente,fecha_consulta,fecha_siguiente_consulta,motivo) VALUES(1234,3,'2021-10-08','2022-10-08','Falta de apetito de varios dias asi como de agua');
+Query OK, 1 row affected (0.00 sec)
+
+180 [23:51]-[pr03_eq09] ->
+181 [23:51]-[pr03_eq09] ->INSERT INTO consulta(id_consulta,id_paciente,fecha_consulta,fecha_siguiente_consulta,motivo) VALUES(1345,1,'2022-03-05','2022-11-10','Estrenimiento causado por la injerta de un juguete de plastico');
+Query OK, 1 row affected (0.01 sec)
+
+182 [23:51]-[pr03_eq09] ->
+183 [23:51]-[pr03_eq09] ->INSERT INTO consulta(id_consulta,id_paciente,fecha_consulta,fecha_siguiente_consulta,motivo) VALUES(1456,2,'2022-05-23','2022-10-29','Poca movilidad causada por estres debido a la falta de espacio en la pecera');
+Query OK, 1 row affected (0.00 sec)
+
+184 [23:51]-[pr03_eq09] ->
+185 [23:51]-[pr03_eq09] ->
+186 [23:51]-[pr03_eq09] ->INSERT INTO tratamiento(id_tratamiento,nombre,precio) VALUES(98765,'Cirugia',7000.00);
+Query OK, 1 row affected (0.00 sec)
+
+187 [23:51]-[pr03_eq09] ->
+188 [23:51]-[pr03_eq09] ->INSERT INTO tratamiento(id_tratamiento,nombre,precio) VALUES(97654,'Adquisicion de Pecera',3750.00);
+Query OK, 1 row affected (0.00 sec)
+
+189 [23:51]-[pr03_eq09] ->
+190 [23:51]-[pr03_eq09] ->INSERT INTO tratamiento(id_tratamiento,nombre,precio) VALUES(96543,'Medicamento',799.99);
+Query OK, 1 row affected (0.00 sec)
+
+191 [23:51]-[pr03_eq09] ->
+192 [23:51]-[pr03_eq09] ->
+193 [23:51]-[pr03_eq09] ->/* Describir las tablas */
+194 [23:51]-[pr03_eq09] ->
+195 [23:51]-[pr03_eq09] ->SELECT * FROM dueno;
++----------+-----------------+------------+------------------------+------------------------+---------------+
+| id_dueno | nombre          | telefono   | email                  | calle                  | codigo_postal |
++----------+-----------------+------------+------------------------+------------------------+---------------+
+|     1111 | Juan Hernandez  | 2912536787 | juanhernan@hotmail.com | Calle Durango 30       |         24367 |
+|     1789 | Alfredo Adame   | 3745389032 | alfred87@hotmail.com   | Calle Aldama Prieto 27 |         89056 |
+|     5467 | Andrea Martinez | 3421789076 | andymar@outlook.com    | Calle Gustavo Colon    |         67345 |
++----------+-----------------+------------+------------------------+------------------------+---------------+
+3 rows in set (0.00 sec)
+
+196 [23:51]-[pr03_eq09] ->
+197 [23:51]-[pr03_eq09] ->SELECT * FROM paciente;
++-------------+----------+---------+---------------+----------------+------+--------------------+---------------------------+
+| id_paciente | id_dueno | nombre  | raza          | color          | edad | padecimiento       | alergia                   |
++-------------+----------+---------+---------------+----------------+------+--------------------+---------------------------+
+|           1 |     1789 | Zoe     | Pastor Aleman | Negro con Cafe |    5 | Estrenimiento      | Cacahuate                 |
+|           2 |     5467 | Gambito | Pez Veta      | Violeta        |    1 | Fatiga y Cansancio | Paracetamol               |
+|           3 |     1789 | Kira    | Bulldog       | Negro          |    8 | Falta de Apetito   | Pollo y Salchicha de Pavo |
++-------------+----------+---------+---------------+----------------+------+--------------------+---------------------------+
+3 rows in set (0.00 sec)
+
+198 [23:51]-[pr03_eq09] ->
+199 [23:51]-[pr03_eq09] ->SELECT * FROM consulta;
++-------------+-------------+----------------+--------------------------+-----------------------------------------------------------------------------+
+| id_consulta | id_paciente | fecha_consulta | fecha_siguiente_consulta | motivo                                                                      |
++-------------+-------------+----------------+--------------------------+-----------------------------------------------------------------------------+
+|        1234 |           3 | 2021-10-08     | 2022-10-08               | Falta de apetito de varios dias asi como de agua                            |
+|        1345 |           1 | 2022-03-05     | 2022-11-10               | Estrenimiento causado por la injerta de un juguete de plastico              |
+|        1456 |           2 | 2022-05-23     | 2022-10-29               | Poca movilidad causada por estres debido a la falta de espacio en la pecera |
++-------------+-------------+----------------+--------------------------+-----------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+200 [23:51]-[pr03_eq09] ->
+201 [23:51]-[pr03_eq09] ->SELECT * FROM tratamiento;
++----------------+-----------------------+---------+
+| id_tratamiento | nombre                | precio  |
++----------------+-----------------------+---------+
+|          96543 | Medicamento           |  799.99 |
+|          97654 | Adquisicion de Pecera | 3750.00 |
+|          98765 | Cirugia               | 7000.00 |
++----------------+-----------------------+---------+
+3 rows in set (0.00 sec)
+
+202 [23:51]-[pr03_eq09] ->
+203 [23:51]-[pr03_eq09] ->/* PARTE 2 */
+204 [23:51]-[pr03_eq09] ->
+205 [23:51]-[pr03_eq09] ->/* Cargar la base de datos ‘mundo’ contenida en el archivo pr04_mundo.sql y verificar
+   /*> el número de registros. No añadir en el script la línea para cargar esta base. */
+206 [23:51]-[pr03_eq09] ->USE mundo;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+207 [23:51]-[mundo] ->
+208 [23:51]-[mundo] ->SELECT COUNT(*) FROM paises;
++----------+
+| COUNT(*) |
++----------+
+|      195 |
++----------+
+1 row in set (0.00 sec)
+
+209 [23:51]-[mundo] ->
+210 [23:51]-[mundo] -># 8. Mostrar todos los campos de los primeros 4 registros de la tabla paises
+211 [23:51]-[mundo] ->SELECT * FROM paises LIMIT 4;
++---------+-------------+------------+---------+-----------+--------------+------------------+
+| id_pais | pais        | continente | area    | poblacion | gdp          | capital          |
++---------+-------------+------------+---------+-----------+--------------+------------------+
+|       1 | Afghanistan | Asia       |  652230 |  25500100 |  20364000000 | Kabul            |
+|       2 | Albania     | Europe     |   28748 |   2821977 |  12044000000 | Tirana           |
+|       3 | Algeria     | Africa     | 2381741 |  38700000 | 207021000000 | Algiers          |
+|       4 | Andorra     | Europe     |     468 |     76098 |   3222000000 | Andorra la Vella |
++---------+-------------+------------+---------+-----------+--------------+------------------+
+4 rows in set (0.00 sec)
+
+212 [23:51]-[mundo] ->
+213 [23:51]-[mundo] -># 9. Listar el país de una sola palabra que contiene cada una de las vocales (a,e,i,o,u). 
+214 [23:51]-[mundo] ->SELECT pais
+    -> FROM paises
+    -> WHERE pais NOT LIKE '% %' AND 
+    -> pais LIKE '%a%' AND 
+    -> pais LIKE '%e%' AND
+    -> pais LIKE '%i%' AND 
+    -> pais LIKE '%o%' AND
+    -> pais LIKE '%u%';
++------------+
+| pais       |
++------------+
+| Mozambique |
++------------+
+1 row in set (0.00 sec)
+
+215 [23:51]-[mundo] ->
+216 [23:51]-[mundo] ->/* 
+   /*> 10. ¿Qué países del caribe tienen poblaciones mayores a 1M (un millón) o cumplen
+   /*> que su nombre está compuesto por, al menos, dos palabras? 
+   /*> */
+217 [23:51]-[mundo] ->
+218 [23:51]-[mundo] ->SELECT pais FROM paises
+    -> WHERE continente LIKE 'Caribbean' AND poblacion > 1000000 OR
+    -> pais LIKE '% %';
++----------------------------------+
+| pais                             |
++----------------------------------+
+| Antigua and Barbuda              |
+| Bosnia and Herzegovina           |
+| Burkina Faso                     |
+| Cape Verde                       |
+| Central African Republic         |
+| Congo, Democratic Republic of    |
+| Congo, Republic of               |
+| Costa Rica                       |
+| Côte d'Ivoire                    |
+| Cuba                             |
+| Czech Republic                   |
+| Dominican Republic               |
+| El Salvador                      |
+| Equatorial Guinea                |
+| Haiti                            |
+| Jamaica                          |
+| Marshall Islands                 |
+| Micronesia, Federated States of  |
+| New Zealand                      |
+| North Korea                      |
+| Papua New Guinea                 |
+| Saint Kitts and Nevis            |
+| Saint Lucia                      |
+| Saint Vincent and the Grenadines |
+| San Marino                       |
+| Sao Tomé and Príncipe            |
+| Saudi Arabia                     |
+| Sierra Leone                     |
+| Solomon Islands                  |
+| South Africa                     |
+| South Korea                      |
+| South Sudan                      |
+| Sri Lanka                        |
+| Trinidad and Tobago              |
+| United Arab Emirates             |
+| United Kingdom                   |
+| United States                    |
+| Vatican City                     |
++----------------------------------+
+38 rows in set (0.00 sec)
+
+219 [23:51]-[mundo] ->
+220 [23:51]-[mundo] ->/*
+   /*> 11. ¿Qué capitales empiezan con la letra B y constan de únicamente 6 letras
+   /*> (sin espacios) ? Mostrar su nombre y en qué país se encuentran. 
+   /*> */
+221 [23:51]-[mundo] ->
+222 [23:51]-[mundo] ->SELECT REPLACE(capital, ' ', '') AS capital, pais
+    -> FROM paises 
+    -> WHERE capital LIKE 'B%'  AND LENGTH(capital) = 6;
++---------+--------------------------+
+| capital | pais                     |
++---------+--------------------------+
+| Bangui  | Central African Republic |
+| Banjul  | Gambia                   |
+| Bissau  | Guinea-Bissau            |
+| Beirut  | Lebanon                  |
+| Bamako  | Mali                     |
++---------+--------------------------+
+5 rows in set (0.00 sec)
+
+223 [23:51]-[mundo] ->
+224 [23:51]-[mundo] ->/*
+   /*> 12. En listar los países cuya capital tenga el mismo número de letras que el nombre
+   /*> del país; y que tanto la capital como el país empiecen con la misma letra. 
+   /*> */
+225 [23:51]-[mundo] ->
+226 [23:51]-[mundo] ->SELECT pais FROM paises
+    -> WHERE LENGTH(capital) = LENGTH(pais) AND
+    -> LEFT(capital, 1) = LEFT(pais, 1);
++------------+
+| pais       |
++------------+
+| Algeria    |
+| Djibouti   |
+| Luxembourg |
+| San Marino |
+| Singapore  |
+| Taiwan     |
++------------+
+6 rows in set (0.00 sec)
+
+227 [23:51]-[mundo] ->
+228 [23:51]-[mundo] ->/*
+   /*> 13. Listar el país, capital y total de población (en millones) de los top 3 países con
+   /*> más gente. El resultado deberá visualizarse de la siguiente manera: 
+   /*> */
+229 [23:51]-[mundo] ->
+230 [23:51]-[mundo] ->SELECT CONCAT(pais, ' con capital ', capital, ' tiene ', ROUND(poblacion/1000000, 2), 'M de personas.')
+    -> as 'Pais, capital, poblacion' FROM paises ORDER BY round(poblacion/1000000, 2) DESC LIMIT 3;
++-----------------------------------------------------------------------+
+| Pais, capital, poblacion                                              |
++-----------------------------------------------------------------------+
+| China con capital Beijing tiene 1365.37M de personas.                 |
+| India con capital New Delhi tiene 1246.16M de personas.               |
+| United States con capital Washington, D.C. tiene 318.32M de personas. |
++-----------------------------------------------------------------------+
+3 rows in set (0.01 sec)
+
+231 [23:51]-[mundo] ->
+232 [23:51]-[mundo] ->/*
+   /*> 14. Enlistar el nombre de los países, su promedio de gpd y su continente.
+   /*> Sólo seleccionar los países que tengan una ‘a’ en la segunda y última posición de su
+   /*> nombre, y tales que su promedio esté por encima de los 750 millones. Ordenar el
+   /*> resultado alfabéticamente por continente y país (en ese orden). 
+   /*> */
+233 [23:51]-[mundo] ->
+234 [23:51]-[mundo] ->SELECT pais, gdp, continente FROM paises
+    -> WHERE pais LIKE '_a%' AND right(pais, 1) LIKE 'a'
+    -> AND gdp > 750000000
+    -> ORDER BY continente, pais ASC;
++------------------+---------------+---------------+
+| pais             | gdp           | continente    |
++------------------+---------------+---------------+
+| Mauritania       |    3866000000 | Africa        |
+| Namibia          |   12807000000 | Africa        |
+| Tanzania         |   28249000000 | Africa        |
+| Zambia           |   21490000000 | Africa        |
+| Cambodia         |   14038000000 | Asia          |
+| Malaysia         |  304726000000 | Asia          |
+| Saudi Arabia     |  711050000000 | Asia          |
+| Jamaica          |   14795000000 | Caribbean     |
+| Saint Lucia      |    1318000000 | Caribbean     |
+| Latvia           |   28379000000 | Europe        |
+| Malta            |    8775000000 | Europe        |
+| Canada           | 1585000000000 | North America |
+| Panama           |   36253000000 | North America |
+| Papua New Guinea |   15677000000 | Oceania       |
++------------------+---------------+---------------+
+14 rows in set (0.00 sec)
+
+235 [23:51]-[mundo] ->
+236 [23:51]-[mundo] ->
+237 [23:51]-[mundo] ->/* EXTRA */
+238 [23:51]-[mundo] ->
+239 [23:51]-[mundo] -># Insertar valores 
+240 [23:51]-[mundo] ->USE pr03_eq09;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+241 [23:51]-[pr03_eq09] ->
+242 [23:51]-[pr03_eq09] ->INSERT INTO dueno VALUES
+    -> (4,'Julio',5562456,'juliocs12@hotmail.com','La petrolera',02460),
+    -> (5,'Armando',938456,'arm22@outlook.com','las armas',05543),
+    -> (6,'Brenda',2093456,'brend89@outlook.com','Calle flores magon',88667);
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+243 [23:51]-[pr03_eq09] ->
+244 [23:51]-[pr03_eq09] ->INSERT INTO paciente VALUES
+    -> (4,4,'Jack','Corgi','Cafe',10,'Fatiga','leche'),
+    -> (5,5,'Bubba','Pastor aleman','negro',5,'Vomito','trigo'),
+    -> (6,6,'Ein','Corgi','Cafe',4,'Falta de sueño','hongos');
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+245 [23:51]-[pr03_eq09] ->
+246 [23:51]-[pr03_eq09] -># ¿Cuales son los padecimientos de los perros corgi con más de 5 años de edad pero menos de 11?
+247 [23:51]-[pr03_eq09] ->
+248 [23:51]-[pr03_eq09] ->SELECT  id_paciente,nombre,edad,padecimiento as 'padecimientos de perros corgi' from paciente where raza = 'Corgi' and edad between 5 and 11; 
++-------------+--------+------+-------------------------------+
+| id_paciente | nombre | edad | padecimientos de perros corgi |
++-------------+--------+------+-------------------------------+
+|           4 | Jack   |   10 | Fatiga                        |
++-------------+--------+------+-------------------------------+
+1 row in set (0.00 sec)
+
+249 [23:51]-[pr03_eq09] ->
+250 [23:51]-[pr03_eq09] -># ¿Cual es el nombre, telefono y residencia de los duenos, de forma que la direccion este completamente en mayusculas y reemplazando la palabra calle por su abreviatura C.?
+251 [23:51]-[pr03_eq09] ->
+252 [23:51]-[pr03_eq09] ->SELECT CONCAT('El dueno ',nombre,' cuyo telefono es ',telefono,' vive en ', REPLACE(calle, 'Calle','c.')) as 'informacion del dueno' FROM dueno;
++--------------------------------------------------------------------------------+
+| informacion del dueno                                                          |
++--------------------------------------------------------------------------------+
+| El dueno Julio cuyo telefono es 5562456 vive en La petrolera                   |
+| El dueno Armando cuyo telefono es 938456 vive en las armas                     |
+| El dueno Brenda cuyo telefono es 2093456 vive en c. flores magon               |
+| El dueno Juan Hernandez cuyo telefono es 2912536787 vive en c. Durango 30      |
+| El dueno Alfredo Adame cuyo telefono es 3745389032 vive en c. Aldama Prieto 27 |
+| El dueno Andrea Martinez cuyo telefono es 3421789076 vive en c. Gustavo Colon  |
++--------------------------------------------------------------------------------+
+6 rows in set (0.00 sec)
+
+253 [23:51]-[pr03_eq09] ->
+254 [23:51]-[pr03_eq09] -># ¿Qué razas tienen en promedio mas de 7 años de edad?
+255 [23:51]-[pr03_eq09] ->
+256 [23:51]-[pr03_eq09] ->SELECT raza, AVG(edad)FROM paciente GROUP BY raza HAVING AVG(edad)>6;  
++---------+-----------+
+| raza    | AVG(edad) |
++---------+-----------+
+| Bulldog |    8.0000 |
+| Corgi   |    7.0000 |
++---------+-----------+
+2 rows in set (0.00 sec)
+
+257 [23:51]-[pr03_eq09] ->
+258 [23:51]-[pr03_eq09] ->#Borrar registros:
+259 [23:51]-[pr03_eq09] ->
+260 [23:51]-[pr03_eq09] ->#alter table paciente drop foreign key FK_paciente_consulta;
+261 [23:51]-[pr03_eq09] ->#alter table consulta drop foreign key FK_paciente_consulta;
+262 [23:51]-[pr03_eq09] ->
+263 [23:51]-[pr03_eq09] ->#delete from dueno; 
+264 [23:51]-[pr03_eq09] ->#delete from paciente; 
+265 [23:51]-[pr03_eq09] ->
+266 [23:51]-[pr03_eq09] ->notee

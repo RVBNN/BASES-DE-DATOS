@@ -1,0 +1,137 @@
+[11:49 pm]-[sakila] -># 1. 
+[11:49 pm]-[sakila] ->prompt [\r:\m \P]-[\d] ->
+PROMPT set to '[\r:\m \P]-[\d] ->'
+[11:49 pm]-[sakila] -># 2.
+[11:49 pm]-[sakila] ->use mundo;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+[11:49 pm]-[mundo] ->select pais from paises 
+    -> where continente = "Europe" and 
+    -> area < 3 * (select area from paises where pais = "Cuba") and
+    -> gdp > (select avg(gdp) from paises where continente in ("North America","South America","Caribbean")) 
+    -> order by 1;
++----------------+
+| pais           |
++----------------+
+| Italy          |
+| Netherlands    |
+| United Kingdom |
++----------------+
+3 rows in set (0.00 sec)
+
+[11:49 pm]-[mundo] -># 3.
+[11:49 pm]-[mundo] ->select pais, continente from paises 
+    -> where continente in (select continente from paises where pais="Argentina" or pais="Australia") 
+    -> and pais like "% % %" order by 2,1;
++----------------------------------+---------------+
+| pais                             | continente    |
++----------------------------------+---------------+
+| Micronesia, Federated States of  | Oceania       |
+| Papua New Guinea                 | Oceania       |
+| Saint Vincent and the Grenadines | South America |
++----------------------------------+---------------+
+3 rows in set (0.00 sec)
+
+[11:49 pm]-[mundo] -># 4.
+[11:49 pm]-[mundo] ->use sakila;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+[11:49 pm]-[sakila] ->select name, category_id from category
+    -> where category_id in (select category_id from film_category 
+    -> group by 1 having count(category_id) between 65 and 75);
++-------------+-------------+
+| name        | category_id |
++-------------+-------------+
+| Animation   |           2 |
+| Documentary |           6 |
+| Family      |           8 |
+| Foreign     |           9 |
+| Sports      |          15 |
++-------------+-------------+
+5 rows in set (0.00 sec)
+
+[11:49 pm]-[sakila] -># 5.
+[11:49 pm]-[sakila] ->select distinct year(payment_date) as 'anio', monthname(payment_date) as 'meses pago' from payment
+    -> where 
+    -> (year(payment_date) = 2005 and amount between
+    -> (select min(amount) from payment where amount not like 0.00 and year(payment_date)=2005) and
+    -> (select avg(amount) from payment where year(payment_date) = 2005))
+    -> or
+    -> (year(payment_date) = 2006 and amount between
+    -> (select min(amount) from payment where amount not like 0.00 and year(payment_date)=2006) and
+    -> (select avg(amount) from payment where year(payment_date) = 2006));
++------+------------+
+| anio | meses pago |
++------+------------+
+| 2005 | May        |
+| 2005 | June       |
+| 2005 | July       |
+| 2005 | August     |
+| 2006 | February   |
++------+------------+
+5 rows in set (0.04 sec)
+
+[11:49 pm]-[sakila] -># 6.
+[11:49 pm]-[sakila] ->select postal_code, district, city_id from address 
+    -> where length(postal_code) = 5 and postal_code in
+    -> (select postal_code from address 
+    -> group by 1 having count(postal_code) > 1 order by 1 asc) and
+    -> mod(left(city_id, 1), 2) = 0;
++-------------+---------------+---------+
+| postal_code | district      | city_id |
++-------------+---------------+---------+
+| 22474       | Uttar Pradesh |     448 |
+| 52137       | Hiroshima     |     205 |
++-------------+---------------+---------+
+2 rows in set (0.00 sec)
+
+[11:49 pm]-[sakila] -># 7.
+[11:49 pm]-[sakila] ->select concat(first_name," ",last_name) as nombre, email from customer 
+    -> where customer_id in (select count(customer_id) from rental
+    -> where year(rental_date)<2006 and return_date is null);
++------------+-------------------------------+
+| nombre     | email                         |
++------------+-------------------------------+
+| MARY SMITH | MARY.SMITH@sakilacustomer.org |
++------------+-------------------------------+
+1 row in set (0.01 sec)
+
+[11:49 pm]-[sakila] -># 8.
+[11:49 pm]-[sakila] ->select customer_id as cliente, round(amount,1) as 'max pago', 
+    -> concat(day('2006-02-14'),'-',monthname('2006-02-14'),'-',year('2006-02-14')) as 'ultima renta'
+    -> from payment where
+    -> amount > 10 and customer_id in (select distinct customer_id from rental
+    -> where cast(rental_date as date) = '2006-02-14');
++---------+----------+------------------+
+| cliente | max pago | ultima renta     |
++---------+----------+------------------+
+|      21 |     11.0 | 14-February-2006 |
+|      29 |     11.0 | 14-February-2006 |
+|      33 |     11.0 | 14-February-2006 |
+|      87 |     11.0 | 14-February-2006 |
+|     114 |     11.0 | 14-February-2006 |
+|     163 |     11.0 | 14-February-2006 |
+|     168 |     11.0 | 14-February-2006 |
+|     178 |     11.0 | 14-February-2006 |
+|     200 |     11.0 | 14-February-2006 |
+|     245 |     11.0 | 14-February-2006 |
+|     300 |     11.0 | 14-February-2006 |
+|     336 |     11.0 | 14-February-2006 |
+|     388 |     11.0 | 14-February-2006 |
+|     410 |     11.0 | 14-February-2006 |
+|     441 |     11.0 | 14-February-2006 |
+|     448 |     11.0 | 14-February-2006 |
+|     457 |     11.0 | 14-February-2006 |
+|     516 |     11.0 | 14-February-2006 |
+|     550 |     11.0 | 14-February-2006 |
+|     550 |     11.0 | 14-February-2006 |
+|     561 |     11.0 | 14-February-2006 |
+|     592 |     12.0 | 14-February-2006 |
++---------+----------+------------------+
+22 rows in set (0.01 sec)
+
+[11:49 pm]-[sakila] ->notee
