@@ -1,0 +1,234 @@
+[BD: collectionhw] mysql> source /Users/rubennunezsanchez/Documents/ESCUELA/7. Séptimo Semestre/Bases Datos/Tareas/PARTICIPACIONES/5. Delete/ep5_rubenNunez.sql
+Database changed
++---------------------------------+
+| color                           |
++---------------------------------+
+| Antifreeze Green                |
+| Aqua                            |
+| Aqua Blue                       |
+| Black                           |
+| Blue                            |
+| Blue & Clear                    |
+| Brown                           |
+| Chrome & Dk. Blue               |
+| Clear Blue                      |
+| Clear Orange                    |
+| Clear Purple                    |
+| Clear Red                       |
+| Clear Yellow                    |
+| Copper                          |
+| Day-Glo Orange                  |
+| DayGlo Yellow                   |
+| Dk. Blue                        |
+| Dk. Copper                      |
+| Dk. Green                       |
+| Dk. Magenta                     |
+| Dk. Olive Green                 |
+| Dk. Orange                      |
+| Dk. Purple                      |
+| Dk. Red                         |
+| Dk. Red & Gold Chrome           |
+| Dk. Teal & Orange               |
+| Dk. Yellow                      |
+| Gold                            |
+| Green                           |
+| Grey                            |
+| Lime Green                      |
+| Lt. Blue                        |
+| Magenta                         |
+| Matte Black                     |
+| Matte Blue                      |
+| Matte Dk. Olive                 |
+| Matte Silver                    |
+| Midnight Blue                   |
+| Olive                           |
+| Orange                          |
+| Pearl Aqua                      |
+| Pearl Brown                     |
+| Pearl Dk. Magenta               |
+| Pearl Dk. Yellow                |
+| Pearl Green                     |
+| Pearl Lt. Blue                  |
+| Pearl Magenta                   |
+| Pearl Pink                      |
+| Pearl Turqouise                 |
+| Pearl Violet                    |
+| Pearl White                     |
+| Pearl White w/Clear Aqua Canopy |
+| Pearl Yellow                    |
+| Plum Purple                     |
+| Purple                          |
+| Red                             |
+| Red & Clear Blue                |
+| Red & Turquoise                 |
+| Red & White                     |
+| Red & Yellow                    |
+| Silver                          |
+| Silver & Black                  |
+| Silver & Mtflk. Teal            |
+| Steel Blue                      |
+| Tan                             |
+| Teal                            |
+| Turquoise                       |
+| White                           |
+| White & Clear Dk. Magenta       |
+| Yellow                          |
++---------------------------------+
+70 rows in set (0.00 sec)
+
++-------+------------------------------+----------------+---------------------------+--------+
+| sku   | nombre                       | color          | notas                     | modelo |
++-------+------------------------------+----------------+---------------------------+--------+
+| V5315 | The Bat                      | Black          | NULL                      |   2012 |
+| V5319 | Mazda RX-7                   | Black          | NULL                      |   2019 |
+| V5337 | Custom '71 El Camino         | Black          | NULL                      |   2002 |
+| V5356 | Circle Trucker               | Black          | NULL                      |   2012 |
+| V5369 | '69 Dodge Coronet Super Bee  | Dk. Orange     | Mainline Limited Edition  |   2002 |
+| V5381 | '70 Chevelle SS Wagon        | Dk. Orange     | Mainline Limited Edition  |   2002 |
+| V5400 | Cadillac CTS V               | Orange         | NULL                      |   2012 |
+| V5411 | '69 Camaro                   | Black          | NULL                      |   2019 |
+| V5414 | '69 Ford Torino Talladega    | Black          | NULL                      |   2019 |
+| V5416 | Custom '64 Galaxie 500       | Orange         | NULL                      |   2002 |
+| V5438 | Combat Medic                 | Orange         | NULL                      |   2012 |
+| V5498 | Rocketfire                   | Day-Glo Orange | NULL                      |   2002 |
+| V5538 | Snow Ride                    | Black          | NULL                      |   2012 |
+| V5542 | Tread Air                    | Dk. Orange     | NULL                      |   2012 |
+| V5588 | '73 Pontiac Firebird         | Dk. Orange     | NULL                      |   2019 |
+| V5644 | '70 Chevelle SS              | Black          | NULL                      |   2019 |
++-------+------------------------------+----------------+---------------------------+--------+
+16 rows in set (0.00 sec)
+
+Query OK, 16 rows affected (0.00 sec)
+
++-------+---------------------------------------------+---------------------------+--------+--------+
+| sku   | nombre                                      | color                     | precio | modelo |
++-------+---------------------------------------------+---------------------------+--------+--------+
+| V5291 | Imparable                                   | Black                     |    126 |   2016 |
+| V5293 | BMW M3 GT2                                  | Pearl White               |    217 |   2013 |
+| V5301 | Hypertruck                                  | Red                       |    174 |   2003 |
+| V5312 | 2012 Volkswagen Beetle                      | Dk. Red                   |    241 |   2012 |
+| V5320 | Street Creeper                              | Red                       |    155 |   2012 |
+| V5364 | Split Vision                                | White & Clear Dk. Magenta |    198 |   2010 |
+| V5388 | '71 Dodge Charger                           | Red                       |    147 |   2006 |
+| V5396 | Ford GTX1                                   | Pearl White               |    183 |   2012 |
+| V5422 | '68 Mercury Cougar                          | Blue                      |    152 |   2002 |
+| V5427 | Porsche 911 GT2                             | Blue                      |    112 |   1998 |
+| V5429 | Lamborghini Gallardo LP 570-4 Superleggera  | Dk. Blue                  |    121 |   2007 |
+| V5444 | Custom '69 Chevy Pickup                     | Green                     |    204 |   2019 |
+| V5450 | Dodge Viper GTS-R                           | Pearl White               |    123 |   2009 |
+| V5461 | Nissan 350Z                                 | Grey                      |    120 |   2014 |
+| V5487 | Dodge Charger Stock Car                     | Orange                    |    144 |   2005 |
+| V5489 | 24/Seven                                    | Lt. Blue                  |    106 |   2000 |
+| V5511 | Tri & Stop Me                               | Yellow                    |    146 |   2005 |
+| V5515 | '69 Chevelle                                | Clear Blue                |    248 |   2007 |
+| V5523 | Fast Fortress                               | Red & Yellow              |    154 |   2012 |
+| V5573 | '67 Plymouth GTX                            | Dk. Purple                |    237 |   2016 |
+| V5578 | Datsun Bluebird 510                         | Steel Blue                |    113 |   2015 |
+| V5602 | 1985 Chevrolet Camaro IROC-Z                | Black                     |    238 |   1985 |
+| V5614 | '12 Camaro ZL1                              | Pearl Yellow              |    116 |   1999 |
+| V5618 | '71 Dodge Challenger                        | Orange                    |    105 |   2006 |
+| V5663 | '12 Camaro ZL1                              | Pearl Green               |    222 |   2003 |
+| Y9257 | Ford Thunderbolt                            | Pearl Pink                |    211 |   2008 |
++-------+---------------------------------------------+---------------------------+--------+--------+
+26 rows in set (0.00 sec)
+
+Query OK, 26 rows affected (0.00 sec)
+
++-------+----------------------------------+-------------+--------+--------+-------+-----------+
+| sku   | nombre                           | color       | precio | modelo | notas | ubicacion |
++-------+----------------------------------+-------------+--------+--------+-------+-----------+
+| V5316 | Monster Dairy Delivery           | Pearl White |   1066 |   2008 | NULL  | NULL      |
+| V5324 | Bentley Continental Supersports  | Pearl White |    633 |   2012 | NULL  | NULL      |
+| V5395 | Mazda Furai                      | Pearl White |    567 |   2011 | NULL  | NULL      |
+| V5404 | '67 Oldsmobile 442               | Pearl White |    911 |   2003 | NULL  | NULL      |
+| V5417 | '67 Shelby GT-500                | Pearl White |    489 |   2019 | NULL  | NULL      |
+| V5426 | Aston Martin One-77              | Pearl White |   1378 |   2003 | NULL  | NULL      |
+| V5430 | Ferrari California               | Pearl White |    764 |   2017 | NULL  | NULL      |
+| V5433 | Ferrari 458 Italia               | Pearl White |   1897 |   2013 | NULL  | NULL      |
+| V5449 | Olds 442                         | Pearl White |    326 |   2000 | NULL  | NULL      |
+| V5467 | '70 Chevy Camaro RS              | Pearl White |   1757 |   2010 | NULL  | NULL      |
+| V5468 | Chevy Silverado                  | Pearl White |   1824 |   2003 | NULL  | NULL      |
+| V5470 | '65 Corvette                     | Pearl White |    631 |   2001 | NULL  | NULL      |
+| V5497 | Jet Threat 4.0                   | Pearl White |    363 |   2001 | NULL  | NULL      |
+| V5530 | Custom '11 Camaro                | Pearl White |    965 |   2000 | NULL  | NULL      |
+| V5569 | Ford Falcon Race Car             | Pearl White |    678 |   2004 | NULL  | NULL      |
+| V5577 | Dodge Challenger Drift Car       | Pearl White |   1933 |   2002 | NULL  | NULL      |
+| V5601 | BMW 2002                         | Pearl White |   1616 |   2013 | NULL  | NULL      |
+| V5603 | Infiniti G37                     | Pearl White |   1921 |   2014 | NULL  | NULL      |
+| V5620 | '11 Corvette Grand Sport         | Pearl White |    563 |   1998 | NULL  | NULL      |
+| V5621 | '70 Dodge Hemi Challenger        | Pearl White |    611 |   2007 | NULL  | NULL      |
++-------+----------------------------------+-------------+--------+--------+-------+-----------+
+20 rows in set (0.00 sec)
+
+Query OK, 20 rows affected (0.00 sec)
+
++-------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+
+| nombre                              | descripcion                                                                                                                                                                                                                  | ubicacion |
++-------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+
+| 2013 Viper SRT                      | Mtflk. Red, w/Black & White stripes across top, Black Malaysia Base, w/J5's                                                                                                                                                  | NULL      |
+| '61 Impala                          | Mtflk. Blue, w/White stripes on sides, hood, & trunk, '409' on sides & hood, Chrome Malaysia Base, w/Chrome/BlackPR5's                                                                                                       | NULL      |
+| Surf Crate                          | Lime Green, w/Orange, Blue, Black, & White stripes on sides & roof, 'TH' on roof, Unpainted Malaysia Base, w/ChrBlue/BlackOH5SP/SK5's                                                                                        | NULL      |
+| Motoblade                           | Clear Blue, w/Black, Yellow, & White stripes across top, '9' on sides & on top, Yellow Malaysia Base, w/White/BlackOH5SP's                                                                                                   | NULL      |
+| Scoopa Di Fuego                     | Mtflk. Purple, w/Orange & White stripes, '26' on sides & hood, Grey Malaysia Base, w/ChrOrangeOH5SP's                                                                                                                        | NULL      |
+| Torque Twister                      | Yellow, w/Orange & White stripes on sides & across top, '28' on sides & hood, Dk. Grey Malaysia Base, w/White/BlackOH5SP's                                                                                                   | NULL      |
+| '71 Dodge Challenger                | Mtflk. Aqua Blue, w/Black & White stripes on sides, Chrome Malaysia Base, w/MC5's                                                                                                                                            | NULL      |
+| '67 Plymouth GTX                    | Mtflk. Dk. Copper, w/White stripes on sides & hood, '440' on hood, Chrome Malaysia Base, w/MC5's                                                                                                                             | NULL      |
+| '66 Chevy Nova                      | Mtflk. Steel Blue, w/Black, Silver, & White stripes on sides & hood, Chrome Malaysia Base, w/MC5's                                                                                                                           | NULL      |
+| '66 Ford 427 Fairlane               | Pearl Green, w/Black & White stripes, '427' & Silver 'Fairlane' on sides, Chrome Malaysia Base, w/5SP's                                                                                                                      | NULL      |
+| Ford Thunderbolt                    | Mtflk. Aqua, w/Blue & White stripes on sides & hood, '427' on hood, Chrome Malaysia Base, w/WhiteMC5's                                                                                                                       | NULL      |
+| Baja Breaker                        | Mtflk. Midnight Blue, w/Yellow, Orange, Blue, & White stripes on sides, 'Goodyear' on sides, Chrome Malaysia Base, w/OR5SP's                                                                                                 | NULL      |
+| '11 Corvette Grand Sport            | Mtflk. Red, w/White stripes on sides & hood, Gold/Black 'Roanoke Fire-EMS' on sides, White '05' on roof, White 'Roanoke' on hood, Black Malaysia Base, w/White/BlackMC5's                                                    | NULL      |
+| Amazoom                             | Red, w/White, Yellow, Blue, & Lt. Blue tampos, White stripes on sides & across top, 'Oshkosh Fire Department' on sides, 'C15' on hood, 'Oshkosh' on front windshield, Black Malaysia Base, w/White/BlackJ5's                 | NULL      |
+| '68 Nova                            | Mtflk. Blue, w/White, Red, & Yellow HW logo on sides & hood, White stripes on sides, hood, & trunk, '6' on sides & hood, Chrome Malaysia Base, w/ChrRed/BlackMC5's                                                           | NULL      |
+| '67 Pontiac GTO                     | Mtflk. Blue, w/White, Red, & Yellow HW logo on sides & hood, White & Red stripes on sides & hood, White stripes on trunk, '10' on sides & hood, Chrome Malaysia Base, w/ChrRed/BlackMC5's                                    | NULL      |
+| '70 Dodge Hemi Challenger           | Mtflk. Blue, w/White, Red, & Yellow HW logo on sides & hood, White stripes on sides & trunk, '1' on sides & hood, Black Malaysia Base, w/ChrRed/BlackPR5's                                                                   | NULL      |
+| '71 Dodge Demon                     | Mtflk. Blue, w/White, Red, & Yellow HW logo on sides & hood, White & Red stripes on sides & hood, White stripes on trunk, '5' on sides & hood, Chrome Malaysia Base, w/ChrRed/BlackMC5's                                     | NULL      |
+| '70 Ford Torino                     | Mtflk. Blue, w/White, Red, & Yellow HW logo on sides & hood, Red & White stripes on sides, White stripes on hood & trunk, White stripes on trunk, '7' on sides & hood, Chrome Malaysia Base, w/ChrRed/BlackMC5's             | NULL      |
+| '71 Maverick Grabber                | Mtflk. Blue, w/White, Red, & Yellow HW logo on sides & hood, White stripes on hood & roof, '8' on sides & hood, Chrome Malaysia Base, w/ChrRed/BlackMC5's                                                                    | NULL      |
+| Bone Shaker                         | Mtflk. Blue, w/White, Red, & Yellow HW logo on sides, White stripes on hood, '2' on sides & hood, Unpainted Malaysia Base, w/ChrRed/BlackOH5SP's                                                                             | NULL      |
+| Prototype H-24                      | Mtflk. Lt. Blue, w/Red & White stripes on sides & across top, '24' on sides & hood, Chrome Malaysia Base, w/White/BlackPR5's                                                                                                 | NULL      |
+| Da' Kar                             | Lime Green, w/Blue, Lt. Blue, & White stripes, '6' on sides & hood, race deco on sides, Black Malaysia Base, w/ChrOrangeOR5SP's                                                                                              | NULL      |
+| '10 Ford Shelby GT-500 Super Snake  | Mtflk. Teal, w/Orange & White stripes on sides, hood, & trunk, Orange Malaysia Base, w/FTE2's                                                                                                                                | NULL      |
+| Eagle Massa                         | Mtflk. Blue, w/Black & White stripes on sides & across top, 'MF' on sides, Grey Malaysia Base, w/White/BlackPR5's                                                                                                            | NULL      |
+| '68 Dodge Dart                      | Mtflk. Blue, w/Orange & White stripes on sides & hood, 'Dodge' on sides, '426 Hemi' on hood, Chrome Malaysia Base, w/5SP's                                                                                                   | NULL      |
+| '71 Maverick Grabber                | Mtflk. Purple, w/White, Orange, & Yellow HW logo on sides & hood, White stripes on hood & roof, '8' on sides & hood, Chrome Malaysia Base, w/ChrOrange/BlackMC5's                                                            | NULL      |
+| '70 Ford Torino                     | Mtflk. Purple, w/White, Orange, & Yellow HW logo on sides & hood, Orange & White stripes on sides, White stripes on hood & trunk, White stripes on trunk, '7' on sides & hood, Chrome Malaysia Base, w/ChrOrange/BlackMC5's  | NULL      |
++-------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+
+28 rows in set (0.00 sec)
+
+Query OK, 28 rows affected (0.00 sec)
+
++-------------+
+| max(precio) |
++-------------+
+|        1994 |
++-------------+
+1 row in set (0.00 sec)
+
++--------------------------+--------+--------+
+| nombre                   | modelo | precio |
++--------------------------+--------+--------+
+| Custom '69 Chevy Pickup  |   2003 |   1994 |
++--------------------------+--------+--------+
+1 row in set (0.00 sec)
+
+ERROR 1093 (HY000): You can't specify target table 'carritosRNS' for update in FROM clause
+Query OK, 1 row affected (0.00 sec)
+
++----------+
+| count(*) |
++----------+
+|      255 |
++----------+
+1 row in set (0.00 sec)
+
+[BD: collectionhw] mysql> select nombre, modelo, precio from carritosRNS
+    -> where precio = (select max(precio) from carritosRNS);
++----------------+--------+--------+
+| nombre         | modelo | precio |
++----------------+--------+--------+
+| '10 Camaro SS  |   2002 |   1993 |
++----------------+--------+--------+
+1 row in set (0.00 sec)
+
+[BD: collectionhw] mysql> notee;

@@ -1,0 +1,157 @@
+
+# EJERCICIO DE PARTICIPACIÓN 1: ALTER
+
+
+/* INSTRUCCIONES:
+
+1. Ingresar a la consola de MySQL
+
+2. Generar un archivo de texto con el comando tee, siguiendo la estructura para el nombre: EP1_NombreApellido.txt, por ejemplo: tee EP1_MarisolFlores.txt
+
+3. Poner en el prompt nombre, apellido y la fecha y hora del sistema, ejemplo: prompt (MarisolFlores en: \d \\\D) mysql>
+
+4. Hacer todos los ejemplos y ejercicios que a continuación se describen:
+
+######### EN LA BASE DE DATOS tienda, en la TABLA producto:	
+
+	1. Agregar un nuevo campo: "categoria" de tipo varchar(10)
+
+	2. Agregar un nuevo campo: "id" de tipo entero
+
+	3. Ver la descripción de la tabla
+
+	4. Borrar el campo "id"
+
+	5. Agregar al inicio el campo "id"
+
+	6. Mostrar la descripción de productos
+
+	7. Borrar el campo "id"
+
+	8. Agregar de nuevo el campo "id", esta vez agregarlo después del campo "precio"
+
+	9. Modificar el tipo de datos de un campo: Modifica el campo "id" y conviertelo en char(4)
+
+	10. Cambiar el nombre de un campo (también se puede especificar el tipo de datos y condición null)
+		Cambiar el nombre de "id" a "pid"
+
+	11. Modificar tipo de datos y condición de null 
+		Modificar el tipo de datos del campo "pid" a un smallint siendo no nulo
+
+	12. Modificar tipo de datos y valores por default
+		Modificar el campo "pid" a int con un valor por defecto de 1000
+
+	13. Ver campos de producto
+
+	14. Unicamente poner valores por default
+		Modifica "pid" y establece el valor por default a 100
+
+	15. Cambia el nombre de la tabla
+		Modifica el nombre de la tabla "producto" a "cosas"
+
+
+
+######### EN LA BASE DE DATOS almacen:
+	
+	1. Mostrar la descripción de la tabla fabricante
+	
+	2. Cambiar el nombre y tipo de datos
+		Para el atributo clave_fabricante establezca el nuevo nombre a clave
+		Establezca el tipo de dato a mini entero sin signo y no nulo
+
+	3. Agregar atributos
+		Agregar el atributo clave_fabricante en la tabla articulo con las mismas características que el atributo clave de la tabla fabricante
+
+	4. Mostrar la descripción de artículo
+	
+	5. Mostrar la descripción de fabricante
+
+	6. Indicar que un campo será la PK
+		En la tabla fabricante establezca a clave como llave primaria
+
+	7. Agregar una llave foránea a la tabla artículo
+		En la tabla artículo agrega la llave foránea clave_fabricante referenciada a la tabla fabricante con el campo clave
+
+		Repite el paso anterior y establece el nombre de la FK a "FK_articulo_fabricante"
+
+	8. Muestra la descripción de las tablas fabricante y artículo
+
+	9. Borra la tabla de fabricante
+	
+####### CONSIDERACIONES IMPORTANTES PARA EL PUNTO 9:
+
+Al intentar borrar una tabla padre dará el siguiente mensaje:
+
+ERROR 3730 (HY000): Cannot drop table 'fabricante' referenced by a foreign key constraint 'articulo_ibfk_1' on table 'articulo'.
+
+
++----------------------------------------------------+
+|🚨Primero debe romperse la relación indicando el nombre de la FK: (Aquí la importancia de personalizarlas) 
+|
+|ALTER TABLE articulo
+|DROP FOREIGN KEY articulo_ibfk_1; 🚨🚨🚨
++----------------------------------------------------+
+
+ALTER TABLE articulo
+DROP FOREIGN KEY FK_articulo_fabricante; ✅✅✅
+
+Ahora sí de podrá borrar la tabla fabricante sin necesidad de borrar la tabla hija artículo
+
+####### FIN CONSIDERACIONES IMPORTANTES PARA EL PUNTO 9:
+
+	10. Crea la tabla fabricante nuevamente
+
+	11. Asigna la FK en la tabla artículo
+
+	12. Cambia la codificación de una tabla
+		Cambia la codification de la tabla fabricante a utf8_general_ci;⬅️🚨
+
+	13. Cambia la codificación de toda la base de datos
+		Cambia la codificación de la base almacen a CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+	14.* Cambia el valor del auto incrementable
+		En la tabla disco establezca el auto incrementable a 1
+
+####### EJERCICIOS
+
+	1. Habilita la base de datos almacén
+	2. Genera las siguientes tablas
+		Clientes - Atributos:
+			clave_cliente: cadena de longitud de 5 caracteres
+			nombre: cadena de hasta 50 caracteres de longitud
+		
+		Inventario - Atributos:
+			clave: cadena de longitud de hasta 5 caracteres
+			descripcion: tipo de texto
+	
+	3. Mostrar las tablas de la base de datos almacen
+	4. Mostrar los atributos de la tabla articulo
+	5. Eliminar la tabla inventario
+	6. Mostrar las tablas de la base de datos almacen
+	7. Agregar el atributo "origen" de tipo cadena de 20 a la tabla articulo
+	8. Modificar el tributo "origen" para que su valor default sea "nacional"
+	9. Modificar el atributo precio de la tabla articulo para que reciba 4 dígitos enteros y 2 decimales y que su valor por default sea 9.99
+	10. Mostrar la descripción de la tabla articulo
+ 
+5. Al terminar, detener la grabación del archivo con el comando; notee
+
+6. Subir el archivo txt en esta tarea para completarla.
+
+*/
+
+
+-- 1.
+
+/usr/local/mysql/bin/mysql -u root -p
+
+ruben000
+
+-- 2. 
+
+tee /Users/rubennunezsanchez/Documents/ESCUELA/7. Séptimo Semestre/Bases Datos/Códigos/EP1_RubenNunez.txt
+
+-- 3. 
+
+prompt (RubenNunez en: \d \\\D) mysql>
+
+-- 4. 
