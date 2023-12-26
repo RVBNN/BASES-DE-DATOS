@@ -1,0 +1,523 @@
+[BD: covid] mysql> USE covid;
+Database changed
+[BD: covid] mysql> 
+[BD: covid] mysql> -- Sección 1: Consultas
+[BD: covid] mysql> 
+[BD: covid] mysql> -- Ejercicio 1.
+[BD: covid] mysql> SELECT 'Ejercicio 1' AS '';
++-------------+
+|             |
++-------------+
+| Ejercicio 1 |
++-------------+
+1 row in set (0.00 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> SELECT embarazos.id_paciente
+    -> , pacientes.edad AS 'edad'
+    -> , pacientes.fecha_sintomas
+    -> , pacientes.fecha_ingreso
+    -> , estados.nom_estado AS 'Estado'
+    -> , municipios.nom_mun AS 'Municipio'
+    -> , resultado.descripcion AS 'Prueba COVID'
+    -> FROM embarazos
+    -> JOIN pacientes ON pacientes.id_paciente = embarazos.id_paciente
+    -> JOIN tipos_paciente ON tipos_paciente.clave_tipo = pacientes.tipo_paciente 
+    -> JOIN resultado ON resultado.clave_resultado = pacientes.clave_resultado
+    -> JOIN mexicanos ON mexicanos.id_paciente = embarazos.id_paciente
+    -> JOIN municipios ON municipios.edo_mun = mexicanos.edomun_resi
+    -> JOIN estados ON estados.clave_edo = municipios.clave_edo
+    -> WHERE tipos_paciente.clave_tipo = 2
+    -> AND resultado.clave_resultado IN (1,2)
+    -> AND municipios.nom_mun IN (SELECT nom_mun from municipios where nom_mun like '%Cardenas%' or nom_mun like '%Zapata%' or nom_mun like '%Atotonilco%')
+    -> ORDER BY 7 DESC, 2 ASC;
++-------------+------+----------------+---------------+---------------------------------+-----------------------------------------+------------------------+
+| id_paciente | edad | fecha_sintomas | fecha_ingreso | Estado                          | Municipio                               | Prueba COVID           |
++-------------+------+----------------+---------------+---------------------------------+-----------------------------------------+------------------------+
+| 1b4ea0      |   17 | 2020-07-23     | 2020-07-24    | Tabasco                         | Cárdenas                                | Positivo SARS-CoV-2    |
+| 137bb0      |   24 | 2020-06-06     | 2020-06-07    | Tabasco                         | Cárdenas                                | Positivo SARS-CoV-2    |
+| 0278bc      |   29 | 2020-06-25     | 2020-06-27    | Veracruz de Ignacio de la Llave | Nanchital De Lázaro Cárdenas Del Río    | Positivo SARS-CoV-2    |
+| 020fc0      |   30 | 2020-06-07     | 2020-06-15    | Tabasco                         | Cárdenas                                | Positivo SARS-CoV-2    |
+| 1416c5      |   31 | 2020-06-25     | 2020-06-30    | Hidalgo                         | Atotonilco El Grande                    | Positivo SARS-CoV-2    |
+| 0dcaeb      |   33 | 2020-07-10     | 2020-07-17    | Quintana Roo                    | Lázaro Cárdenas                         | Positivo SARS-CoV-2    |
+| 15ec58      |   35 | 2020-05-29     | 2020-05-29    | Tabasco                         | Cárdenas                                | Positivo SARS-CoV-2    |
+| 135724      |   37 | 2020-07-09     | 2020-07-15    | Quintana Roo                    | Lázaro Cárdenas                         | Positivo SARS-CoV-2    |
+| 120828      |   48 | 2020-07-20     | 2020-07-21    | Tabasco                         | Cárdenas                                | Positivo SARS-CoV-2    |
+| 155dd7      |   18 | 2020-04-02     | 2020-04-06    | Tabasco                         | Cárdenas                                | No positivo SARS-CoV-2 |
+| 0539f8      |   24 | 2020-04-10     | 2020-04-16    | Hidalgo                         | Atotonilco De Tula                      | No positivo SARS-CoV-2 |
+| 167d28      |   26 | 2020-03-09     | 2020-03-09    | Hidalgo                         | Atotonilco De Tula                      | No positivo SARS-CoV-2 |
+| 1c0997      |   26 | 2020-07-10     | 2020-07-17    | Tabasco                         | Cárdenas                                | No positivo SARS-CoV-2 |
+| 041a3e      |   30 | 2020-07-14     | 2020-07-18    | Tabasco                         | Emiliano Zapata                         | No positivo SARS-CoV-2 |
+| 169ce5      |   30 | 2020-04-06     | 2020-04-07    | Morelos                         | Emiliano Zapata                         | No positivo SARS-CoV-2 |
+| 03a9a2      |   32 | 2020-01-23     | 2020-01-23    | Hidalgo                         | Atotonilco De Tula                      | No positivo SARS-CoV-2 |
+| 1893b4      |   34 | 2020-05-12     | 2020-05-18    | Tabasco                         | Cárdenas                                | No positivo SARS-CoV-2 |
+| 1b4f5c      |   36 | 2020-04-24     | 2020-04-24    | Tabasco                         | Cárdenas                                | No positivo SARS-CoV-2 |
+| 026cfa      |   39 | 2020-06-27     | 2020-07-09    | Tabasco                         | Cárdenas                                | No positivo SARS-CoV-2 |
++-------------+------+----------------+---------------+---------------------------------+-----------------------------------------+------------------------+
+19 rows in set (0.12 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> 
+[BD: covid] mysql> -- Ejercicio 2.
+[BD: covid] mysql> SELECT 'Ejercicio 2' AS '';
++-------------+
+|             |
++-------------+
+| Ejercicio 2 |
++-------------+
+1 row in set (0.00 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> SELECT a.estado_de_nacimiento as 'Estado de nacimiento'
+    -> , b.Estado_de_residencia as 'Estado de residencia'
+    -> , c.Municipio_de_residencia as 'Municipio de residencia'
+    -> , c.edad as 'Edad'
+    -> FROM (SELECT estados.nom_estado as 'Estado_de_nacimiento'
+    -> , abc.id_paciente
+    -> , abc.edad
+    -> FROM estados
+    -> JOIN (SELECT defunciones.id_paciente
+    -> , mexicanos.edo_nacim
+    -> , mexicanos.edomun_resi
+    -> , pacientes.edad
+    -> FROM defunciones
+    -> JOIN embarazos ON embarazos.id_paciente = defunciones.id_paciente
+    -> JOIN mexicanos ON mexicanos.id_paciente = defunciones.id_paciente
+    -> JOIN pacientes ON pacientes.id_paciente = mexicanos.id_paciente
+    -> JOIN resultado ON resultado.clave_resultado = pacientes.clave_resultado
+    -> JOIN estados ON pacientes.edo_um = estados.clave_edo
+    -> WHERE mexicanos.edo_nacim not like LEFT(mexicanos.edomun_resi, 2)
+    -> AND resultado.clave_resultado = 1
+    -> ORDER BY 1 ASC) abc
+    -> ON estados.clave_edo = abc.edo_nacim) a
+    -> JOIN(SELECT estados.nom_estado as 'Estado_de_residencia'
+    -> , def.id_paciente
+    -> , def.edad
+    -> FROM estados
+    -> JOIN (SELECT defunciones.id_paciente
+    -> , mexicanos.edo_nacim
+    -> , mexicanos.edomun_resi
+    -> , pacientes.edad
+    -> FROM defunciones
+    -> JOIN embarazos ON embarazos.id_paciente = defunciones.id_paciente
+    -> JOIN mexicanos ON mexicanos.id_paciente = defunciones.id_paciente
+    -> JOIN pacientes ON pacientes.id_paciente = mexicanos.id_paciente
+    -> JOIN resultado ON resultado.clave_resultado = pacientes.clave_resultado
+    -> JOIN estados ON pacientes.edo_um = estados.clave_edo
+    -> WHERE mexicanos.edo_nacim not like LEFT(mexicanos.edomun_resi, 2)
+    -> AND resultado.clave_resultado = 1
+    -> ORDER BY 1 ASC) def
+    -> ON estados.clave_edo =  LEFT(def.edomun_resi, 2)) b ON a.id_paciente = b.id_paciente
+    -> JOIN (SELECT municipios.nom_mun as 'Municipio_de_residencia'
+    -> , ghi.id_paciente
+    -> , ghi.edad
+    -> FROM municipios
+    -> JOIN (SELECT defunciones.id_paciente
+    -> , mexicanos.edo_nacim
+    -> , mexicanos.edomun_resi
+    -> , pacientes.edad
+    -> FROM defunciones
+    -> JOIN embarazos ON embarazos.id_paciente = defunciones.id_paciente
+    -> JOIN mexicanos ON mexicanos.id_paciente = defunciones.id_paciente
+    -> JOIN pacientes ON pacientes.id_paciente = mexicanos.id_paciente
+    -> JOIN resultado ON resultado.clave_resultado = pacientes.clave_resultado
+    -> JOIN estados ON pacientes.edo_um = estados.clave_edo
+    -> WHERE mexicanos.edo_nacim not like LEFT(mexicanos.edomun_resi, 2)
+    -> AND resultado.clave_resultado = 1
+    -> ORDER BY 1 ASC) ghi
+    -> ON municipios.edo_mun = ghi.edomun_resi) c
+    -> ON c.id_paciente = b.id_paciente
+    -> ORDER BY 1,2;
++---------------------------------+----------------------+--------------------------+------+
+| Estado de nacimiento            | Estado de residencia | Municipio de residencia  | Edad |
++---------------------------------+----------------------+--------------------------+------+
+| Chiapas                         | Baja California      | Tijuana                  |   24 |
+| Chiapas                         | Puebla               | Tehuacán                 |   41 |
+| Ciudad de México                | México               | Naucalpan De Juárez      |   39 |
+| Ciudad de México                | México               | Naucalpan De Juárez      |   29 |
+| Ciudad de México                | México               | Ecatepec De Morelos      |   33 |
+| Guerrero                        | Michoacán de Ocampo  | Los Reyes                |   20 |
+| Guerrero                        | Michoacán de Ocampo  | Uruapan                  |   31 |
+| Jalisco                         | Baja California      | Tijuana                  |   39 |
+| México                          | Oaxaca               | Santo Domingo Chihuitán  |   31 |
+| México                          | Puebla               | San Pedro Cholula        |   33 |
+| Sinaloa                         | Baja California      | Tijuana                  |   32 |
+| Sinaloa                         | Baja California      | Mexicali                 |   40 |
+| Tabasco                         | Quintana Roo         | Benito Juárez            |   37 |
+| Veracruz de Ignacio de la Llave | Chihuahua            | Juárez                   |   26 |
+| Veracruz de Ignacio de la Llave | Ciudad de México     | Gustavo A. Madero        |   32 |
++---------------------------------+----------------------+--------------------------+------+
+15 rows in set (0.04 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> 
+[BD: covid] mysql> -- Ejercicio 3.
+[BD: covid] mysql> SELECT 'Ejercicio 3' AS '';
++-------------+
+|             |
++-------------+
+| Ejercicio 3 |
++-------------+
+1 row in set (0.00 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> SELECT estados.nom_estado as 'Entidad Federativa'
+    -> , LPAD(FORMAT( COUNT(abc.id_paciente), 0), length('Total de defunciones'), ' ') AS 'Total de defunciones'
+    -> FROM estados
+    -> JOIN (SELECT LEFT(sq.edomun_resi,2) as edos
+    -> , defunciones.id_paciente
+    -> FROM defunciones
+    -> JOIN (
+    -> SELECT mexicanos.id_paciente
+    -> ,mexicanos.edomun_resi
+    -> FROM mexicanos
+    -> UNION( SELECT extranjeros.id_paciente
+    -> , extranjeros.edomun_resi
+    -> FROM extranjeros)) sq
+    -> ON defunciones.id_paciente = sq.id_paciente
+    -> JOIN pacientes ON pacientes.id_paciente = sq.id_paciente
+    -> JOIN cat_sino ON cat_sino.clave = pacientes.otro_caso
+    -> JOIN resultado ON resultado.clave_resultado = pacientes.clave_resultado
+    -> JOIN estados ON estados.clave_edo = pacientes.edo_um
+    -> WHERE cat_sino.clave = 2
+    -> AND resultado.clave_resultado = 1) abc
+    -> ON estados.clave_edo = abc.edos
+    -> GROUP BY 1 ORDER BY 1 ASC, 2 ASC;
++---------------------------------+----------------------+
+| Entidad Federativa              | Total de defunciones |
++---------------------------------+----------------------+
+| Aguascalientes                  |                   17 |
+| Baja California                 |                  520 |
+| Baja California Sur             |                   59 |
+| Campeche                        |                  175 |
+| Chiapas                         |                  253 |
+| Chihuahua                       |                  170 |
+| Ciudad de México                |                1,873 |
+| Coahuila de Zaragoza            |                   68 |
+| Colima                          |                   85 |
+| Durango                         |                   58 |
+| Guanajuato                      |                  247 |
+| Guerrero                        |                  547 |
+| Hidalgo                         |                  557 |
+| Jalisco                         |                  363 |
+| México                          |                2,725 |
+| Michoacán de Ocampo             |                  327 |
+| Morelos                         |                  290 |
+| Nayarit                         |                  169 |
+| Nuevo León                      |                  168 |
+| Oaxaca                          |                  430 |
+| Puebla                          |                1,196 |
+| Querétaro                       |                  229 |
+| Quintana Roo                    |                  455 |
+| San Luis Potosí                 |                  304 |
+| Sinaloa                         |                  772 |
+| Sonora                          |                  538 |
+| Tabasco                         |                  868 |
+| Tamaulipas                      |                  392 |
+| Tlaxcala                        |                  224 |
+| Veracruz de Ignacio de la Llave |                1,003 |
+| Yucatán                         |                  138 |
+| Zacatecas                       |                  114 |
++---------------------------------+----------------------+
+32 rows in set (3.62 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> -- Ejercicio 4.
+[BD: covid] mysql> SELECT 'Ejercicio 4' AS '';
++-------------+
+|             |
++-------------+
+| Ejercicio 4 |
++-------------+
+1 row in set (0.00 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> SELECT a.id_paciente
+    -> , a.edad
+    -> , estados.nom_estado AS 'Estado de la Unidad Medica'
+    -> , a.nom_pais AS 'Nacionalidad' 
+    -> , b.nom_pais AS 'Pais de origen'
+    -> , cat_sino.descripcion AS 'Es migrante'
+    -> , b.descripcion AS 'Prueba COVID' 
+    -> FROM extranjeros
+    -> JOIN(
+    -> -- Pais de nacionalidad
+    -> SELECT abc.id_paciente
+    -> , abc.edad
+    -> , abc.edo_um
+    -> , abc.cve_pais
+    -> , pais.nom_pais
+    -> FROM pais
+    -> JOIN(
+    -> SELECT embarazos.id_paciente
+    -> , pacientes.edad
+    -> , pacientes.edo_um
+    -> , extranjeros.pais_nacionalidad as cve_pais
+    -> FROM embarazos
+    -> JOIN extranjeros ON extranjeros.id_paciente = embarazos.id_paciente
+    -> JOIN pacientes ON pacientes.id_paciente = embarazos.id_paciente
+    -> JOIN resultado ON resultado.clave_resultado = pacientes.clave_resultado
+    -> JOIN estados ON estados.clave_edo = pacientes.edo_um
+    -> ) abc
+    -> ON pais.clave_pais = abc.cve_pais) a
+    -> ON extranjeros.id_paciente = a.id_paciente
+    -> JOIN(
+    -> -- Pais de origen
+    -> SELECT abcd.id_paciente
+    -> , abcd.cve_pais_o
+    -> , pais.nom_pais
+    -> , abcd.migrante
+    -> , abcd.descripcion
+    -> FROM pais
+    -> JOIN(
+    -> SELECT embarazos.id_paciente
+    -> , extranjeros.pais_origen as cve_pais_o
+    -> , extranjeros.migrante
+    -> , resultado.descripcion
+    -> FROM embarazos
+    -> JOIN extranjeros ON extranjeros.id_paciente = embarazos.id_paciente
+    -> JOIN pacientes ON pacientes.id_paciente = embarazos.id_paciente
+    -> JOIN resultado ON resultado.clave_resultado = pacientes.clave_resultado
+    -> JOIN estados ON estados.clave_edo = pacientes.edo_um
+    -> ) abcd
+    -> ON pais.clave_pais = abcd.cve_pais_o) b
+    -> ON extranjeros.id_paciente = b.id_paciente
+    -> JOIN pacientes ON pacientes.id_paciente = extranjeros.id_paciente
+    -> JOIN estados ON estados.clave_edo = pacientes.edo_um
+    -> JOIN cat_sino ON cat_sino.clave = b.migrante
+    -> ORDER BY 3 ASC,4 ASC;
++-------------+------+----------------------------+---------------------------------+---------------------------------+-----------------+------------------------+
+| id_paciente | edad | Estado de la Unidad Medica | Nacionalidad                    | Pais de origen                  | Es migrante     | Prueba COVID           |
++-------------+------+----------------------------+---------------------------------+---------------------------------+-----------------+------------------------+
+| 16df25      |   25 | Baja California            | Cuba                            | Se Ignora                       | No              | Positivo SARS-CoV-2    |
+| 0f23e8      |   23 | Baja California            | El Salvador                     | El Salvador                     | Si              | Positivo SARS-CoV-2    |
+| 136574      |   32 | Baja California            | Estados Unidos de América       | Se Ignora                       | No especificado | No positivo SARS-CoV-2 |
+| 0f77da      |   23 | Baja California            | Estados Unidos de América       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 10c500      |   31 | Baja California            | Haití                           | Se Ignora                       | No              | Positivo SARS-CoV-2    |
+| 017afe      |   23 | Baja California            | Haití                           | Se Ignora                       | No especificado | Positivo SARS-CoV-2    |
+| 01092d      |   25 | Baja California            | República de Honduras           | República de Honduras           | Si              | No positivo SARS-CoV-2 |
+| 001e1a      |   33 | Baja California Sur        | Estados Unidos de América       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 10526a      |   37 | Baja California Sur        | Venezuela                       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 184217      |   21 | Campeche                   | El Salvador                     | Se Ignora                       | No especificado | No positivo SARS-CoV-2 |
+| 18d5ec      |   24 | Campeche                   | República de Honduras           | República de Honduras           | Si              | Positivo SARS-CoV-2    |
+| 15df5a      |   31 | Chiapas                    | Cuba                            | Cuba                            | Si              | Positivo SARS-CoV-2    |
+| 1bf4b5      |   34 | Chiapas                    | Guatemala                       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 08e0c4      |   22 | Chiapas                    | Guatemala                       | Guatemala                       | Si              | No positivo SARS-CoV-2 |
+| 07e90c      |   30 | Chiapas                    | Haití                           | Haití                           | Si              | No positivo SARS-CoV-2 |
+| 02fadc      |   30 | Chiapas                    | República de Honduras           | República de Honduras           | Si              | Positivo SARS-CoV-2    |
+| 035579      |   24 | Chiapas                    | República de Honduras           | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 067133      |   27 | Chihuahua                  | Estados Unidos de América       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 00db02      |   40 | Chihuahua                  | Taiwán                          | Se Ignora                       | No              | Resultado pendiente    |
+| 16c978      |   38 | Ciudad de México           | Bielorrusia                     | Se Ignora                       | No              | Resultado pendiente    |
+| 10d0c2      |   21 | Ciudad de México           | Bolivia                         | Bolivia                         | Si              | No positivo SARS-CoV-2 |
+| 1e58ef      |   42 | Ciudad de México           | Brasil                          | Se Ignora                       | No              | Resultado pendiente    |
+| 18df2b      |   40 | Ciudad de México           | Brasil                          | Se Ignora                       | No              | Resultado pendiente    |
+| 1a1cd8      |   31 | Ciudad de México           | Camboya                         | Cuba                            | Si              | No positivo SARS-CoV-2 |
+| 167843      |   32 | Ciudad de México           | Chile                           | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 02200a      |   30 | Ciudad de México           | Chile                           | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 0a21d3      |   28 | Ciudad de México           | Colombia                        | Colombia                        | Si              | No positivo SARS-CoV-2 |
+| 122ca8      |   29 | Ciudad de México           | Colombia                        | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 072c56      |   39 | Ciudad de México           | Ecuador                         | Se Ignora                       | No              | Resultado pendiente    |
+| 130df3      |   24 | Ciudad de México           | España                          | Se Ignora                       | No              | Resultado pendiente    |
+| 1525a8      |   38 | Ciudad de México           | España                          | Se Ignora                       | No              | Resultado pendiente    |
+| 11f122      |   34 | Ciudad de México           | España                          | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 0d0d9f      |   42 | Ciudad de México           | Estados Unidos de América       | Se Ignora                       | No              | Resultado pendiente    |
+| 090b72      |   38 | Ciudad de México           | Francia                         | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 1ae53e      |   25 | Ciudad de México           | Guatemala                       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 0ec19d      |   34 | Ciudad de México           | Japón                           | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 0270d5      |   28 | Ciudad de México           | Otro                            | Otro                            | Si              | No positivo SARS-CoV-2 |
+| 1789b2      |   42 | Ciudad de México           | Ucrania                         | Se Ignora                       | No              | Resultado pendiente    |
+| 10ff73      |   33 | Ciudad de México           | Venezuela                       | Se Ignora                       | No              | Resultado pendiente    |
+| 0c0399      |   39 | Ciudad de México           | Venezuela                       | Se Ignora                       | No              | Resultado pendiente    |
+| 19d777      |   36 | Ciudad de México           | Venezuela                       | Se Ignora                       | No              | Resultado pendiente    |
+| 0b0505      |   34 | Ciudad de México           | Venezuela                       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 124e7d      |   33 | Ciudad de México           | Venezuela                       | Venezuela                       | Si              | Positivo SARS-CoV-2    |
+| 05c850      |   38 | Ciudad de México           | Venezuela                       | Venezuela                       | Si              | Positivo SARS-CoV-2    |
+| 0630cc      |   37 | Ciudad de México           | Venezuela                       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 0a253b      |   36 | Coahuila de Zaragoza       | El Salvador                     | El Salvador                     | Si              | Positivo SARS-CoV-2    |
+| 1db08b      |   29 | Durango                    | Estados Unidos de América       | Se Ignora                       | No              | Positivo SARS-CoV-2    |
+| 0cf512      |   18 | Guanajuato                 | Estados Unidos de América       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 1b692b      |   29 | Guerrero                   | Venezuela                       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 079d51      |   26 | Hidalgo                    | Cuba                            | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 083355      |   24 | Jalisco                    | Ecuador                         | Se Ignora                       | No especificado | No positivo SARS-CoV-2 |
+| 119afc      |   27 | México                     | Colombia                        | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 0ab96f      |   29 | México                     | Letonia                         | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 17462c      |   38 | México                     | Rumania                         | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 1c02b5      |   36 | México                     | Venezuela                       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 047618      |   27 | Nayarit                    | Cuba                            | Se Ignora                       | No especificado | No positivo SARS-CoV-2 |
+| 07fc3c      |   19 | Nuevo León                 | El Salvador                     | El Salvador                     | Si              | No positivo SARS-CoV-2 |
+| 1328bc      |   25 | Nuevo León                 | El Salvador                     | El Salvador                     | Si              | No positivo SARS-CoV-2 |
+| 0f9dbb      |   26 | Nuevo León                 | Estados Unidos de América       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 0fca74      |   19 | Nuevo León                 | Estados Unidos de América       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 10ec16      |   25 | Nuevo León                 | Estados Unidos de América       | Se Ignora                       | No              | Positivo SARS-CoV-2    |
+| 1685bf      |   29 | Nuevo León                 | Perú                            | Se Ignora                       | No              | Positivo SARS-CoV-2    |
+| 00eefb      |   29 | Nuevo León                 | República de Honduras           | República de Honduras           | Si              | No positivo SARS-CoV-2 |
+| 04568d      |   24 | Nuevo León                 | República de Honduras           | República de Honduras           | Si              | No positivo SARS-CoV-2 |
+| 094eb3      |   21 | Nuevo León                 | República de Honduras           | Se Ignora                       | No especificado | No positivo SARS-CoV-2 |
+| 0fe0bb      |   33 | Puebla                     | Australia                       | Australia                       | Si              | No positivo SARS-CoV-2 |
+| 0a8e87      |   32 | Puebla                     | Eslovaquia                      | Eslovaquia                      | Si              | No positivo SARS-CoV-2 |
+| 11bacf      |   23 | Puebla                     | Estados Unidos de América       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 1ca26e      |   26 | Puebla                     | República Oriental del Uruguay  | República Oriental del Uruguay  | Si              | No positivo SARS-CoV-2 |
+| 030823      |   35 | Quintana Roo               | Colombia                        | Se Ignora                       | No especificado | No positivo SARS-CoV-2 |
+| 137a04      |   28 | Quintana Roo               | Cuba                            | Se Ignora                       | No especificado | No positivo SARS-CoV-2 |
+| 184082      |   30 | Quintana Roo               | Cuba                            | Se Ignora                       | No              | Positivo SARS-CoV-2    |
+| 1b02ad      |   30 | Quintana Roo               | Cuba                            | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 197a07      |   23 | Quintana Roo               | Guatemala                       | Se Ignora                       | No especificado | Resultado pendiente    |
+| 0931c3      |   35 | Quintana Roo               | Guatemala                       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 1bdc8c      |   31 | Quintana Roo               | Guatemala                       | Se Ignora                       | No              | Positivo SARS-CoV-2    |
+| 1190c3      |   24 | Quintana Roo               | Venezuela                       | Venezuela                       | Si              | No positivo SARS-CoV-2 |
+| 14363d      |   20 | San Luis Potosí            | Estados Unidos de América       | Se Ignora                       | No              | Positivo SARS-CoV-2    |
+| 014226      |   19 | San Luis Potosí            | Estados Unidos de América       | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 1c866c      |   33 | San Luis Potosí            | Suiza                           | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 16d58a      |   35 | Sonora                     | Estados Unidos de América       | Se Ignora                       | No              | Positivo SARS-CoV-2    |
+| 0d2b98      |   21 | Sonora                     | Estados Unidos de América       | Estados Unidos de América       | Si              | Resultado pendiente    |
+| 0596b6      |   38 | Tamaulipas                 | Cuba                            | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 0b6132      |   28 | Tamaulipas                 | Estados Unidos de América       | Se Ignora                       | No              | Positivo SARS-CoV-2    |
+| 1aafe8      |   37 | Tamaulipas                 | Ghana                           | Ghana                           | Si              | Positivo SARS-CoV-2    |
+| 1abfb9      |   20 | Tamaulipas                 | República de Honduras           | República de Honduras           | Si              | No positivo SARS-CoV-2 |
+| 0e9358      |   33 | Tlaxcala                   | El Salvador                     | Se Ignora                       | No              | No positivo SARS-CoV-2 |
+| 01e42f      |   23 | Tlaxcala                   | República de Honduras           | Se Ignora                       | No              | Positivo SARS-CoV-2    |
++-------------+------+----------------------------+---------------------------------+---------------------------------+-----------------+------------------------+
+88 rows in set (0.03 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> 
+[BD: covid] mysql> -- Ejercicio 5.
+[BD: covid] mysql> SELECT 'Ejercicio 5' AS '';
++-------------+
+|             |
++-------------+
+| Ejercicio 5 |
++-------------+
+1 row in set (0.00 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> SELECT sub.clave_sector
+    -> , sub.nom_sector as 'Sector'
+    -> , FORMAT(sub.total, 0) as 'Total'
+    -> FROM (SELECT count(pacientes.id_paciente) as Total
+    -> , resultado.descripcion
+    -> , sector.clave_sector
+    -> , sector.nom_sector
+    -> FROM pacientes
+    -> JOIN resultado ON resultado.clave_resultado = pacientes.clave_resultado
+    -> JOIN sector ON sector.clave_sector = pacientes.clave_sector
+    -> WHERE resultado.clave_resultado = 1
+    -> GROUP BY 3,4,2
+    -> ORDER BY 1 ASC) sub
+    -> WHERE TOTAL = (SELECT MAX(total)
+    -> FROM (SELECT count(pacientes.id_paciente) as Total
+    -> , resultado.descripcion
+    -> , sector.clave_sector
+    -> , sector.nom_sector
+    -> FROM pacientes
+    -> JOIN resultado ON resultado.clave_resultado = pacientes.clave_resultado
+    -> JOIN sector ON sector.clave_sector = pacientes.clave_sector
+    -> WHERE resultado.clave_resultado = 1
+    -> GROUP BY 3,4,2
+    -> ORDER BY 1 ASC) subb);
++--------------+--------+---------+
+| clave_sector | Sector | Total   |
++--------------+--------+---------+
+|           12 | SSA    | 288,777 |
++--------------+--------+---------+
+1 row in set (3.85 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> 
+[BD: covid] mysql> -- Ejercicio 6.
+[BD: covid] mysql> SELECT 'Ejercicio 6' AS '';
++-------------+
+|             |
++-------------+
+| Ejercicio 6 |
++-------------+
+1 row in set (0.00 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> SELECT q.nom_estado AS 'Estado'
+    -> , LPAD(FORMAT(q.total, 0), length('Población total'), ' ') AS 'Población total'
+    -> , LPAD(FORMAT(q.total_infectados, 0), length('Total de infectados'), ' ') AS 'Total de infectados'
+    -> FROM (
+    -> SELECT h.nom_estado
+    -> , h.total
+    -> , sq.total_infectados
+    -> FROM (
+    -> -- LUGARES MÁS HABITADOS
+    -> SELECT SUM(municipios.pob_total) as total
+    -> ,estados.nom_estado
+    -> ,estados.clave_edo
+    -> FROM estados
+    -> JOIN municipios USING(clave_edo)
+    -> GROUP BY 2
+    -> ORDER BY 1 DESC
+    -> ) h
+    -> JOIN(
+    -> -- NÚMERO DE INFECTADOS 
+    -> SELECT LEFT(mundo.edomun_resi, 2) as clave_edo
+    -> , COUNT(mundo.id_paciente) as total_infectados
+    -> FROM
+    -> (SELECT mexicanos.id_paciente
+    -> ,mexicanos.edomun_resi
+    -> FROM mexicanos
+    -> UNION( 
+    -> SELECT extranjeros.id_paciente
+    -> , extranjeros.edomun_resi
+    -> FROM extranjeros)
+    -> ) mundo
+    -> JOIN pacientes ON mundo.id_paciente = pacientes.id_paciente
+    -> JOIN resultado ON resultado.clave_resultado = pacientes.clave_resultado
+    -> WHERE resultado.clave_resultado = 1
+    -> GROUP BY 1
+    -> ORDER BY 2 ASC
+    -> ) sq
+    -> ON h.clave_edo = sq.clave_edo
+    -> -- TODA LA TABLA SE LLAMA q
+    -> )q
+    -> WHERE q.total_infectados = (
+    -> -- MÍNIMO NÚMERO DE INFECTADOS DEL TOP 5
+    -> SELECT MIN(x.total_infectados) as min_infectados
+    -> FROM (
+    -> SELECT h.nom_estado
+    -> , h.total
+    -> , sq.total_infectados
+    -> FROM (
+    -> SELECT SUM(municipios.pob_total) as total
+    -> ,estados.nom_estado
+    -> ,estados.clave_edo
+    -> FROM estados
+    -> JOIN municipios USING(clave_edo)
+    -> GROUP BY 2
+    -> ORDER BY 1 DESC
+    -> ) h
+    -> JOIN(
+    -> SELECT LEFT(mundo.edomun_resi, 2) as clave_edo
+    -> , COUNT(mundo.id_paciente) as total_infectados
+    -> FROM
+    -> (SELECT mexicanos.id_paciente
+    -> ,mexicanos.edomun_resi
+    -> FROM mexicanos
+    -> UNION( 
+    -> SELECT extranjeros.id_paciente
+    -> , extranjeros.edomun_resi
+    -> FROM extranjeros)
+    -> ) mundo
+    -> JOIN pacientes ON mundo.id_paciente = pacientes.id_paciente
+    -> JOIN resultado ON resultado.clave_resultado = pacientes.clave_resultado
+    -> WHERE resultado.clave_resultado = 1
+    -> GROUP BY 1
+    -> ORDER BY 2 ASC
+    -> ) sq
+    -> ON h.clave_edo = sq.clave_edo
+    -> LIMIT 5
+    -> ) x
+    -> );
++---------+------------------+---------------------+
+| Estado  | Población total  | Total de infectados |
++---------+------------------+---------------------+
+| Jalisco |        7,350,682 |              16,593 |
++---------+------------------+---------------------+
+1 row in set (5.57 sec)
+
+[BD: covid] mysql> 
+[BD: covid] mysql> notee
